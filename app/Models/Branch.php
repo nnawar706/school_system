@@ -24,7 +24,13 @@ class Branch extends Model
 
     protected $dates = ['deleted_at'];
 
-    public function user() {
+    public function user()
+    {
         return $this->hasMany(User::class, 'branch_id', 'id');
+    }
+
+    public function academicYear()
+    {
+        return $this->hasMany(AcademicYear::class, 'branch_id', 'id');
     }
 }

@@ -20,23 +20,30 @@ class AuthController extends Controller
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|max:20'
         ]);
-        if($validate->fails()) {
-            return response()->json($validate->errors(), 422);
+
+        if($validate->fails())
+        {
+            return response()->json(['status' => false,
+                'error' => $this->showErrors($validate->errors())], 422);
         }
-        try {
+        try
+        {
             $user = User::create([
                 'role_id' => $request->role_id,
                 'branch_id' => $request->branch_id,
                 'email' => $request->email,
                 'password' => Hash::make($request->password)
             ]);
+
             return response()->json([
-                'message' => 'User registered successfully',
+                'status' => true,
                 'data' => $user
             ], 201);
-        } catch (QueryException $ex) {
-            $message = ($ex->getCode() == 23000) ? 'Invalid input data' : 'Database error';
-            return response()->json(['message' => $message], 500);
+        }
+        catch (QueryException $ex)
+        {
+            return response()->json([
+                'status' => false], 500);
         }
     }
 

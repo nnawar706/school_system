@@ -11,12 +11,12 @@ class BranchController extends Controller
 {
     public function index()
     {
-        $branch = Branch::latest()->get();
-
-        if(is_null($branch))
+        if(Branch::count() == 0)
         {
             return response()->json([], 204);
         }
+
+        $branch = Branch::latest()->get();
 
         return response()->json([
             'status' => true,

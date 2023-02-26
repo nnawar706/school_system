@@ -35,12 +35,12 @@ class RoleController extends Controller
 
     public function index()
     {
-        $role = Role::latest()->get();
-
-        if(is_null($role))
+        if(Role::count() == 0)
         {
             return response()->json([], 204);
         }
+
+        $role = Role::latest()->get();
 
         return response()->json([
             'status' => true,
