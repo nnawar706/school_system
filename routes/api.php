@@ -21,8 +21,8 @@ Use App\Http\Controllers\RoleController;
 //    return $request->user();
 //});
 
-Route::post('register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
+Route::post('register', [AuthController::class, 'register'])->name('register');
+Route::post('login', [AuthController::class, 'login'])->name('login');
 
 Route::group(['middleware' => 'auth:api'], function($routes) {
 
