@@ -12,9 +12,12 @@ class RoleController extends Controller
     public function index()
     {
         $role = Role::latest()->get();
-        if(is_null($role)) {
+
+        if(is_null($role))
+        {
             return response()->json([], 204);
         }
+
         return response()->json([
             'status' => true,
             'data' => $role], 200);
@@ -25,20 +28,26 @@ class RoleController extends Controller
         $validate = Validator::make($request->all(), [
             'name' => 'required|max:50|min:5|unique:role|alpha_dash'
         ]);
-        if($validate->fails()) {
-            $error_list = $this->showErrors($validate->errors());
+
+        if($validate->fails())
+        {
             return response()->json([
-                'error' => $error_list], 422);
+                'status' => false,
+                'error' => $this->showErrors($validate->errors())], 422);
         }
-        try {
+        try
+        {
             $role = Role::create([
                 'name' => $request->name
             ]);
+
             return response()->json([
                 'status' => true,
                 'data' => $role
             ], 201);
-        } catch (QueryException $ex) {
+        }
+        catch (QueryException $ex)
+        {
             return response()->json([
                 'status' => false], 500);
         }
@@ -47,9 +56,12 @@ class RoleController extends Controller
     public function read($id)
     {
         $role = Role::find($id);
-        if(is_null($role)) {
+
+        if(is_null($role))
+        {
             return response()->json([], 204);
         }
+
         return response()->json([
             'status' => true,
             'data' => $role
@@ -63,20 +75,26 @@ class RoleController extends Controller
         $validate = Validator::make($request->all(), [
             'name' => 'required|max:50|min:5|alpha_dash'
         ]);
-        if($validate->fails()) {
-            $error_list = $this->showErrors($validate->errors());
+
+        if($validate->fails())
+        {
             return response()->json([
-                'error' => $error_list], 422);
+                'status' => false,
+                'error' => $this->showErrors($validate->errors())], 422);
         }
-        try {
-            $updated_role = $role->update([
+        try
+        {
+            $role->update([
                 'name' => $request->name
             ]);
+
             return response()->json([
                 'status' => true,
                 'data' => $role
             ], 200);
-        } catch(QueryException $ex) {
+        }
+        catch(QueryException $ex)
+        {
             return response()->json([
                 'status' => false], 304);
         }
@@ -84,24 +102,26 @@ class RoleController extends Controller
 
     public function delete($id)
     {
-        $role = Role::find($id);
-        if(is_null($role)) {
-            return response()->json([], 204);
+        $role = Role::findOrFail($id);
+        try
+        {
+            $role->delete();
+
+            return response()->json([
+                'status' => true], 200);
         }
-        $deleted_role = $role->delete();
-        if(!$deleted_role) {
+        catch(QueryException $ex)
+        {
             return response()->json([
                 'status' => false
             ], 304);
         }
-        return response()->json([
-            'status' => true
-        ], 200);
     }
 
     public function restore($id)
     {
         Role::where('id', $id)->withTrashed()->restore();
+
         return response()->json([
             'status' => true], 200);
     }
@@ -109,6 +129,7 @@ class RoleController extends Controller
     public function restoreAll()
     {
         Role::onlyTrashed()->restore();
+
         return response()->json([
             'status' => true], 200);
     }
@@ -116,6 +137,7 @@ class RoleController extends Controller
     public function forceDelete($id)
     {
         Role::where('id', $id)->withTrashed()->forceDelete();
+
         return response()->json([
             'status' => true], 200);
     }

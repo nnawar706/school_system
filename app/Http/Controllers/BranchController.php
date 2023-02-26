@@ -33,6 +33,7 @@ class BranchController extends Controller
         if($validate->fails())
         {
             return response()->json([
+                'status' => false,
                 'error' => $this->showErrors($validate->errors())], 422);
         }
         try
@@ -81,6 +82,7 @@ class BranchController extends Controller
         if($validate->fails())
         {
             return response()->json([
+                'status' => false,
                 'error' => $this->showErrors($validate->errors())], 422);
         }
         try {
