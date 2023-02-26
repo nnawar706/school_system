@@ -58,10 +58,8 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $role = Role::find($id);
-        if(is_null($role)) {
-            return response()->json([], 204);
-        }
+        $role = Role::findOrFail($id);
+
         $validate = Validator::make($request->all(), [
             'name' => 'required|max:50|min:5|alpha_dash'
         ]);
@@ -74,18 +72,13 @@ class RoleController extends Controller
             $updated_role = $role->update([
                 'name' => $request->name
             ]);
-            if(is_null($updated_role)) {
-                return response()->json([
-                    'status' => false
-                ], 304);
-            }
             return response()->json([
                 'status' => true,
                 'data' => $role
             ], 200);
         } catch(QueryException $ex) {
             return response()->json([
-                'status' => false], 500);
+                'status' => false], 304);
         }
     }
 

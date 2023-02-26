@@ -12,9 +12,12 @@ class BranchController extends Controller
     public function index()
     {
         $branch = Branch::latest()->get();
-        if(is_null($branch)) {
+
+        if(is_null($branch))
+        {
             return response()->json([], 204);
         }
+
         return response()->json([
             'status' => true,
             'data' => $branch], 200);
@@ -26,21 +29,26 @@ class BranchController extends Controller
             'name' => 'required|max:50|min:5|unique:branch|alpha_dash',
             'location' => 'required|max:255'
         ]);
-        if($validate->fails()) {
-            $error_list = $this->showErrors($validate->errors());
+
+        if($validate->fails())
+        {
             return response()->json([
-                'error' => $error_list], 422);
+                'error' => $this->showErrors($validate->errors())], 422);
         }
-        try {
+        try
+        {
             $branch = Branch::create([
                 'name' => $request->name,
                 'location' => $request->location
             ]);
+
             return response()->json([
                 'status' => true,
                 'data' => $branch
             ], 201);
-        } catch (QueryException $ex) {
+        }
+        catch (QueryException $ex)
+        {
             return response()->json([
                 'status' => false], 500);
         }
@@ -49,9 +57,12 @@ class BranchController extends Controller
     public function read($id)
     {
         $branch = Branch::find($id);
-        if(is_null($branch)) {
+
+        if(is_null($branch))
+        {
             return response()->json([], 204);
         }
+
         return response()->json([
             'status' => true,
             'data' => $branch
@@ -60,59 +71,58 @@ class BranchController extends Controller
 
     public function update(Request $request, $id)
     {
-        $branch = Branch::find($id);
-        if(is_null($branch)) {
-            return response()->json([], 204);
-        }
+        $branch = Branch::findOrFail($id);
+
         $validate = Validator::make($request->all(), [
             'name' => 'required|max:50|min:5|alpha_dash',
             'location' => 'required|max:255'
         ]);
-        if($validate->fails()) {
-            $error_list = $this->showErrors($validate->errors());
+
+        if($validate->fails())
+        {
             return response()->json([
-                'error' => $error_list], 422);
+                'error' => $this->showErrors($validate->errors())], 422);
         }
         try {
-            $updated_branch = $branch->update([
+            $branch->update([
                 'name' => $request->name,
                 'location' => $request->location
             ]);
-            if(is_null($updated_branch)) {
-                return response()->json([
-                    'status' => false
-                ], 304);
-            }
+
             return response()->json([
                 'status' => true,
                 'data' => $branch
             ], 200);
-        } catch(QueryException $ex) {
+        }
+        catch(QueryException $ex)
+        {
             return response()->json([
-                'status' => false], 500);
+                'status' => false], 304);
         }
     }
 
     public function delete($id)
     {
-        $branch = Branch::find($id);
-        if(is_null($branch)) {
-            return response()->json([], 204);
+        $branch = Branch::findOrFail($id);
+        try
+        {
+            $branch->delete();
+
+            return response()->json([
+                'status' => true], 200);
         }
-        $deleted_branch = $branch->delete();
-        if(!$deleted_branch) {
+        catch(QueryException $ex)
+        {
             return response()->json([
                 'status' => false
             ], 304);
         }
-        return response()->json([
-            'status' => true
-        ], 200);
     }
 
     public function restore($id)
     {
         Branch::where('id', $id)->withTrashed()->restore();
+
         return response()->json([
             'status' => true], 200);
     }
@@ -120,6 +130,7 @@ class BranchController extends Controller
     public function restoreAll()
     {
         Branch::onlyTrashed()->restore();
+
         return response()->json([
             'status' => true], 200);
     }
@@ -127,6 +138,7 @@ class BranchController extends Controller
     public function forceDelete($id)
     {
         Branch::where('id', $id)->withTrashed()->forceDelete();
+
         return response()->json([
             'status' => true], 200);
     }
