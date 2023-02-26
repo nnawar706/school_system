@@ -1,0 +1,134 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Branch;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException;
+
+class BranchController extends Controller
+{
+    public function index()
+    {
+        $branch = Branch::latest()->get();
+        if(is_null($branch)) {
+            return response()->json([], 204);
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $branch], 200);
+    }
+
+    public function create(Request $request)
+    {
+        $validate = Validator::make($request->all(), [
+            'name' => 'required|max:50|min:5|unique:branch|alpha_dash',
+            'location' => 'required|max:255'
+        ]);
+        if($validate->fails()) {
+            $error_list = $this->showErrors($validate->errors());
+            return response()->json([
+                'error' => $error_list], 422);
+        }
+        try {
+            $branch = Branch::create([
+                'name' => $request->name,
+                'location' => $request->location
+            ]);
+            return response()->json([
+                'status' => true,
+                'data' => $branch
+            ], 201);
+        } catch (QueryException $ex) {
+            return response()->json([
+                'status' => false], 500);
+        }
+    }
+
+    public function read($id)
+    {
+        $branch = Branch::find($id);
+        if(is_null($branch)) {
+            return response()->json([], 204);
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $branch
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $branch = Branch::find($id);
+        if(is_null($branch)) {
+            return response()->json([], 204);
+        }
+        $validate = Validator::make($request->all(), [
+            'name' => 'required|max:50|min:5|alpha_dash',
+            'location' => 'required|max:255'
+        ]);
+        if($validate->fails()) {
+            $error_list = $this->showErrors($validate->errors());
+            return response()->json([
+                'error' => $error_list], 422);
+        }
+        try {
+            $updated_branch = $branch->update([
+                'name' => $request->name,
+                'location' => $request->location
+            ]);
+            if(is_null($updated_branch)) {
+                return response()->json([
+                    'status' => false
+                ], 304);
+            }
+            return response()->json([
+                'status' => true,
+                'data' => $branch
+            ], 200);
+        } catch(QueryException $ex) {
+            return response()->json([
+                'status' => false], 500);
+        }
+    }
+
+    public function delete($id)
+    {
+        $branch = Branch::find($id);
+        if(is_null($branch)) {
+            return response()->json([], 204);
+        }
+        $deleted_branch = $branch->delete();
+        if(!$deleted_branch) {
+            return response()->json([
+                'status' => false
+            ], 304);
+        }
+        return response()->json([
+            'status' => true
+        ], 200);
+    }
+
+    public function restore($id)
+    {
+        Branch::where('id', $id)->withTrashed()->restore();
+        return response()->json([
+            'status' => true], 200);
+    }
+
+    public function restoreAll()
+    {
+        Branch::onlyTrashed()->restore();
+        return response()->json([
+            'status' => true], 200);
+    }
+
+    public function forceDelete($id)
+    {
+        Branch::where('id', $id)->withTrashed()->forceDelete();
+        return response()->json([
+            'status' => true], 200);
+    }
+
+}
