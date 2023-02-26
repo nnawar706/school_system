@@ -9,6 +9,30 @@ use Illuminate\Support\Facades\Validator;
 
 class RoleController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *      path="/api/role",
+     *      summary="Role Get All",
+     *      operationId="roleAll",
+     *      security={{"bearerAuth":{}}},
+     *      tags={"role"},
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="All role fetched",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="boolean", example=true),
+     *          ),
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=204,
+     *          description="No role found",
+     *      ),
+     * )
+     */
+
     public function index()
     {
         $role = Role::latest()->get();

@@ -12,41 +12,6 @@ use Illuminate\Database\QueryException;
 class AuthController extends Controller
 {
 
-    /**
-     * @OA\Post(
-     *     path="/register",
-     *     summary="Sign up",
-     *     description="Signup by role_id, branch_id, email, password",
-     *     operationId="userRegister",
-     *     tags={"Auth"},
-     *     @OA\RequestBody(
-     *          required=true,
-     *          description="Pass user credentials",
-     *          @OA\JsonContent(
-     *              required={"role_id", "branch_id", "email","password"},
-     *              @OA\Property(property="role_id", type="integer", format="role_id", example=1),
-     *              @OA\Property(property="branch_id", type="integer", format="role_id", example=1),
-     *              @OA\Property(property="email", type="string", format="email", example="user1@gmail.com"),
-     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
-     *          ),
-     *     ),
-     *     @OA\Response(
-     *          response=401,
-     *          description="Authentication Failed",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="boolean", example=false)
-     *          ),
-     *     ),
-     *     @OA\Response(
-     *          response=200,
-     *          description="Authorized",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="boolean", example=true)
-     *          ),
-     *     ),
-     * )
-     */
-
     public function register(Request $request)
     {
         $validate = Validator::make($request->all(), [
@@ -77,35 +42,34 @@ class AuthController extends Controller
 
     /**
      * @OA\Post(
-     * path="/login",
-     * summary="Sign in",
-     * description="Login by email, password",
-     * operationId="userLogin",
-     * tags={"Auth"},
+     *      path="/api/login",
+     *      summary="Sign in",
+     *      description="Login by email, password",
+     *      operationId="userLogin",
+     *      tags={"Auth"},
      *
-     * @OA\RequestBody(
-     *    required=true,
-     *    description="Pass user credentials",
-     *    @OA\JsonContent(
-     *       required={"email","password"},
-     *       @OA\Property(property="email", type="string", format="email", example="user1@gmail.com"),
-     *       @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
-     *    ),
-     * ),
-     * @OA\Response(
-     *    response=401,
-     *    description="Authentication Failed",
-     *    @OA\JsonContent(
-     *        @OA\Property(property="status", type="boolean", example=false)
-     *    ),
-     * ),
-     * @OA\Response(
-     *    response=200,
-     *    description="Authorized",
-     *    @OA\JsonContent(
-     *        @OA\Property(property="status", type="boolean", example=true)
-     *    ),
-     * ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"email","password"},
+     *              @OA\Property(property="email", type="string", format="email", example="user1@gmail.com"),
+     *              @OA\Property(property="password", type="string", format="password", example="PassWord12345"),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Authentication Failed",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Authorized",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="boolean", example=true)
+     *          ),
+     *      ),
      * )
      */
 
