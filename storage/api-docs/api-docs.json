@@ -405,27 +405,24 @@
                                             "example": true
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "description": "Branch ID",
-                                                        "type": "integer",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "description": "Branch name",
-                                                        "type": "string",
-                                                        "example": "main-branch"
-                                                    },
-                                                    "location": {
-                                                        "description": "Branch location",
-                                                        "type": "string",
-                                                        "example": "mohakhali DOHS"
-                                                    }
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Branch ID",
+                                                    "type": "integer",
+                                                    "example": 1
                                                 },
-                                                "type": "object"
-                                            }
+                                                "name": {
+                                                    "description": "Branch name",
+                                                    "type": "string",
+                                                    "example": "main-branch"
+                                                },
+                                                "location": {
+                                                    "description": "Branch location",
+                                                    "type": "string",
+                                                    "example": "mohakhali DOHS"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -527,27 +524,24 @@
                                             "example": true
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "description": "Branch ID",
-                                                        "type": "integer",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "description": "Branch name",
-                                                        "type": "string",
-                                                        "example": "main-branch"
-                                                    },
-                                                    "location": {
-                                                        "description": "Branch location",
-                                                        "type": "string",
-                                                        "example": "mohakhali DOHS"
-                                                    }
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Branch ID",
+                                                    "type": "integer",
+                                                    "example": "1"
                                                 },
-                                                "type": "object"
-                                            }
+                                                "name": {
+                                                    "description": "Branch name",
+                                                    "type": "string",
+                                                    "example": "main-branch"
+                                                },
+                                                "location": {
+                                                    "description": "Branch location",
+                                                    "type": "string",
+                                                    "example": "mohakhali DOHS"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -629,27 +623,24 @@
                                             "example": true
                                         },
                                         "data": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "description": "Branch ID",
-                                                        "type": "integer",
-                                                        "example": "1"
-                                                    },
-                                                    "name": {
-                                                        "description": "Branch name",
-                                                        "type": "string",
-                                                        "example": "main-branch"
-                                                    },
-                                                    "location": {
-                                                        "description": "Branch location",
-                                                        "type": "string",
-                                                        "example": "mohakhali DOHS"
-                                                    }
+                                            "properties": {
+                                                "id": {
+                                                    "description": "Branch ID",
+                                                    "type": "integer",
+                                                    "example": "1"
                                                 },
-                                                "type": "object"
-                                            }
+                                                "name": {
+                                                    "description": "Branch name",
+                                                    "type": "string",
+                                                    "example": "main-branch"
+                                                },
+                                                "location": {
+                                                    "description": "Branch location",
+                                                    "type": "string",
+                                                    "example": "mohakhali DOHS"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"

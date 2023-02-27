@@ -120,27 +120,10 @@ class BranchController extends Controller
      *              ),
      *              @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="integer",
-     *                         example="1",
-     *                         description="Branch ID"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         type="string",
-     *                         example="main-branch",
-     *                         description="Branch name"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="location",
-     *                         type="string",
-     *                         example="mohakhali DOHS",
-     *                         description="Branch location"
-     *                     ),
-     *                  ),
+     *                 type="object",
+     *                     @OA\Property(property="id", type="integer", example=1, description="Branch ID"),
+     *                     @OA\Property(property="name", type="string", example="main-branch", description="Branch name"),
+     *                     @OA\Property(property="location", type="string", example="Dhaka", description="Branch location"),
      *               ),
      *          ),
      *      ),
@@ -234,28 +217,10 @@ class BranchController extends Controller
      *             ),
      *             @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="integer",
-     *                         example="1",
-     *                         description="Branch ID"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         type="string",
-     *                         example="main-branch",
-     *                         description="Branch name"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="location",
-     *                         type="string",
-     *                         example="mohakhali DOHS",
-     *                         description="Branch location"
-     *                     ),
-     *                 ),
+     *                 type="object",
+     *                     @OA\Property(property="id", type="integer", example="1", description="Branch ID"),
+     *                     @OA\Property(property="name", type="string", example="main-branch", description="Branch name"),
+     *                     @OA\Property(property="location", type="string", example="mohakhali DOHS", description="Branch location"),
      *             )
      *         )
      *     ),
@@ -326,28 +291,10 @@ class BranchController extends Controller
      *              ),
      *              @OA\Property(
      *                 property="data",
-     *                 type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="integer",
-     *                         example="1",
-     *                         description="Branch ID"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         type="string",
-     *                         example="main-branch",
-     *                         description="Branch name"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="location",
-     *                         type="string",
-     *                         example="mohakhali DOHS",
-     *                         description="Branch location"
-     *                     ),
-     *                 ),
+     *                 type="object",
+     *                     @OA\Property(property="id", type="integer", example="1", description="Branch ID"),
+     *                     @OA\Property(property="name", type="string", example="main-branch", description="Branch name"),
+     *                     @OA\Property(property="location", type="string", example="mohakhali DOHS", description="Branch location"),
      *             )
      *              )
      *          )
