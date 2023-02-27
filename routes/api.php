@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth:api'], function($routes) {
 
     Route::get('academic_year', [AcademicYearController::class, 'index'])->name('academic_year.index');
     Route::get('academic_year/{id}', [AcademicYearController::class, 'read'])->name('academic_year.read');
+    Route::get('academic_year/byBranch/{branch_id}', [AcademicYearController::class, 'readByBranch'])->name('academic_year.readByBranch');
     Route::post('academic_year', [AcademicYearController::class, 'create'])->name('academic_year.create');
     Route::put('academic_year/{id}', [AcademicYearController::class, 'update'])->name('academic_year.update');
     Route::delete('academic_year/{id}', [AcademicYearController::class, 'delete'])->name('academic_year.delete');

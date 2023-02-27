@@ -10,7 +10,7 @@
                 "tags": [
                     "academic year"
                 ],
-                "summary": "academic year Get All",
+                "summary": "Get all academic year",
                 "operationId": "academicYearAll",
                 "responses": {
                     "200": {
@@ -31,17 +31,13 @@
                                                         "type": "integer",
                                                         "example": 1
                                                     },
-                                                    "name": {
-                                                        "type": "year",
-                                                        "example": 2020
-                                                    },
                                                     "branch_id": {
                                                         "type": "integer",
                                                         "example": 2
                                                     },
-                                                    "branch_name": {
-                                                        "type": "string",
-                                                        "example": "main branch"
+                                                    "name": {
+                                                        "type": "year",
+                                                        "example": 2020
                                                     },
                                                     "created_at": {
                                                         "type": "string",
@@ -50,6 +46,19 @@
                                                     "updated_at": {
                                                         "type": "string",
                                                         "example": "2021-05-05 12:00:00"
+                                                    },
+                                                    "branch": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "main-branch"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
                                                 "type": "object"
@@ -77,8 +86,9 @@
                 "tags": [
                     "academic year"
                 ],
-                "summary": "academic year Get One",
-                "operationId": "academicYearOne",
+                "summary": "Get a single academic year",
+                "description": "Retrieve a single academic year by ID",
+                "operationId": "cbf8ccb27c65f8b585a4e8f24deb4cd2",
                 "parameters": [
                     {
                         "name": "id",
@@ -86,13 +96,14 @@
                         "description": "ID of the academic year to retrieve",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "format": "int64"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "academic year fetched",
+                        "description": "Successful operation",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -107,17 +118,13 @@
                                                     "type": "integer",
                                                     "example": 1
                                                 },
-                                                "name": {
-                                                    "type": "year",
-                                                    "example": 2020
-                                                },
                                                 "branch_id": {
                                                     "type": "integer",
-                                                    "example": 2
+                                                    "example": 1
                                                 },
-                                                "branch_name": {
-                                                    "type": "string",
-                                                    "example": "main branch"
+                                                "name": {
+                                                    "type": "year",
+                                                    "example": 2022
                                                 },
                                                 "created_at": {
                                                     "type": "string",
@@ -126,6 +133,19 @@
                                                 "updated_at": {
                                                     "type": "string",
                                                     "example": "2021-05-05 12:00:00"
+                                                },
+                                                "branch": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "main-branch"
+                                                        }
+                                                    },
+                                                    "type": "object"
                                                 }
                                             },
                                             "type": "object"
@@ -135,19 +155,30 @@
                                 }
                             }
                         }
+                    },
+                    "204": {
+                        "description": "Branch not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
+                }
             },
             "delete": {
                 "tags": [
                     "academic year"
                 ],
-                "summary": "academic year Delete One",
+                "summary": "Delete an academic year",
                 "operationId": "academicYearDelete",
                 "parameters": [
                     {
@@ -255,6 +286,450 @@
                 }
             }
         },
+        "/api/branch": {
+            "get": {
+                "tags": [
+                    "branch"
+                ],
+                "summary": "Get all branches",
+                "operationId": "7a60d8d8fd907b42bfb98cf328e9b958",
+                "responses": {
+                    "200": {
+                        "description": "List of all branches",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "description": "Response status",
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Branch ID",
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "name": {
+                                                        "description": "Branch name",
+                                                        "type": "string",
+                                                        "example": "Main Branch"
+                                                    },
+                                                    "location": {
+                                                        "description": "Branch location",
+                                                        "type": "string",
+                                                        "example": "Banasree"
+                                                    },
+                                                    "created_at": {
+                                                        "description": "Timestamp when the branch was created",
+                                                        "type": "string",
+                                                        "example": "2023-02-26T10:06:25.000000Z"
+                                                    },
+                                                    "updated_at": {
+                                                        "description": "Timestamp when the branch was last updated",
+                                                        "type": "string",
+                                                        "example": "2023-02-26T10:06:25.000000Z"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "branch"
+                ],
+                "summary": "Create new branch",
+                "description": "Create new branch and return created data",
+                "operationId": "createBranch",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "location"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "main-branch"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "example": "Dhaka"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Branch ID",
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "name": {
+                                                        "description": "Branch name",
+                                                        "type": "string",
+                                                        "example": "main-branch"
+                                                    },
+                                                    "location": {
+                                                        "description": "Branch location",
+                                                        "type": "string",
+                                                        "example": "mohakhali DOHS"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/branch/{id}": {
+            "get": {
+                "tags": [
+                    "branch"
+                ],
+                "summary": "Get a single branch",
+                "description": "Retrieve a single branch by ID",
+                "operationId": "9664dfdab6af2b7479077c5796213f3d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the branch to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Branch ID",
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "name": {
+                                                        "description": "Branch name",
+                                                        "type": "string",
+                                                        "example": "main-branch"
+                                                    },
+                                                    "location": {
+                                                        "description": "Branch location",
+                                                        "type": "string",
+                                                        "example": "mohakhali DOHS"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "Branch not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "branch"
+                ],
+                "summary": "Update a branch",
+                "description": "Update a branch by id",
+                "operationId": "updateBranch",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Branch ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Branch object that needs to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "location"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "main-branch"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "example": "mohakhali"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Branch updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "description": "Branch ID",
+                                                        "type": "integer",
+                                                        "example": "1"
+                                                    },
+                                                    "name": {
+                                                        "description": "Branch name",
+                                                        "type": "string",
+                                                        "example": "main-branch"
+                                                    },
+                                                    "location": {
+                                                        "description": "Branch location",
+                                                        "type": "string",
+                                                        "example": "mohakhali DOHS"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "branch"
+                ],
+                "summary": "Delete a branch",
+                "description": "Delete a branch by its ID.",
+                "operationId": "deleteBranch",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the branch",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "304": {
+                        "description": "Database error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Branch not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Branch not found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/role": {
             "get": {
                 "tags": [
@@ -293,11 +768,34 @@
     },
     "components": {
         "responses": {
-            "405": {
-                "description": "No academic year found"
-            },
             "304": {
                 "description": "database error"
+            },
+            "404": {
+                "description": "Branch not found"
+            },
+            "422": {
+                "description": "Validation error",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "properties": {
+                                "status": {
+                                    "type": "boolean",
+                                    "example": false
+                                },
+                                "error": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "example": "The name field must be at least 5 characters."
+                                    }
+                                }
+                            },
+                            "type": "object"
+                        }
+                    }
+                }
             }
         }
     }

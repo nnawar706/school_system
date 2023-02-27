@@ -13,7 +13,7 @@ class AcademicYearController extends Controller
     /**
      * @OA\Get(
      *      path="/api/academic_year",
-     *      summary="academic year Get All",
+     *      summary="Get all academic year",
      *      operationId="academicYearAll",
      *      security={{"bearerAuth":{}}},
      *      tags={"academic year"},
@@ -23,13 +23,18 @@ class AcademicYearController extends Controller
      *          description="All academic year fetched",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="boolean", example=true),
-     *              @OA\Property(property="data", type="array", @OA\Items(
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(
      *                                  @OA\Property(property="id", type="integer", example=1),
-     *                                  @OA\Property(property="name", type="year", example=2020),
      *                                  @OA\Property(property="branch_id", type="integer", example=2),
-     *                                  @OA\Property(property="branch_name", type="string", example="main branch"),
+     *                                  @OA\Property(property="name", type="year", example=2020),
      *                                  @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                                  @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"))
+     *                                  @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                                  @OA\Property(property="branch", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="main-branch"),
+     *                                      ),
+     *                  )
      *              ),
      *          ),
      *      ),
@@ -48,11 +53,9 @@ class AcademicYearController extends Controller
             return response()->json([], 204);
         }
 
-        $years = DB::table('academic_year')
-            ->join('branch', 'academic_year.branch_id', '=', 'branch.id')
-            ->select('academic_year.id', 'academic_year.name', 'academic_year.created_at',
-                'academic_year.updated_at', 'branch.name as branch_name', 'branch.id as branch_id')
-            ->get();
+        $years = AcademicYear::with(['branch' => function($query){
+            return $query->select('id','name');
+        }])->latest()->get();
 
         return response()->json([
             'status' => true,
@@ -93,62 +96,90 @@ class AcademicYearController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/academic_year/{id}",
-     *      summary="academic year Get One",
-     *      operationId="academicYearOne",
-     *      security={{"bearerAuth":{}}},
-     *      tags={"academic year"},
-     *
-     *      @OA\Parameter(
+     *     path="/api/academic_year/{id}",
+     *     summary="Get a single academic year",
+     *     description="Retrieve a single academic year by ID",
+     *     tags={"academic year"},
+     *     @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         required=true,
      *         description="ID of the academic year to retrieve",
+     *         required=true,
      *         @OA\Schema(
-     *             type="integer"
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property( property="branch_id", type="integer", example=1),
+     *                     @OA\Property( property="name", type="year", example=2022),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="branch", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="main-branch"),
+     *                                      ),
+     *             )
      *         )
      *     ),
      *
-     *      @OA\Response(
-     *          response=200,
-     *          description="academic year fetched",
-     *          @OA\JsonContent(type="object",
-     *              @OA\Property(property="status", type="boolean", example=true),
-     *              @OA\Property(property="data", type="object",
-     *                                  @OA\Property(property="id", type="integer", example=1),
-     *                                  @OA\Property(property="name", type="year", example=2020),
-     *                                  @OA\Property(property="branch_id", type="integer", example=2),
-     *                                  @OA\Property(property="branch_name", type="string", example="main branch"),
-     *                                  @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                                  @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"))
-     *              ),
-     *          ),
-     *      ),
-     *
-     *      @OA\Response(
-     *          response=405,
-     *          description="No academic year found",
-     *      ),
+     *     @OA\Response(
+     *         response="204",
+     *         description="Branch not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *         )
+     *     )
      * )
      */
 
     public function read($id)
     {
-        if(!AcademicYear::with('branch')->find($id))
+        if(!AcademicYear::find($id))
         {
             return response()->json([], 204);
         }
 
-        $year = DB::table('academic_year')
-            ->join('branch', 'academic_year.branch_id', '=', 'branch.id')
-            ->select('academic_year.id', 'academic_year.name', 'academic_year.created_at',
-                'academic_year.updated_at', 'branch.name as branch_name', 'branch.id as branch_id')
-            ->where('academic_year.id', $id)
-            ->get();
+        $year = AcademicYear::with(['branch' => function($query){
+            return $query->select('id','name');
+        }])->find($id);
 
         return response()->json([
             'status' => true,
-            'data' => $year[0]
+            'data' => $year
+        ]);
+    }
+
+
+    public function readByBranch($branch_id)
+    {
+        if(AcademicYear::where('branch_id', $branch_id)->doesntExist())
+        {
+            return response()->json([], 204);
+        }
+        $years = AcademicYear::with(['branch' => function($query){
+            return $query->select('id','name');
+        }])->where('branch_id', $branch_id)->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $years
         ]);
     }
 
@@ -188,7 +219,7 @@ class AcademicYearController extends Controller
     /**
      * @OA\Delete(
      *      path="/api/academic_year/{id}",
-     *      summary="academic year Delete One",
+     *      summary="Delete an academic year",
      *      operationId="academicYearDelete",
      *      security={{"bearerAuth":{}}},
      *      tags={"academic year"},

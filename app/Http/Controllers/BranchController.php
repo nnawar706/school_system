@@ -9,6 +9,75 @@ use Illuminate\Database\QueryException;
 
 class BranchController extends Controller
 {
+
+    /**
+     * @OA\Get(
+     *     path="/api/branch",
+     *     summary="Get all branches",
+     *     tags={"branch"},
+     *
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of all branches",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean",
+     *                 example=true,
+     *                 description="Response status"
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                         example="1",
+     *                         description="Branch ID"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="Main Branch",
+     *                         description="Branch name"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="location",
+     *                         type="string",
+     *                         example="Banasree",
+     *                         description="Branch location"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="created_at",
+     *                         type="string",
+     *                         example="2023-02-26T10:06:25.000000Z",
+     *                         description="Timestamp when the branch was created"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="updated_at",
+     *                         type="string",
+     *                         example="2023-02-26T10:06:25.000000Z",
+     *                         description="Timestamp when the branch was last updated"
+     *                     ),
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *
+     *     @OA\Response(
+     *          response="401",
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      ),
+     * )
+     */
+
     public function index()
     {
         if(Branch::count() == 0)
@@ -22,6 +91,89 @@ class BranchController extends Controller
             'status' => true,
             'data' => $branch], 200);
     }
+
+    /**
+     * @OA\Post(
+     *      path="/api/branch",
+     *      operationId="createBranch",
+     *      tags={"branch"},
+     *      summary="Create new branch",
+     *      description="Create new branch and return created data",
+     *      security={{"bearerAuth": {}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name","location"},
+     *              @OA\Property(property="name", type="string", example="main-branch"),
+     *              @OA\Property(property="location", type="string", example="Dhaka"),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response="201",
+     *          description="Successful operation",
+     *              @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="boolean",
+     *                  example=true
+     *              ),
+     *              @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                         example="1",
+     *                         description="Branch ID"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="main-branch",
+     *                         description="Branch name"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="location",
+     *                         type="string",
+     *                         example="mohakhali DOHS",
+     *                         description="Branch location"
+     *                     ),
+     *                  ),
+     *               ),
+     *          ),
+     *      ),
+     *
+     *      @OA\Response(
+     *          response="422",
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false),
+     *              @OA\Property(property="error", type="array", @OA\Items(type="string"))
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response="401",
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response="500",
+     *          description="Internal server error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      )
+     * )
+     */
 
     public function create(Request $request)
     {
@@ -55,6 +207,72 @@ class BranchController extends Controller
         }
     }
 
+    /**
+     * @OA\Get(
+     *     path="/api/branch/{id}",
+     *     summary="Get a single branch",
+     *     description="Retrieve a single branch by ID",
+     *     tags={"branch"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the branch to retrieve",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                         example="1",
+     *                         description="Branch ID"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="main-branch",
+     *                         description="Branch name"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="location",
+     *                         type="string",
+     *                         example="mohakhali DOHS",
+     *                         description="Branch location"
+     *                     ),
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response="204",
+     *         description="Branch not found",
+     *         @OA\JsonContent(
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean",
+     *                 example=false
+     *             ),
+     *         )
+     *     )
+     * )
+     */
+
     public function read($id)
     {
         $branch = Branch::find($id);
@@ -69,6 +287,97 @@ class BranchController extends Controller
             'data' => $branch
         ]);
     }
+
+    /**
+     * @OA\Put(
+     *      path="/api/branch/{id}",
+     *      summary="Update a branch",
+     *      description="Update a branch by id",
+     *      operationId="updateBranch",
+     *      tags={"branch"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Branch ID",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="Branch object that needs to be updated",
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name","location"},
+     *              @OA\Property(property="name", type="string", example="main-branch"),
+     *              @OA\Property(property="location", type="string", example="mohakhali"),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Branch updated successfully",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="boolean",
+     *                  example=true
+     *              ),
+     *              @OA\Property(
+     *                 property="data",
+     *                 type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(
+     *                         property="id",
+     *                         type="integer",
+     *                         example="1",
+     *                         description="Branch ID"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="name",
+     *                         type="string",
+     *                         example="main-branch",
+     *                         description="Branch name"
+     *                     ),
+     *                     @OA\Property(
+     *                         property="location",
+     *                         type="string",
+     *                         example="mohakhali DOHS",
+     *                         description="Branch location"
+     *                     ),
+     *                 ),
+     *             )
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Branch not found"
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="boolean",
+     *                  example=false
+     *              ),
+     *              @OA\Property(
+     *                  property="error",
+     *                  type="array",
+     *                  @OA\Items(
+     *                      type="string",
+     *                      example="The name field must be at least 5 characters."
+     *                  )
+     *              )
+     *          )
+     *      )
+     * )
+     */
 
     public function update(Request $request, $id)
     {
@@ -102,6 +411,63 @@ class BranchController extends Controller
                 'status' => false], 304);
         }
     }
+
+    /**
+     * @OA\Delete(
+     *      path="/api/branch/{id}",
+     *      operationId="deleteBranch",
+     *      tags={"branch"},
+     *      summary="Delete a branch",
+     *      description="Delete a branch by its ID.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID of the branch",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="boolean",
+     *                  example=true,
+     *              ),
+     *          ),
+     *      ),
+     *     @OA\Response(
+     *          response=304,
+     *          description="Database error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="boolean",
+     *                  example=false
+     *              ),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Branch not found",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="error",
+     *                  type="string",
+     *                  example="Branch not found",
+     *              ),
+     *          ),
+     *      ),
+     * )
+     */
+
 
     public function delete($id)
     {
