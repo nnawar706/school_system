@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AcademicSessionController;
 Use App\Http\Controllers\AcademicYearController;
 Use App\Http\Controllers\AuthController;
 Use App\Http\Controllers\BranchController;
@@ -51,3 +52,7 @@ Route::get('academic_year/by_branch/{branch_id}', [AcademicYearController::class
 Route::post('academic_year', [AcademicYearController::class, 'create'])->name('academic_year.create');
 Route::put('academic_year/{id}', [AcademicYearController::class, 'update'])->name('academic_year.update');
 Route::delete('academic_year/{id}', [AcademicYearController::class, 'delete'])->name('academic_year.delete');
+
+Route::get('academic_session/{id}', [AcademicSessionController::class, 'read'])->name('academic_session.read');
+Route::get('academic_session/by_year/{academic_year_id}', [AcademicSessionController::class, 'readByYear'])->name('academic_session.readByYear');
+Route::put('academic_session/{id}', [AcademicSessionController::class, 'update'])->name('academic_session.update');

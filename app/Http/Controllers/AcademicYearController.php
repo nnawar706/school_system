@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AcademicSession;
 use App\Models\AcademicYear;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
 
@@ -63,36 +65,135 @@ class AcademicYearController extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *      path="/api/academic_year",
+     *      operationId="createAcademicYear",
+     *      tags={"academic year"},
+     *      summary="Create new academic year",
+     *      description="Create new academic year along with sessions and return created data",
+     *      security={{"bearerAuth": {}}},
+     *      @OA\RequestBody(
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"branch_id","name","academic_session"},
+     *              @OA\Property(property="branch_id", type="integer", example=1),
+     *              @OA\Property(property="name", type="year", example=2020),
+     *              @OA\Property(property="academic_session", type="array",
+     *                              @OA\Items()),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response="201",
+     *          description="Successful operation",
+     *              @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="boolean",
+     *                  example=true
+     *              ),
+     *              @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="year", example=2020),
+     *                     @OA\Property(property="academic_session_list", type="array", @OA\Items(
+     *                                       @OA\Property(property="academic_year_id", type="integer", example=1),
+     *                                       @OA\Property(property="name", type="string", example="Midterm"),
+     *                                       @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                                       @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                     )),
+     *               ),
+     *          ),
+     *      ),
+     *
+     *      @OA\Response(
+     *          response="422",
+     *          description="Validation error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false),
+     *              @OA\Property(property="error", type="array",@OA\Items())
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response="401",
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      ),
+     *
+     *      @OA\Response(
+     *          response="500",
+     *          description="Internal server error",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      )
+     * )
+     */
+
+
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
             'branch_id' => 'required|integer',
-            'name' => 'required|unique:academic_year|date_format:Y'
+            'name' => 'required|unique:academic_year|date_format:Y',
+            'academic_session' => 'required|array',
+            'academic_session.*' => 'required|string|min:5|max:30',
         ]);
 
         if($validate->fails())
         {
             return response()->json([
                 'status' => false,
-                'error' => $this->showErrors($validate->errors())], 422);
+                'error' => $this->showErrors($validate->errors())
+            ], 422);
         }
+
+        $data = json_decode($request->getContent(), true);
+
+        DB::beginTransaction();
+
         try
         {
-            $branch = AcademicYear::create([
-                'branch_id' => $request->branch_id,
-                'name' => $request->name
+            $year = AcademicYear::create([
+                'branch_id' => $data['branch_id'],
+                'name' => $data['name']
             ]);
+
+            $info['id'] = $year->id;
+            $info['name'] = $year->name;
+
+            foreach ($data['academic_session'] as $session)
+            {
+                $session = AcademicSession::create([
+                    'academic_year_id' => $year->id,
+                    'name' => $session,
+                ]);
+                $info['academic_session_list'][] = $session;
+            }
+
+            DB::commit();
 
             return response()->json([
                 'status' => true,
-                'data' => $branch
+                'data' => $info
             ], 201);
         }
-        catch (QueryException $ex)
+        catch(QueryException $ex)
         {
+            DB::rollback();
             return response()->json([
-                'status' => false], 500);
+                'status' => $ex->getMessage()
+            ], 500);
         }
+
     }
 
 
@@ -124,15 +225,17 @@ class AcademicYearController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property( property="branch_id", type="integer", example=1),
-     *                     @OA\Property( property="name", type="year", example=2022),
-     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
-     *                     @OA\Property(property="branch", type="object",
-     *                                          @OA\Property(property="id", type="integer", example=1),
-     *                                          @OA\Property(property="name", type="string", example="main-branch"),
-     *                                      ),
+ *                     @OA\Property(property="id", type="integer", example=1),
+ *                     @OA\Property( property="branch_id", type="integer", example=1),
+ *                     @OA\Property( property="name", type="year", example=2022),
+ *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+ *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+ *                     @OA\Property(
+ *                          property="branch",
+ *                          type="object",
+*                               @OA\Property(property="id", type="integer", example=1),
+*                               @OA\Property(property="name", type="string", example="main-branch"),
+*                         ),
      *             )
      *         )
      *     ),
@@ -230,7 +333,7 @@ class AcademicYearController extends Controller
         return response()->json([
             'status' => true,
             'data' => $years
-        ]);
+        ], 200);
     }
 
 

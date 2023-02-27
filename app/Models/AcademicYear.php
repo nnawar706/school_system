@@ -27,4 +27,9 @@ class AcademicYear extends Model
     {
         return $this->belongsTo(Branch::class, 'branch_id');
     }
+
+    public function academic_session()
+    {
+        return $this->hasMany(AcademicSession::class, 'academic_year_id', 'id');
+    }
 }
