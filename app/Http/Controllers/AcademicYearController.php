@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\AcademicYear;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
 
@@ -46,6 +45,7 @@ class AcademicYearController extends Controller
      * )
      */
 
+
     public function index()
     {
         if(AcademicYear::count() == 0)
@@ -61,6 +61,7 @@ class AcademicYearController extends Controller
             'status' => true,
             'data' => $years], 200);
     }
+
 
     public function create(Request $request)
     {
@@ -93,6 +94,7 @@ class AcademicYearController extends Controller
                 'status' => false], 500);
         }
     }
+
 
     /**
      * @OA\Get(
@@ -149,6 +151,7 @@ class AcademicYearController extends Controller
      * )
      */
 
+
     public function read($id)
     {
         if(!AcademicYear::find($id))
@@ -167,6 +170,53 @@ class AcademicYearController extends Controller
     }
 
 
+    /**
+     * @OA\Get(
+     *      path="/api/academic_year/by_branch/{branch_id}",
+     *      summary="Get all academic year under one branch",
+     *      operationId="academicYearByBranch",
+     *      security={{"bearerAuth":{}}},
+     *      tags={"academic year"},
+     *      @OA\Parameter(
+     *         name="branch_id",
+     *         in="path",
+     *         description="ID of the branch to retrieve academic years under it",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer",
+     *             format="int64"
+     *         )
+     *     ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="All academic year under one branch fetched",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="boolean", example=true),
+     *              @OA\Property(property="data", type="array",
+     *                  @OA\Items(
+     *                                  @OA\Property(property="id", type="integer", example=1),
+     *                                  @OA\Property(property="branch_id", type="integer", example=2),
+     *                                  @OA\Property(property="name", type="year", example=2020),
+     *                                  @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                                  @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                                  @OA\Property(property="branch", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=2),
+     *                                          @OA\Property(property="name", type="string", example="sub-branch"),
+     *                                      ),
+     *                  )
+     *              ),
+     *          ),
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=204,
+     *          description="No academic year under this branch found",
+     *      ),
+     * )
+     */
+
+
     public function readByBranch($branch_id)
     {
         if(AcademicYear::where('branch_id', $branch_id)->doesntExist())
@@ -182,6 +232,65 @@ class AcademicYearController extends Controller
             'data' => $years
         ]);
     }
+
+
+    /**
+     * @OA\Put(
+     *      path="/api/academic_year/{id}",
+     *      summary="Update a academic year",
+     *      description="Update a academic year by id",
+     *      operationId="updateAcademicYear",
+     *      tags={"academic year"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="academic year ID",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *
+     *      @OA\RequestBody(
+     *          description="Academic year object that needs to be updated",
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name","branch_id"},
+     *              @OA\Property(property="name", type="year", example=2020),
+     *              @OA\Property(property="branch_id", type="integer", example=2),
+     *          ),
+     *      ),
+     *
+     *      @OA\Response(
+     *          response=200,
+     *          description="Academic year updated successfully",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="boolean",
+     *                  example=true
+     *              ),
+     *              @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property( property="branch_id", type="integer", example=2),
+     *                     @OA\Property( property="name", type="year", example=2020),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="branch", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=2),
+     *                                          @OA\Property(property="name", type="string", example="sub-branch"),
+     *                                      ),
+     *             )
+     *              )
+     *          )
+     *      ),
+     * )
+     */
+
 
     public function update(Request $request, $id)
     {
@@ -216,6 +325,7 @@ class AcademicYearController extends Controller
         }
     }
 
+
     /**
      * @OA\Delete(
      *      path="/api/academic_year/{id}",
@@ -249,6 +359,7 @@ class AcademicYearController extends Controller
      *      ),
      * )
      */
+
 
     public function delete($id)
     {

@@ -21,47 +21,15 @@ class BranchController extends Controller
      *         description="List of all branches",
      *         @OA\JsonContent(
      *             type="object",
-     *             @OA\Property(
-     *                 property="status",
-     *                 type="boolean",
-     *                 example=true,
-     *                 description="Response status"
-     *             ),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="array",
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
      *                 @OA\Items(
      *                     type="object",
-     *                     @OA\Property(
-     *                         property="id",
-     *                         type="integer",
-     *                         example="1",
-     *                         description="Branch ID"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="name",
-     *                         type="string",
-     *                         example="Main Branch",
-     *                         description="Branch name"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="location",
-     *                         type="string",
-     *                         example="Banasree",
-     *                         description="Branch location"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="created_at",
-     *                         type="string",
-     *                         example="2023-02-26T10:06:25.000000Z",
-     *                         description="Timestamp when the branch was created"
-     *                     ),
-     *                     @OA\Property(
-     *                         property="updated_at",
-     *                         type="string",
-     *                         example="2023-02-26T10:06:25.000000Z",
-     *                         description="Timestamp when the branch was last updated"
-     *                     ),
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="Main Branch"),
+     *                     @OA\Property(property="location", type="string", example="Banasree"),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
      *                 ),
      *             ),
      *         ),
@@ -124,6 +92,8 @@ class BranchController extends Controller
      *                     @OA\Property(property="id", type="integer", example=1, description="Branch ID"),
      *                     @OA\Property(property="name", type="string", example="main-branch", description="Branch name"),
      *                     @OA\Property(property="location", type="string", example="Dhaka", description="Branch location"),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
      *               ),
      *          ),
      *      ),
@@ -221,6 +191,8 @@ class BranchController extends Controller
      *                     @OA\Property(property="id", type="integer", example="1", description="Branch ID"),
      *                     @OA\Property(property="name", type="string", example="main-branch", description="Branch name"),
      *                     @OA\Property(property="location", type="string", example="mohakhali DOHS", description="Branch location"),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
      *             )
      *         )
      *     ),
@@ -295,6 +267,8 @@ class BranchController extends Controller
      *                     @OA\Property(property="id", type="integer", example="1", description="Branch ID"),
      *                     @OA\Property(property="name", type="string", example="main-branch", description="Branch name"),
      *                     @OA\Property(property="location", type="string", example="mohakhali DOHS", description="Branch location"),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
      *             )
      *              )
      *          )
@@ -381,11 +355,7 @@ class BranchController extends Controller
      *          description="Success",
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(
-     *                  property="status",
-     *                  type="boolean",
-     *                  example=true,
-     *              ),
+     *              @OA\Property(property="status", type="boolean", example=true),
      *          ),
      *      ),
      *     @OA\Response(
@@ -393,11 +363,7 @@ class BranchController extends Controller
      *          description="Database error",
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(
-     *                  property="status",
-     *                  type="boolean",
-     *                  example=false
-     *              ),
+     *              @OA\Property(property="status", type="boolean", example=false),
      *          ),
      *      ),
      *      @OA\Response(
@@ -405,11 +371,7 @@ class BranchController extends Controller
      *          description="Branch not found",
      *          @OA\JsonContent(
      *              type="object",
-     *              @OA\Property(
-     *                  property="error",
-     *                  type="string",
-     *                  example="Branch not found",
-     *              ),
+     *              @OA\Property(property="status", type="boolean", example=false),
      *          ),
      *      ),
      * )
