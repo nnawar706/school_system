@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\NoticeType;
 use App\Models\Role;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class RoleController extends Controller
+class NoticeTypeController extends Controller
 {
 
     /**
      * @OA\Get(
-     *     path="/api/role",
-     *     summary="Get all role",
-     *     description="All role fetched",
-     *     tags={"role"},
+     *     path="/api/notice_type",
+     *     summary="Get all notice type",
+     *     description="All notice type fetched",
+     *     tags={"notice type"},
      *
      *     @OA\Response(
      *         response="200",
@@ -31,15 +32,13 @@ class RoleController extends Controller
      *                 type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property( property="name", type="string", example="Admin"),
-     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
      *             ))
      *         )
      *     ),
      *
      *     @OA\Response(
      *         response="204",
-     *         description="Branch not found",
+     *         description="Notice type not found",
      *     )
      * )
      */
@@ -47,32 +46,32 @@ class RoleController extends Controller
 
     public function index()
     {
-        if(Role::count() == 0)
+        if(NoticeType::count() == 0)
         {
             return response()->json([], 204);
         }
 
-        $role = Role::latest()->get();
+        $type = NoticeType::latest()->get();
 
         return response()->json([
             'status' => true,
-            'data' => $role], 200);
+            'data' => $type], 200);
     }
 
 
     /**
      * @OA\Post(
-     *      path="/api/role",
-     *      operationId="createRole",
-     *      tags={"role"},
-     *      summary="Create new role",
-     *      description="Create new role and return created data",
+     *      path="/api/notice_type",
+     *      operationId="createnotice_type",
+     *      tags={"notice type"},
+     *      summary="Create new notice type",
+     *      description="Create new notice type and return created data",
      *      security={{"bearerAuth": {}}},
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
      *              required={"name"},
-     *              @OA\Property(property="name", type="string", example="Student"),
+     *              @OA\Property(property="name", type="string", example="Urgent"),
      *          ),
      *      ),
      *      @OA\Response(
@@ -89,9 +88,7 @@ class RoleController extends Controller
      *                 property="data",
      *                 type="object",
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Student"),
-     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="name", type="string", example="Urgent"),
      *               ),
      *          ),
      *      ),
@@ -130,7 +127,7 @@ class RoleController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|unique:role|alpha_dash'
+            'name' => 'required|max:30|min:5|unique:notice_type|string'
         ]);
 
         if($validate->fails())
@@ -141,13 +138,13 @@ class RoleController extends Controller
         }
         try
         {
-            $role = Role::create([
+            $type = NoticeType::create([
                 'name' => $request->name
             ]);
 
             return response()->json([
                 'status' => true,
-                'data' => $role
+                'data' => $type
             ], 201);
         }
         catch (QueryException $ex)
@@ -159,75 +156,15 @@ class RoleController extends Controller
 
 
     /**
-     * @OA\Get(
-     *     path="/api/role/{id}",
-     *     summary="Get a single role",
-     *     description="Retrieve a single role by ID",
-     *     tags={"role"},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="ID of the role to retrieve",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer",
-     *             format="int64"
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Successful operation",
-     *         @OA\JsonContent(type="object",
-     *             @OA\Property(
-     *                 property="status",
-     *                 type="boolean",
-     *                 example=true
-     *             ),
-     *             @OA\Property(
-     *                 property="data",
-     *                 type="object",
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property( property="name", type="string", example="Admin"),
-     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
-     *             )
-     *         )
-     *     ),
-     *
-     *     @OA\Response(
-     *         response="204",
-     *         description="Branch not found",
-     *     )
-     * )
-     */
-
-
-    public function read($id)
-    {
-        if(Role::where('id', $id)->doesntExist())
-        {
-            return response()->json([], 204);
-        }
-
-        $role = Role::find($id);
-
-        return response()->json([
-            'status' => true,
-            'data' => $role
-        ], 200);
-    }
-
-
-    /**
      * @OA\Put(
-     *      path="/api/role/{id}",
-     *      summary="Update a role",
-     *      description="Update a role by id",
-     *      operationId="updateRole",
-     *      tags={"role"},
+     *      path="/api/notice_type/{id}",
+     *      summary="Update a notice type",
+     *      description="Update a notice type by id",
+     *      operationId="updatenotice_type",
+     *      tags={"notice type"},
      *      @OA\Parameter(
      *          name="id",
-     *          description="Role ID",
+     *          description="notice type ID",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -236,16 +173,16 @@ class RoleController extends Controller
      *          )
      *      ),
      *      @OA\RequestBody(
-     *          description="Role object that needs to be updated",
+     *          description="notice_type object that needs to be updated",
      *          required=true,
      *          @OA\JsonContent(
      *              required={"name"},
-     *              @OA\Property(property="name", type="string", example="Students"),
+     *              @OA\Property(property="name", type="string", example="General"),
      *          ),
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="Role updated successfully",
+     *          description="Notice type updated successfully",
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(
@@ -257,9 +194,7 @@ class RoleController extends Controller
      *                 property="data",
      *                 type="object",
      *                     @OA\Property(property="id", type="integer", example="1"),
-     *                     @OA\Property(property="name", type="string", example="Students"),
-     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="name", type="string", example="General"),
      *             )
      *              )
      *          )
@@ -270,10 +205,10 @@ class RoleController extends Controller
 
     public function update(Request $request, $id)
     {
-        $role = Role::findOrFail($id);
+        $type = NoticeType::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|alpha_dash'
+            'name' => 'required|max:50|min:5|string'
         ]);
 
         if($validate->fails())
@@ -284,13 +219,13 @@ class RoleController extends Controller
         }
         try
         {
-            $role->update([
+            $type->update([
                 'name' => $request->name
             ]);
 
             return response()->json([
                 'status' => true,
-                'data' => $role
+                'data' => $type
             ], 200);
         }
         catch(QueryException $ex)
@@ -303,17 +238,17 @@ class RoleController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/role/{id}",
-     *      summary="Delete a role",
-     *      operationId="roleDelete",
+     *      path="/api/notice_type/{id}",
+     *      summary="Delete a notice type",
+     *      operationId="noticetypeDelete",
      *      security={{"bearerAuth":{}}},
-     *      tags={"role"},
+     *      tags={"notice type"},
      *
      *      @OA\Parameter(
      *         name="id",
      *         in="path",
      *         required=true,
-     *         description="ID of the role to delete",
+     *         description="ID of the notice type to delete",
      *         @OA\Schema(
      *             type="integer"
      *         )
@@ -321,7 +256,7 @@ class RoleController extends Controller
      *
      *      @OA\Response(
      *          response=200,
-     *          description="role deleted",
+     *          description="notice type deleted",
      *          @OA\JsonContent(type="object",
      *              @OA\Property(property="status", type="boolean", example=true),
      *              ),
@@ -333,10 +268,10 @@ class RoleController extends Controller
 
     public function delete($id)
     {
-        $role = Role::findOrFail($id);
+        $type = NoticeType::findOrFail($id);
         try
         {
-            $role->delete();
+            $type->delete();
 
             return response()->json([
                 'status' => true], 200);
@@ -347,29 +282,5 @@ class RoleController extends Controller
                 'status' => false
             ], 304);
         }
-    }
-
-    public function restore($id)
-    {
-        Role::where('id', $id)->withTrashed()->restore();
-
-        return response()->json([
-            'status' => true], 200);
-    }
-
-    public function restoreAll()
-    {
-        Role::onlyTrashed()->restore();
-
-        return response()->json([
-            'status' => true], 200);
-    }
-
-    public function forceDelete($id)
-    {
-        Role::where('id', $id)->withTrashed()->forceDelete();
-
-        return response()->json([
-            'status' => true], 200);
     }
 }

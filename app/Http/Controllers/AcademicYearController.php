@@ -225,17 +225,17 @@ class AcademicYearController extends Controller
      *             @OA\Property(
      *                 property="data",
      *                 type="object",
- *                     @OA\Property(property="id", type="integer", example=1),
- *                     @OA\Property( property="branch_id", type="integer", example=1),
- *                     @OA\Property( property="name", type="year", example=2022),
- *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
- *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
- *                     @OA\Property(
- *                          property="branch",
- *                          type="object",
-*                               @OA\Property(property="id", type="integer", example=1),
-*                               @OA\Property(property="name", type="string", example="main-branch"),
-*                         ),
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property( property="branch_id", type="integer", example=1),
+     *                     @OA\Property( property="name", type="year", example=2022),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(
+     *                          property="branch",
+     *                          type="object",
+     *                               @OA\Property(property="id", type="integer", example=1),
+     *                               @OA\Property(property="name", type="string", example="main-branch"),
+     *                         ),
      *             )
      *         )
      *     ),

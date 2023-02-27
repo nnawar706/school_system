@@ -4,9 +4,13 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AcademicSessionController;
 Use App\Http\Controllers\AcademicYearController;
+Use App\Http\Controllers\NoticeTypeController;
+Use App\Http\Controllers\ReligionController;
 Use App\Http\Controllers\AuthController;
 Use App\Http\Controllers\BranchController;
+Use App\Http\Controllers\NoticeController;
 Use App\Http\Controllers\RoleController;
+Use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,3 +60,8 @@ Route::delete('academic_year/{id}', [AcademicYearController::class, 'delete'])->
 Route::get('academic_session/{id}', [AcademicSessionController::class, 'read'])->name('academic_session.read');
 Route::get('academic_session/by_year/{academic_year_id}', [AcademicSessionController::class, 'readByYear'])->name('academic_session.readByYear');
 Route::put('academic_session/{id}', [AcademicSessionController::class, 'update'])->name('academic_session.update');
+Route::delete('academic_session/{id}', [AcademicSessionController::class, 'delete'])->name('academic_session.delete');
+
+Route::get('religion', [ReligionController::class, 'index'])->name('religion.index');
+
+Route::get('notice', [NoticeController::class, 'index'])->name('notice.index');
