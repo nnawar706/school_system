@@ -190,7 +190,7 @@ class AcademicYearController extends Controller
         {
             DB::rollback();
             return response()->json([
-                'status' => $ex->getMessage()
+                'status' => false
             ], 500);
         }
 
