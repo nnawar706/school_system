@@ -18,7 +18,9 @@ class AcademicYear extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'deleted_at',
+        'created_at',
+        'updated_at'
     ];
 
     protected $dates = ['deleted_at'];
@@ -28,7 +30,7 @@ class AcademicYear extends Model
         return $this->belongsTo(Branch::class, 'branch_id');
     }
 
-    public function academic_session()
+    public function academic_session_list()
     {
         return $this->hasMany(AcademicSession::class, 'academic_year_id', 'id');
     }

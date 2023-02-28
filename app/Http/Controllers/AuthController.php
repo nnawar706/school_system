@@ -58,7 +58,7 @@ class AuthController extends Controller
         $validate = Validator::make($request->all(), [
             'role_id' => 'required',
             'branch_id' => 'required',
-            'email' => 'required|email|unique:users',
+            'registration_id' => 'required|unique:users',
             'password' => 'required|min:8|max:20'
         ]);
 
@@ -72,7 +72,7 @@ class AuthController extends Controller
             $user = User::create([
                 'role_id' => $request->role_id,
                 'branch_id' => $request->branch_id,
-                'email' => $request->email,
+                'registration_id' => $request->registration_id,
                 'password' => Hash::make($request->password)
             ]);
 
@@ -84,7 +84,7 @@ class AuthController extends Controller
         catch (QueryException $ex)
         {
             return response()->json([
-                'status' => false], 500);
+                'status' => $ex->getMessage()], 500);
         }
     }
 
@@ -129,7 +129,7 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->only('email', 'password');
+        $credentials = $request->only('registration_id', 'password');
         if ($token = $this->guard()->attempt($credentials)) {
             return $this->respondWithToken($token);
         }

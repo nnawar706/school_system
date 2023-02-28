@@ -29,13 +29,16 @@ class AcademicYearController extends Controller
      *                                  @OA\Property(property="id", type="integer", example=1),
      *                                  @OA\Property(property="branch_id", type="integer", example=2),
      *                                  @OA\Property(property="name", type="year", example=2020),
-     *                                  @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                                  @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                                  @OA\Property(property="academic_session_list", type="array",@OA\Items(
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="academic_year_id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="Half-yearly"),
+     *                                      )),
      *                                  @OA\Property(property="branch", type="object",
      *                                          @OA\Property(property="id", type="integer", example=1),
-     *                                          @OA\Property(property="name", type="string", example="main-branch"),
-     *                                      ),
-     *                  )
+     *                                          @OA\Property(property="name", type="string", example="new branch"),
+     *                                  ),
+     *                  ),
      *              ),
      *          ),
      *      ),
@@ -55,8 +58,10 @@ class AcademicYearController extends Controller
             return response()->json([], 204);
         }
 
-        $years = AcademicYear::with(['branch' => function($query){
-            return $query->select('id','name');
+        $years = AcademicYear::with(['academic_session_list' => function($query) {
+            $query->select('id', 'academic_year_id', 'name');
+        }])->with(['branch' => function($query) {
+            $query->select('id', 'name');
         }])->latest()->get();
 
         return response()->json([

@@ -81,18 +81,20 @@ class ClassroomController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/branch",
-     *      operationId="createBranch",
-     *      tags={"branch"},
-     *      summary="Create new branch",
-     *      description="Create new branch and return created data",
+     *      path="/api/classroom",
+     *      operationId="createClassroom",
+     *      tags={"classroom"},
+     *      summary="Create new classroom",
+     *      description="Create new classroom and return created data (classroom name format:[first two digits-branch no,
+            next two digits-floor no, next two digits-room no]->regex:/^(10|0[1-9])\d{2}(0[1-9]|[1-9][0-9])$/)",
      *      security={{"bearerAuth": {}}},
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
-     *              required={"name","location"},
-     *              @OA\Property(property="name", type="string", example="main-branch"),
-     *              @OA\Property(property="location", type="string", example="Dhaka"),
+     *              required={"branch_id","name","max_student"},
+     *              @OA\Property(property="branch_id", type="integer", example=1),
+     *              @OA\Property(property="name", type="string", example="010220"),
+     *              @OA\Property(property="max_student", type="integer", example=35),
      *          ),
      *      ),
      *      @OA\Response(
@@ -108,11 +110,12 @@ class ClassroomController extends Controller
      *              @OA\Property(
      *                 property="data",
      *                 type="object",
-     *                     @OA\Property(property="id", type="integer", example=1, description="Branch ID"),
-     *                     @OA\Property(property="name", type="string", example="main-branch", description="Branch name"),
-     *                     @OA\Property(property="location", type="string", example="Dhaka", description="Branch location"),
+     *                     @OA\Property(property="branch_id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="010220"),
+     *                     @OA\Property(property="max_student", type="integer", example=35),
      *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
      *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="id", type="integer", example=1),
      *               ),
      *          ),
      *      ),
@@ -150,8 +153,10 @@ class ClassroomController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|unique:branch|string',
-            'location' => 'required|max:255|min:5'
+            'branch_id' => 'required|integer',
+            'name' => ['required', 'unique:classroom', 'max:6', 'string',
+                'regex:/^(10|0[1-9])\d{2}(0[1-9]|[1-9][0-9])$/'],
+            'max_student' => 'required|integer|max:50|min:20'
         ]);
 
         if($validate->fails())
@@ -162,14 +167,15 @@ class ClassroomController extends Controller
         }
         try
         {
-            $branch = Branch::create([
+            $classroom = Classroom::create([
+                'branch_id' => $request->branch_id,
                 'name' => $request->name,
-                'location' => $request->location
+                'max_student' => $request->max_student
             ]);
 
             return response()->json([
                 'status' => true,
-                'data' => $branch
+                'data' => $classroom
             ], 201);
         }
         catch (QueryException $ex)
