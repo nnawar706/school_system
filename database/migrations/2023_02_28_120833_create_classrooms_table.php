@@ -11,15 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notice', function (Blueprint $table) {
+        Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('notice_type_id');
-            $table->foreign('notice_type_id')
-                ->references('id')
-                ->on('notice_type');
-            $table->string('title', 255);
-            $table->text('details');
-            $table->softDeletes();
             $table->timestamps();
         });
     }
@@ -29,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('notice');
+        Schema::dropIfExists('classrooms');
     }
 };

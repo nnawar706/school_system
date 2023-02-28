@@ -203,8 +203,8 @@ class AuthController extends Controller
     /**
      * @OA\Post(
      *      path="/api/refresh",
-     *      summary="Sign in",
-     *      description="Login by email, password",
+     *      summary="Refresh token",
+     *      description="Refresh token for authorization",
      *      operationId="userRefresh",
      *      tags={"auth"},
      *

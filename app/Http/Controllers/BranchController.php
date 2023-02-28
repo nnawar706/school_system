@@ -131,8 +131,8 @@ class BranchController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|unique:branch|alpha_dash',
-            'location' => 'required|max:255'
+            'name' => 'required|max:50|min:5|unique:branch|string',
+            'location' => 'required|max:255|min:5'
         ]);
 
         if($validate->fails())
@@ -212,17 +212,14 @@ class BranchController extends Controller
 
     public function read($id)
     {
-        $branch = Branch::find($id);
-
-        if(is_null($branch))
+        if($branch = Branch::find($id))
         {
-            return response()->json([], 204);
+            return response()->json([
+                'status' => true,
+                'data' => $branch
+            ]);
         }
-
-        return response()->json([
-            'status' => true,
-            'data' => $branch
-        ]);
+        return response()->json([], 204);
     }
 
     /**

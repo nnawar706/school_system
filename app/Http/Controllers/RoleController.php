@@ -204,17 +204,14 @@ class RoleController extends Controller
 
     public function read($id)
     {
-        if(Role::where('id', $id)->doesntExist())
+        if($role = Role::find($id))
         {
-            return response()->json([], 204);
+            return response()->json([
+                'status' => true,
+                'data' => $role
+            ], 200);
         }
-
-        $role = Role::find($id);
-
-        return response()->json([
-            'status' => true,
-            'data' => $role
-        ], 200);
+        return response()->json([], 204);
     }
 
 

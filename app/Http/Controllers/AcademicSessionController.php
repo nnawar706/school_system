@@ -74,19 +74,16 @@ class AcademicSessionController extends Controller
 
     public function read($id)
     {
-        if(!AcademicSession::find($id))
-        {
-            return response()->json([], 204);
-        }
-
-        $session = AcademicSession::with(['academic_year' => function($query){
+        if($session = AcademicSession::with(['academic_year' => function($query){
             return $query->select('id','name');
-        }])->find($id);
-
-        return response()->json([
-            'status' => true,
-            'data' => $session
-        ]);
+        }])->find($id))
+        {
+            return response()->json([
+                'status' => true,
+                'data' => $session
+            ]);
+        }
+        return response()->json([], 204);
     }
 
 

@@ -64,4 +64,14 @@ Route::delete('academic_session/{id}', [AcademicSessionController::class, 'delet
 
 Route::get('religion', [ReligionController::class, 'index'])->name('religion.index');
 
+Route::get('notice_type', [NoticeTypeController::class, 'index'])->name('notice_type.index');
+Route::get('notice_type/{id}', [NoticeTypeController::class, 'read'])->name('notice_type.read');
+Route::post('notice_type', [NoticeTypeController::class, 'create'])->name('notice_type.create');
+Route::put('notice_type/{id}', [NoticeTypeController::class, 'update'])->name('notice_type.update');
+Route::delete('notice_type/{id}', [NoticeTypeController::class, 'delete'])->name('notice_type.delete');
+
 Route::get('notice', [NoticeController::class, 'index'])->name('notice.index');
+Route::get('notice/{id}', [NoticeController::class, 'read'])->name('notice.read');
+Route::post('notice', [NoticeController::class, 'create'])->name('notice.create');
+Route::put('notice/{id}', [NoticeController::class, 'update'])->name('notice.update');
+Route::delete('notice/{id}', [NoticeController::class, 'delete'])->name('notice.delete');
