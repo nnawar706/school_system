@@ -34,6 +34,11 @@ class Branch extends Model
         return $this->hasMany(AcademicYear::class, 'branch_id', 'id');
     }
 
+    public function classroom()
+    {
+        return $this->hasMany(User::class, 'branch_id', 'id');
+    }
+
     public function notice()
     {
         return $this->hasMany(Notice::class, 'branch_id', 'id');

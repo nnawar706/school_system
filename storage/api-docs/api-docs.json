@@ -1171,8 +1171,8 @@
                 "tags": [
                     "auth"
                 ],
-                "summary": "Sign in",
-                "description": "Login by email, password",
+                "summary": "Refresh token",
+                "description": "Refresh token for authorization",
                 "operationId": "userRefresh",
                 "requestBody": {
                     "required": true,
@@ -1689,6 +1689,103 @@
                     },
                     "404": {
                         "description": "Branch not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/classroom": {
+            "get": {
+                "tags": [
+                    "classroom"
+                ],
+                "summary": "Get all classroom",
+                "description": "Get all classroom under the logged in admin's branch",
+                "operationId": "bb75c8e478344960925aff714634f5ef",
+                "responses": {
+                    "200": {
+                        "description": "List of all classroom",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "branch_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "01022001"
+                                                    },
+                                                    "max_student": {
+                                                        "type": "integer",
+                                                        "example": 30
+                                                    },
+                                                    "student_quantity": {
+                                                        "type": "integer",
+                                                        "example": 21
+                                                    },
+                                                    "active_status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-05 12:00:00"
+                                                    },
+                                                    "updated_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-05 12:00:00"
+                                                    },
+                                                    "branch": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "main-branch"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {
                                 "schema": {

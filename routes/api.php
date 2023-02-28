@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcademicSessionController;
 Use App\Http\Controllers\AcademicYearController;
 Use App\Http\Controllers\NoticeTypeController;
+Use App\Http\Controllers\ClassroomController;
 Use App\Http\Controllers\ReligionController;
 Use App\Http\Controllers\AuthController;
 Use App\Http\Controllers\BranchController;
@@ -35,6 +36,8 @@ Route::group(['middleware' => 'auth:api'], function($routes) {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('refresh', [AuthController::class, 'refresh'])->name('refresh');
     Route::get('me', [AuthController::class, 'me'])->name('me');
+
+    Route::get('classroom', [ClassroomController::class, 'index'])->name('classroom.index');
 
 });
 
@@ -75,3 +78,11 @@ Route::get('notice/{id}', [NoticeController::class, 'read'])->name('notice.read'
 Route::post('notice', [NoticeController::class, 'create'])->name('notice.create');
 Route::put('notice/{id}', [NoticeController::class, 'update'])->name('notice.update');
 Route::delete('notice/{id}', [NoticeController::class, 'delete'])->name('notice.delete');
+
+Route::get('classroom/{id}', [ClassroomController::class, 'read'])->name('classroom.read');
+Route::get('classroom/by_branch/{branch_id}', [ClassroomController::class, 'readByBranch'])->name('classroom.readByBranch');
+Route::get('classroom/by_status/{status_id}', [ClassroomController::class, 'readByStatus'])->name('classroom.readByStatus');
+Route::get('classroom/by_branch/by_status/{branch_id}/{status_id}', [ClassroomController::class, 'readByBranchAndStatus'])->name('classroom.readByBranchAndStatus');
+Route::post('classroom', [ClassroomController::class, 'create'])->name('classroom.create');
+Route::put('classroom/{id}', [ClassroomController::class, 'update'])->name('classroom.update');
+Route::delete('classroom/{id}', [ClassroomController::class, 'delete'])->name('classroom.delete');
