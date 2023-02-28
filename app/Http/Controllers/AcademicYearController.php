@@ -143,7 +143,7 @@ class AcademicYearController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'branch_id' => 'required|integer',
-            'name' => 'required|unique:academic_year|date_format:Y',
+            'name' => 'required|integer|unique:academic_year|date_format:Y|min:' . date('Y') . '|before:' . (date('Y') + 2),
             'academic_session' => 'required|array',
             'academic_session.*' => 'required|string|min:5|max:30',
         ]);
