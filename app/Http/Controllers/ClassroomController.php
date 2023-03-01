@@ -185,4 +185,9 @@ class ClassroomController extends Controller
         }
     }
 
+    public function read($id)
+    {
+
+    }
+
 }
