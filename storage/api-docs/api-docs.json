@@ -2690,9 +2690,6 @@
                                 }
                             }
                         }
-                    },
-                    "204": {
-                        "description": "Religion not found"
                     }
                 }
             }
@@ -3059,6 +3056,50 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/weekday": {
+            "get": {
+                "tags": [
+                    "weekday"
+                ],
+                "summary": "Get all weekday",
+                "description": "All weekday fetched",
+                "operationId": "264f2b44a21c0486d10e18f30df07494",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Sunday"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     },

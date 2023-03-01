@@ -5,10 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Religion extends Model
+class SchoolInfo extends Model
 {
     use HasFactory;
 
-    protected $table = 'religion';
-
+    protected $table = 'school_info';
 }

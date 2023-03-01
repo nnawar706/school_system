@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Religion;
+use App\Models\Weekday;
 use Illuminate\Http\Request;
 
-class ReligionController extends Controller
+class WeekdayController extends Controller
 {
-
     /**
      * @OA\Get(
-     *     path="/api/religion",
-     *     summary="Get all religion",
-     *     description="All religion fetched",
-     *     tags={"religion"},
+     *     path="/api/weekday",
+     *     summary="Get all weekday",
+     *     description="All weekday fetched",
+     *     tags={"weekday"},
      *
      *     @OA\Response(
      *         response="200",
@@ -28,7 +27,7 @@ class ReligionController extends Controller
      *                 property="data",
      *                 type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property( property="name", type="string", example="Islam"),
+     *                     @OA\Property( property="name", type="string", example="Sunday"),
      *             ))
      *         )
      *     ),
@@ -38,10 +37,10 @@ class ReligionController extends Controller
 
     public function index()
     {
-        $religion = Religion::orderBy('id')->get();
+        $day = Weekday::orderBy('id')->get();
 
         return response()->json([
             'status' => true,
-            'data' => $religion], 200);
+            'data' => $day], 200);
     }
 }
