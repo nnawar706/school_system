@@ -3059,6 +3059,97 @@
             }
         },
         "/api/school_info/{id}": {
+            "get": {
+                "tags": [
+                    "school info"
+                ],
+                "summary": "Get a single school_info",
+                "description": "Retrieve a single school info by ID",
+                "operationId": "6d7e9b5e2cf109322b92a336db063d00",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the school info to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "school_name": {
+                                                    "type": "string",
+                                                    "example": "cosmo"
+                                                },
+                                                "logo_url": {
+                                                    "type": "file",
+                                                    "example": "image1.png"
+                                                },
+                                                "favicon_url": {
+                                                    "type": "file",
+                                                    "example": "image2.png"
+                                                },
+                                                "email": {
+                                                    "type": "email",
+                                                    "example": "cosmo@edu.com.bd"
+                                                },
+                                                "phone_no": {
+                                                    "type": "string",
+                                                    "example": "12345678"
+                                                },
+                                                "facebook_url": {
+                                                    "type": "string",
+                                                    "example": "https://google.com"
+                                                },
+                                                "linkedin_url": {
+                                                    "type": "string",
+                                                    "example": "https://google.com"
+                                                },
+                                                "about": {
+                                                    "type": "text",
+                                                    "example": "This is a school"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "School info not found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "school info"

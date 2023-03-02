@@ -52,7 +52,7 @@ class SchoolInfoController extends Controller
      *     ),
      *     @OA\Response(
      *         response="204",
-     *         description="Branch not found",
+     *         description="School info not found",
      *         @OA\JsonContent(
      *             @OA\Property(
      *                 property="status",
