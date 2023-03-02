@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AcademicSessionController;
 Use App\Http\Controllers\AcademicYearController;
-Use App\Http\Controllers\NoticeTypeController;
+Use App\Http\Controllers\DesignationController;
 Use App\Http\Controllers\SchoolInfoController;
+Use App\Http\Controllers\NoticeTypeController;
 Use App\Http\Controllers\ClassroomController;
 Use App\Http\Controllers\ReligionController;
 Use App\Http\Controllers\BranchController;
@@ -95,3 +96,8 @@ Route::get('driver', [DriverController::class, 'index'])->name('driver.index');
 Route::post('driver', [DriverController::class, 'create'])->name('driver.create');
 Route::post('driver/{id}', [DriverController::class, 'update'])->name('driver.update');
 Route::delete('driver/{id}', [DriverController::class, 'delete'])->name('driver.delete');
+
+Route::get('designation', [DesignationController::class, 'index'])->name('designation.index');
+Route::post('designation', [DesignationController::class, 'create'])->name('designation.create');
+Route::put('designation/{id}', [DesignationController::class, 'update'])->name('designation.update');
+Route::delete('designation/{id}', [DesignationController::class, 'delete'])->name('designation.delete');

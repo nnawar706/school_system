@@ -48,14 +48,16 @@ class BranchController extends Controller
 
     public function index()
     {
-        if($branch = Branch::latest()->paginate(2))
+        if(Branch::count() == 0)
         {
-            return response()->json([
-                'status' => true,
-                'data' => $branch], 200);
+            return response()->json([], 204);
         }
+        $branch = Branch::latest()->get();
 
-        return response()->json([], 204);
+        return response()->json([
+            'status' => true,
+            'data' => $branch
+        ], 200);
     }
 
     /**
