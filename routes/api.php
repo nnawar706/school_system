@@ -5,12 +5,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcademicSessionController;
 Use App\Http\Controllers\AcademicYearController;
 Use App\Http\Controllers\NoticeTypeController;
+Use App\Http\Controllers\SchoolInfoController;
 Use App\Http\Controllers\ClassroomController;
 Use App\Http\Controllers\ReligionController;
-Use App\Http\Controllers\AuthController;
 Use App\Http\Controllers\BranchController;
 Use App\Http\Controllers\NoticeController;
 Use App\Http\Controllers\RoleController;
+Use App\Http\Controllers\AuthController;
 Use App\Http\Controllers\UserController;
 
 /*
@@ -40,6 +41,8 @@ Route::group(['middleware' => 'auth:api'], function($routes) {
     Route::get('classroom', [ClassroomController::class, 'index'])->name('classroom.index');
 
 });
+
+Route::post('school_info/{id}', [SchoolInfoController::class, 'update'])->name('school_info.update');
 
 Route::get('branch', [BranchController::class, 'index'])->name('branch.index');
 Route::get('branch/{id}', [BranchController::class, 'read'])->name('branch.read');

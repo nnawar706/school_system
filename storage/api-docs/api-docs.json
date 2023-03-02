@@ -3058,6 +3058,146 @@
                 ]
             }
         },
+        "/api/school_info/{id}": {
+            "put": {
+                "tags": [
+                    "school info"
+                ],
+                "summary": "Update school info",
+                "description": "Update school info by id",
+                "operationId": "updateschool_info",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "school_info ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "School info object that needs to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "school_name",
+                                    "logo_url",
+                                    "favicon_url",
+                                    "email",
+                                    "phone_no",
+                                    "facebook_url",
+                                    "linkedin_url",
+                                    "about"
+                                ],
+                                "properties": {
+                                    "school_name": {
+                                        "type": "string",
+                                        "example": "cosmo"
+                                    },
+                                    "logo_url": {
+                                        "type": "file",
+                                        "example": "image1.png"
+                                    },
+                                    "favicon_url": {
+                                        "type": "file",
+                                        "example": "image2.png"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "example": "cosmo@edu.com.bd"
+                                    },
+                                    "phone_no": {
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "facebook_url": {
+                                        "type": "string",
+                                        "example": "https://google.com"
+                                    },
+                                    "linkedin_url": {
+                                        "type": "string",
+                                        "example": "https://google.com"
+                                    },
+                                    "about": {
+                                        "type": "text",
+                                        "example": "This is a school"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Schoole info updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "school_name": {
+                                                    "type": "string",
+                                                    "example": "cosmo"
+                                                },
+                                                "logo_url": {
+                                                    "type": "file",
+                                                    "example": "image1.png"
+                                                },
+                                                "favicon_url": {
+                                                    "type": "file",
+                                                    "example": "image2.png"
+                                                },
+                                                "email": {
+                                                    "type": "email",
+                                                    "example": "cosmo@edu.com.bd"
+                                                },
+                                                "phone_no": {
+                                                    "type": "string",
+                                                    "example": "12345678"
+                                                },
+                                                "facebook_url": {
+                                                    "type": "string",
+                                                    "example": "https://google.com"
+                                                },
+                                                "linkedin_url": {
+                                                    "type": "string",
+                                                    "example": "https://google.com"
+                                                },
+                                                "about": {
+                                                    "type": "text",
+                                                    "example": "This is a school"
+                                                },
+                                                "created_at": {
+                                                    "type": "string",
+                                                    "example": "2021-05-05 12:00:00"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "2021-05-05 12:00:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/weekday": {
             "get": {
                 "tags": [
