@@ -10,6 +10,7 @@ Use App\Http\Controllers\ClassroomController;
 Use App\Http\Controllers\ReligionController;
 Use App\Http\Controllers\BranchController;
 Use App\Http\Controllers\NoticeController;
+Use App\Http\Controllers\DriverController;
 Use App\Http\Controllers\RoleController;
 Use App\Http\Controllers\AuthController;
 Use App\Http\Controllers\UserController;
@@ -89,3 +90,8 @@ Route::get('classroom/by_branch/by_status/{branch_id}/{status_id}', [ClassroomCo
 Route::post('classroom', [ClassroomController::class, 'create'])->name('classroom.create');
 Route::put('classroom/{id}', [ClassroomController::class, 'update'])->name('classroom.update');
 Route::delete('classroom/{id}', [ClassroomController::class, 'delete'])->name('classroom.delete');
+
+Route::get('driver', [DriverController::class, 'index'])->name('driver.index');
+Route::post('driver', [DriverController::class, 'create'])->name('driver.create');
+Route::post('driver/{id}', [DriverController::class, 'update'])->name('driver.update');
+Route::delete('driver/{id}', [DriverController::class, 'delete'])->name('driver.delete');

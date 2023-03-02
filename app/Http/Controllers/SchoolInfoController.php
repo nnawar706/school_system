@@ -166,12 +166,12 @@ class SchoolInfoController extends Controller
         {
             $logo = $request->file('logo_url');
             $logo_file = "school_logo_" . time();
-            $logo_path = $logo->storeAs('public/images', $logo_file);
+            $logo_path = $logo->storeAs('public/images/school', $logo_file);
             $logoURL = Storage::url($logo_path);
 
             $favicon = $request->file('favicon_url');
             $favicon_file = "school_favicon_" . time();
-            $favicon_path = $favicon->storeAs('public/images', $favicon_file);
+            $favicon_path = $favicon->storeAs('public/images/school', $favicon_file);
             $faviconURL = Storage::url($favicon_path);
 
             $school_info->update([
