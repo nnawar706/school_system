@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('phone_no', 30)->unique();
             $table->string('nid_no', 20)->unique();
             $table->string('photo_url')->unique();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

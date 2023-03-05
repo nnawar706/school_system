@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TransportRoute extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'transport_route';
 
@@ -18,9 +17,11 @@ class TransportRoute extends Model
 
     protected $hidden = [
         'created_at',
-        'updated_at',
-        'deleted_at'
+        'updated_at'
     ];
 
-    protected $dates = ['deleted_at'];
+    public function transportation()
+    {
+        return $this->hasMany(Transportation::class, 'transport_route_id', 'id');
+    }
 }

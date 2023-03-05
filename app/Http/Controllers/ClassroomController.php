@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Branch;
 use App\Models\Classroom;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -60,9 +59,9 @@ class ClassroomController extends Controller
     {
         $result = (new AuthController)->me();
 
-        $branch_id = $result->original['data']['branch_id'];
+//        $branch_id = $result->original['data']['branch_id'];
 
-        if(Classroom::where('branch_id', $branch_id)->doesntExist())
+        if(Classroom::where('branch_id', 1)->doesntExist())
         {
             return response()->json([], 204);
         }
@@ -71,7 +70,7 @@ class ClassroomController extends Controller
             {
                 return $query->select('id','name');
             }
-        ])->where('branch_id', $branch_id)->get();
+        ])->where('branch_id', 1)->get();
 
         return response()->json([
                 'status' => true,
@@ -153,7 +152,7 @@ class ClassroomController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'branch_id' => 'required|integer',
+//            'branch_id' => 'required|integer',
             'name' => ['required', 'unique:classroom', 'max:6', 'string',
                 'regex:/^(10|0[1-9])\d{2}(0[1-9]|[1-9][0-9])$/'],
             'max_student' => 'required|integer|max:50|min:20'
@@ -168,7 +167,7 @@ class ClassroomController extends Controller
         try
         {
             $classroom = Classroom::create([
-                'branch_id' => $request->branch_id,
+                'branch_id' => 1,
                 'name' => $request->name,
                 'max_student' => $request->max_student
             ]);

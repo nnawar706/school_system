@@ -4063,7 +4063,7 @@
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Main Branch"
+                                                        "example": "rampura > hatirjheel > bangla motor"
                                                     }
                                                 },
                                                 "type": "object"
@@ -4238,8 +4238,7 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "name",
-                                    "location"
+                                    "name"
                                 ],
                                 "properties": {
                                     "name": {
@@ -4324,6 +4323,389 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/transport": {
+            "get": {
+                "tags": [
+                    "transport"
+                ],
+                "summary": "Get all transport",
+                "operationId": "35884b2c4965f9608e70c1cda680ef56",
+                "responses": {
+                    "200": {
+                        "description": "List of all transport",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "transport_route_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "driver_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "vehicle_reg_no": {
+                                                        "type": "string",
+                                                        "example": "Dhaka Metro-G-12-1112"
+                                                    },
+                                                    "pickup_time": {
+                                                        "type": "time",
+                                                        "example": "07:00:00"
+                                                    },
+                                                    "transport_route": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "rampura > hatirjheel > bangla motor"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "driver": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Mr. Driver"
+                                                            },
+                                                            "phone_no": {
+                                                                "type": "string",
+                                                                "example": "+8801638321911"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "transport"
+                ],
+                "summary": "Create new transport",
+                "description": "Create new transport",
+                "operationId": "createtransport",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "transport_route_id",
+                                    "driver_id",
+                                    "vehicle_reg_no",
+                                    "pickup_time"
+                                ],
+                                "properties": {
+                                    "transport_route_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "driver_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "vehicle_reg_no": {
+                                        "type": "string",
+                                        "example": "Dhaka Metro-G-12-1212"
+                                    },
+                                    "pickup_time": {
+                                        "type": "time",
+                                        "example": "06:40:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "transport_route_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "driver_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "vehicle_reg_no": {
+                                                    "type": "string",
+                                                    "example": "Dhaka Metro-G-12-1212"
+                                                },
+                                                "pickup_time": {
+                                                    "type": "time",
+                                                    "example": "06:40:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/transport/{id}": {
+            "put": {
+                "tags": [
+                    "transport"
+                ],
+                "summary": "Update a transport",
+                "description": "Update a transport by id",
+                "operationId": "updatetransport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "transport ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "transport object that needs to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "transport_route_id",
+                                    "driver_id",
+                                    "vehicle_reg_no",
+                                    "pickup_time"
+                                ],
+                                "properties": {
+                                    "transport_route_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "driver_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "vehicle_reg_no": {
+                                        "type": "string",
+                                        "example": "Dhaka Metro-G-12-1212"
+                                    },
+                                    "pickup_time": {
+                                        "type": "time",
+                                        "example": "06:40:00"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "transport route updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "transport_route_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "driver_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "vehicle_reg_no": {
+                                                    "type": "string",
+                                                    "example": "Dhaka Metro-G-12-1212"
+                                                },
+                                                "pickup_time": {
+                                                    "type": "time",
+                                                    "example": "06:40:00"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "transport"
+                ],
+                "summary": "Delete a transport",
+                "description": "Delete a transport by its ID.",
+                "operationId": "deleteTransport",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the transport",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/weekday": {

@@ -308,7 +308,7 @@ class DriverController extends Controller
             'license_no' => 'required',
             'phone_no' => 'required',
             'nid_no' => 'required',
-            'photo_url' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'photo_url' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         if($validate->fails())

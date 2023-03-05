@@ -21,7 +21,6 @@ return new class extends Migration
             $table->tinyInteger('max_student');
             $table->tinyInteger('student_quantity')->default(0);
             $table->tinyInteger('active_status')->default(1);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

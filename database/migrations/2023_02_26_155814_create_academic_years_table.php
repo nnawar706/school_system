@@ -18,7 +18,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('branch');
             $table->year('name')->index()->unique();
-            $table->softDeletes();
             $table->timestamps();
         });
     }

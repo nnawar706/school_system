@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
 class Branch extends Model
 {
-    use HasFactory, Notifiable, SoftDeletes;
+    use HasFactory, Notifiable;
 
     protected $table = 'branch';
 
@@ -19,10 +18,8 @@ class Branch extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'updated_at'
     ];
-
-    protected $dates = ['deleted_at'];
 
     public function user()
     {

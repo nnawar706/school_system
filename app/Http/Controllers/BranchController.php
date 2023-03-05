@@ -302,7 +302,7 @@ class BranchController extends Controller
         $branch = Branch::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|alpha_dash',
+            'name' => 'required|max:50|min:5|string',
             'location' => 'required|max:255'
         ]);
 
@@ -391,30 +391,6 @@ class BranchController extends Controller
                 'status' => false
             ], 304);
         }
-    }
-
-    public function restore($id)
-    {
-        Branch::where('id', $id)->withTrashed()->restore();
-
-        return response()->json([
-            'status' => true], 200);
-    }
-
-    public function restoreAll()
-    {
-        Branch::onlyTrashed()->restore();
-
-        return response()->json([
-            'status' => true], 200);
-    }
-
-    public function forceDelete($id)
-    {
-        Branch::where('id', $id)->withTrashed()->forceDelete();
-
-        return response()->json([
-            'status' => true], 200);
     }
 
 }

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AcademicSessionController;
+Use App\Http\Controllers\TransportationController;
 Use App\Http\Controllers\TransportRouteController;
 Use App\Http\Controllers\AcademicYearController;
 Use App\Http\Controllers\DesignationController;
@@ -46,6 +47,7 @@ Route::group(['middleware' => 'auth:api'], function($routes) {
 });
 
 Route::post('school_info/{id}', [SchoolInfoController::class, 'update'])->name('school_info.update');
+Route::get('school_info/{id}', [SchoolInfoController::class, 'read'])->name('school_info.read');
 
 Route::get('branch', [BranchController::class, 'index'])->name('branch.index');
 Route::get('branch/{id}', [BranchController::class, 'read'])->name('branch.read');
@@ -107,3 +109,8 @@ Route::get('transport_route', [TransportRouteController::class, 'index'])->name(
 Route::post('transport_route', [TransportRouteController::class, 'create'])->name('transport_route.create');
 Route::put('transport_route/{id}', [TransportRouteController::class, 'update'])->name('transport_route.update');
 Route::delete('transport_route/{id}', [TransportRouteController::class, 'delete'])->name('transport_route.delete');
+
+Route::get('transport', [TransportationController::class, 'index'])->name('transport.index');
+Route::post('transport', [TransportationController::class, 'create'])->name('transport.create');
+Route::put('transport/{id}', [TransportationController::class, 'update'])->name('transport.update');
+Route::delete('transport/{id}', [TransportationController::class, 'delete'])->name('transport.delete');

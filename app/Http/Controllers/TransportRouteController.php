@@ -26,7 +26,7 @@ class TransportRouteController extends Controller
      *                 @OA\Items(
      *                     type="object",
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Main Branch"),
+     *                     @OA\Property(property="name", type="string", example="rampura > hatirjheel > bangla motor"),
      *                 ),
      *             ),
      *         ),
@@ -126,7 +126,7 @@ class TransportRouteController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => ['required', 'unique', 'max:50', 'min:5', 'regex:/^[a-zA-Z\s]+(?:>[a-zA-Z\s\d]+)*$/'],
+            'name' => ['required', 'unique:transport_route', 'max:50', 'min:5', 'regex:/^[a-zA-Z\s]+(?:>[a-zA-Z\s\d]+)*$/'],
         ]);
 
         if($validate->fails())
@@ -175,7 +175,7 @@ class TransportRouteController extends Controller
      *          description="transport route object that needs to be updated",
      *          required=true,
      *          @OA\JsonContent(
-     *              required={"name","location"},
+     *              required={"name"},
      *              @OA\Property(property="name", type="string", example="rampura > hatirjheel > bangla motor"),
      *          ),
      *      ),

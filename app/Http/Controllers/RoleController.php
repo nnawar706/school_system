@@ -346,27 +346,4 @@ class RoleController extends Controller
         }
     }
 
-    public function restore($id)
-    {
-        Role::where('id', $id)->withTrashed()->restore();
-
-        return response()->json([
-            'status' => true], 200);
-    }
-
-    public function restoreAll()
-    {
-        Role::onlyTrashed()->restore();
-
-        return response()->json([
-            'status' => true], 200);
-    }
-
-    public function forceDelete($id)
-    {
-        Role::where('id', $id)->withTrashed()->forceDelete();
-
-        return response()->json([
-            'status' => true], 200);
-    }
 }

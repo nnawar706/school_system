@@ -23,7 +23,6 @@ return new class extends Migration
                 ->on('notice_type');
             $table->string('title', 255);
             $table->text('details');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

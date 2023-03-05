@@ -18,7 +18,6 @@ return new class extends Migration
                 ->references('id')
                 ->on('academic_year');
             $table->string('name', 30);
-            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Classroom extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'classroom';
 
@@ -21,10 +20,9 @@ class Classroom extends Model
     ];
 
     protected $hidden = [
-        'deleted_at'
+        'created_at',
+        'updated_at'
     ];
-
-    protected $dates = ['deleted_at'];
 
     public function branch() {
         return $this->belongsTo(Branch::class, 'branch_id');

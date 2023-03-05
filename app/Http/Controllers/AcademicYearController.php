@@ -147,10 +147,10 @@ class AcademicYearController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'branch_id' => 'required|integer',
+//            'branch_id' => 'required|integer',
             'name' => 'required|integer|unique:academic_year|date_format:Y|min:' . date('Y') . '|before:' . (date('Y') + 2),
             'academic_session' => 'required|array',
-            'academic_session.*' => 'required|string|min:5|max:30',
+            'academic_session.*' => 'required|string|min:3|max:30',
         ]);
 
         if($validate->fails())
@@ -168,7 +168,7 @@ class AcademicYearController extends Controller
         try
         {
             $year = AcademicYear::create([
-                'branch_id' => $data['branch_id'],
+                'branch_id' => 1,
                 'name' => $data['name']
             ]);
 
@@ -195,7 +195,7 @@ class AcademicYearController extends Controller
         {
             DB::rollback();
             return response()->json([
-                'status' => false
+                'status' => false,
             ], 500);
         }
 
@@ -405,8 +405,11 @@ class AcademicYearController extends Controller
         $year = AcademicYear::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'branch_id' => 'required|integer',
-            'name' => 'required|date_format:Y'
+            'name' => 'required|integer|date_format:Y|
+            min:' . date('Y') . '|before:' . (date('Y') + 2),
+//            'branch_id' => 'required|integer'
+            'academic_session' => 'required|array',
+            'academic_session.*' => 'required|string|min:3|max:30',
         ]);
 
         if($validate->fails())
@@ -415,21 +418,38 @@ class AcademicYearController extends Controller
                 'status' => false,
                 'error' => $this->showErrors($validate->errors())], 422);
         }
+        $data = json_decode($request->getContent(), true);
+
+        DB::beginTransaction();
+
         try {
+            $year->academic_session_list()->delete();
+
             $year->update([
                 'name' => $request->name,
-                'branch_id' => $request->branch_id
+                'branch_id' => 1
             ]);
+
+            foreach ($data['academic_session'] as $session)
+            {
+                AcademicSession::create([
+                    'academic_year_id' => $year->id,
+                    'name' => $session,
+                ]);
+            }
+            DB::commit();
 
             return response()->json([
                 'status' => true,
-                'data' => $year
-            ], 200);
+            ], 201);
         }
         catch(QueryException $ex)
         {
+            DB::rollback();
+
             return response()->json([
-                'status' => false], 304);
+                'status' => false
+            ], 304);
         }
     }
 
@@ -460,54 +480,32 @@ class AcademicYearController extends Controller
      *              ),
      *          ),
      *      ),
-     *
-     *      @OA\Response(
-     *          response=304,
-     *          description="database error",
-     *      ),
      * )
      */
 
 
     public function delete($id)
     {
-        $year = AcademicYear::findOrFail($id);
-        try
+        DB::transaction(function () use ($id)
         {
-            $year->delete();
+            $year = AcademicYear::with('academic_session_list')->findOrFail($id);
 
-            return response()->json([
-                'status' => true], 200);
-        }
-        catch(QueryException $ex)
-        {
-            return response()->json([
-                'status' => false
-            ], 304);
-        }
+            try
+            {
+                $year->academic_session_list()->delete();
+                $year->delete();
+
+                return response()->json([
+                    'status' => true
+                ], 200);
+            }
+            catch (QueryException $ex)
+            {
+                return response()->json([
+                    'status' => false
+                ], 304);
+            }
+        });
     }
 
-    public function restore($id)
-    {
-        AcademicYear::where('id', $id)->withTrashed()->restore();
-
-        return response()->json([
-            'status' => true], 200);
-    }
-
-    public function restoreAll()
-    {
-        AcademicYear::onlyTrashed()->restore();
-
-        return response()->json([
-            'status' => true], 200);
-    }
-
-    public function forceDelete($id)
-    {
-        AcademicYear::where('id', $id)->withTrashed()->forceDelete();
-
-        return response()->json([
-            'status' => true], 200);
-    }
 }
