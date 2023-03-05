@@ -91,7 +91,6 @@ class ClassroomController extends Controller
      *          required=true,
      *          @OA\JsonContent(
      *              required={"branch_id","name","max_student"},
-     *              @OA\Property(property="branch_id", type="integer", example=1),
      *              @OA\Property(property="name", type="string", example="010220"),
      *              @OA\Property(property="max_student", type="integer", example=35),
      *          ),
@@ -184,9 +183,143 @@ class ClassroomController extends Controller
         }
     }
 
-    public function read($id)
-    {
 
+    /**
+     * @OA\Put(
+     *      path="/api/classroom/{id}",
+     *      summary="Update a classroom",
+     *      description="Update a classroom by id",
+     *      operationId="updateclassroom",
+     *      tags={"classroom"},
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="classroom ID",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          description="classroom object that needs to be updated",
+     *          required=true,
+     *          @OA\JsonContent(
+     *              required={"name","max_student","active_status"},
+     *              @OA\Property(property="name", type="string", example="010220"),
+     *              @OA\Property(property="max_student", type="integer", example=35),
+     *              @OA\Property(property="active_status", type="integer", example=0),
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="classroom updated successfully",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(
+     *                  property="status",
+     *                  type="boolean",
+     *                  example=true
+     *              ),
+     *              @OA\Property(
+     *                 property="data",
+     *                 type="object",
+     *                     @OA\Property(property="id", type="integer", example="1"),
+     *                     @OA\Property(property="branch_id", type="integer", example="1"),
+     *                     @OA\Property(property="name", type="string", example="010220"),
+     *                     @OA\Property(property="max_student", type="integer", example=35),
+     *                     @OA\Property(property="active_status", type="integer", example=0),
+     *             )
+     *              )
+     *          )
+     *      )
+     * )
+     */
+
+
+    public function update(Request $request, $id)
+    {
+        $room = Classroom::findOrFail($id);
+
+        $validate = Validator::make($request->all(), [
+            'name' => ['required', 'max:6', 'string',
+                'regex:/^(10|0[1-9])\d{2}(0[1-9]|[1-9][0-9])$/'],
+            'max_student' => 'required|integer|max:50|min:20',
+            'active_status' => 'required|in:0,1',
+        ]);
+
+        if($validate->fails())
+        {
+            return response()->json([
+                'status' => false,
+                'error' => $this->showErrors($validate->errors())], 422);
+        }
+        try {
+            $room->update([
+                'branch_id' => 1,
+                'name' => $request->name,
+                'max_student' => $request->max_student,
+                'active_status' => $request->active_status,
+            ]);
+
+            return response()->json([
+                'status' => true,
+                'data' => $room
+            ], 200);
+        }
+        catch(QueryException $ex)
+        {
+            return response()->json([
+                'status' => false], 304);
+        }
+    }
+
+
+    /**
+     * @OA\Delete(
+     *      path="/api/classroom/{id}",
+     *      operationId="deleteClassroom",
+     *      tags={"classroom"},
+     *      summary="Delete a classroom",
+     *      description="Delete a classroom by its ID.",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="ID of the classroom",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64",
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Success",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=true),
+     *          ),
+     *      ),
+     * )
+     */
+
+
+    public function delete($id)
+    {
+        $room = Classroom::findOrFail($id);
+        try
+        {
+            $room->delete();
+
+            return response()->json([
+                'status' => true], 200);
+        }
+        catch(QueryException $ex)
+        {
+            return response()->json([
+                'status' => false
+            ], 304);
+        }
     }
 
 }

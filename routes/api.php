@@ -11,9 +11,11 @@ Use App\Http\Controllers\SchoolInfoController;
 Use App\Http\Controllers\NoticeTypeController;
 Use App\Http\Controllers\ClassroomController;
 Use App\Http\Controllers\ReligionController;
+Use App\Http\Controllers\WeekdayController;
 Use App\Http\Controllers\BranchController;
 Use App\Http\Controllers\NoticeController;
 Use App\Http\Controllers\DriverController;
+Use App\Http\Controllers\MonthController;
 Use App\Http\Controllers\RoleController;
 Use App\Http\Controllers\AuthController;
 Use App\Http\Controllers\UserController;
@@ -72,6 +74,8 @@ Route::put('academic_session/{id}', [AcademicSessionController::class, 'update']
 Route::delete('academic_session/{id}', [AcademicSessionController::class, 'delete'])->name('academic_session.delete');
 
 Route::get('religion', [ReligionController::class, 'index'])->name('religion.index');
+Route::get('weekday', [WeekdayController::class, 'index'])->name('weekday.index');
+Route::get('month', [MonthController::class, 'index'])->name('month.index');
 
 Route::get('notice_type', [NoticeTypeController::class, 'index'])->name('notice_type.index');
 Route::get('notice_type/{id}', [NoticeTypeController::class, 'read'])->name('notice_type.read');
@@ -89,7 +93,6 @@ Route::put('notice/{id}', [NoticeController::class, 'update'])->name('notice.upd
 Route::delete('notice/{id}', [NoticeController::class, 'delete'])->name('notice.delete');
 
 Route::get('classroom', [ClassroomController::class, 'index'])->name('classroom.index');
-Route::get('classroom/{id}', [ClassroomController::class, 'read'])->name('classroom.read');
 Route::get('classroom/by_branch/{branch_id}', [ClassroomController::class, 'readByBranch'])->name('classroom.readByBranch');
 Route::get('classroom/by_status/{status_id}', [ClassroomController::class, 'readByStatus'])->name('classroom.readByStatus');
 Route::get('classroom/by_branch/by_status/{branch_id}/{status_id}', [ClassroomController::class, 'readByBranchAndStatus'])->name('classroom.readByBranchAndStatus');

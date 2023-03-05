@@ -40,4 +40,9 @@ class Branch extends Model
     {
         return $this->hasMany(Notice::class, 'branch_id', 'id');
     }
+
+    public function library_shelf()
+    {
+        return $this->hasMany(LibraryShelf::class, 'branch_id', 'id');
+    }
 }

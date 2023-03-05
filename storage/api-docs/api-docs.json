@@ -1832,10 +1832,6 @@
                                     "max_student"
                                 ],
                                 "properties": {
-                                    "branch_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "name": {
                                         "type": "string",
                                         "example": "010220"
@@ -1956,6 +1952,139 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/classroom/{id}": {
+            "put": {
+                "tags": [
+                    "classroom"
+                ],
+                "summary": "Update a classroom",
+                "description": "Update a classroom by id",
+                "operationId": "updateclassroom",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "classroom ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "classroom object that needs to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "max_student",
+                                    "active_status"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "010220"
+                                    },
+                                    "max_student": {
+                                        "type": "integer",
+                                        "example": 35
+                                    },
+                                    "active_status": {
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "classroom updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "branch_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "010220"
+                                                },
+                                                "max_student": {
+                                                    "type": "integer",
+                                                    "example": 35
+                                                },
+                                                "active_status": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "classroom"
+                ],
+                "summary": "Delete a classroom",
+                "description": "Delete a classroom by its ID.",
+                "operationId": "deleteClassroom",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the classroom",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/designation": {
@@ -2694,6 +2823,50 @@
                                         "status": {
                                             "type": "boolean",
                                             "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/month": {
+            "get": {
+                "tags": [
+                    "month"
+                ],
+                "summary": "Get all month",
+                "description": "All month fetched",
+                "operationId": "21f728e46e2d04397b65d5ca16e9c897",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "April"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"

@@ -2,18 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Religion;
+use App\Models\Month;
 use Illuminate\Http\Request;
 
-class ReligionController extends Controller
+class MonthController extends Controller
 {
-
     /**
      * @OA\Get(
-     *     path="/api/religion",
-     *     summary="Get all religion",
-     *     description="All religion fetched",
-     *     tags={"religion"},
+     *     path="/api/month",
+     *     summary="Get all month",
+     *     description="All month fetched",
+     *     tags={"month"},
      *
      *     @OA\Response(
      *         response="200",
@@ -28,7 +27,7 @@ class ReligionController extends Controller
      *                 property="data",
      *                 type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property( property="name", type="string", example="Islam"),
+     *                     @OA\Property( property="name", type="string", example="April"),
      *             ))
      *         )
      *     ),
@@ -38,10 +37,10 @@ class ReligionController extends Controller
 
     public function index()
     {
-        $religion = Religion::orderBy('id', 'desc')->get();
+        $month = Month::orderBy('id')->get();
 
         return response()->json([
             'status' => true,
-            'data' => $religion], 200);
+            'data' => $month], 200);
     }
 }
