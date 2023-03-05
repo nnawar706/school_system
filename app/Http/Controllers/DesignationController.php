@@ -173,8 +173,8 @@ class DesignationController extends Controller
      *          description="designation object that needs to be updated",
      *          required=true,
      *          @OA\JsonContent(
-     *              required={"name","location"},
-     *              @OA\Property(property="name", type="string", example="main-branch"),
+     *              required={"name"},
+     *              @OA\Property(property="name", type="string", example="junior teacher"),
      *          ),
      *      ),
      *      @OA\Response(
