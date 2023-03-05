@@ -3063,10 +3063,6 @@
                                                 "created_at": {
                                                     "type": "string",
                                                     "example": "2021-05-05 12:00:00"
-                                                },
-                                                "updated_at": {
-                                                    "type": "string",
-                                                    "example": "2021-05-05 12:00:00"
                                                 }
                                             },
                                             "type": "object"
@@ -3108,6 +3104,321 @@
                                         "status": {
                                             "type": "boolean",
                                             "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/notice/by_notice_type/{notice_type_id}": {
+            "get": {
+                "tags": [
+                    "notice"
+                ],
+                "summary": "Get all notice by type",
+                "description": "Get all notice under one type",
+                "operationId": "ae118f3ad3a73b8ddd1b39ec601881f9",
+                "responses": {
+                    "200": {
+                        "description": "List of all notice",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "branch_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "notice_type_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Public Holiday"
+                                                    },
+                                                    "details": {
+                                                        "type": "string",
+                                                        "example": "there will be no classes on 14th April since it's the Bangla new year. Enjoy!"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-05 12:00:00"
+                                                    },
+                                                    "notice_type": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "General"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "branch": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "main-branch"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/notice/by_branch/{branch_id}": {
+            "get": {
+                "tags": [
+                    "notice"
+                ],
+                "summary": "Get all notice by branch",
+                "description": "Get all notice under one branch",
+                "operationId": "6725fc9dcaa66f25128961df61f2b760",
+                "responses": {
+                    "200": {
+                        "description": "List of all notice",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "branch_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "notice_type_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Public Holiday"
+                                                    },
+                                                    "details": {
+                                                        "type": "string",
+                                                        "example": "there will be no classes on 14th April since it's the Bangla new year. Enjoy!"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-05 12:00:00"
+                                                    },
+                                                    "notice_type": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "General"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "branch": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "main-branch"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/notice/by_branch/by_type/{branch_id}/{type_id}": {
+            "get": {
+                "tags": [
+                    "notice"
+                ],
+                "summary": "Get all notice under one branch by type",
+                "description": "Get all notice under one type and one branch",
+                "operationId": "492739e5350e77b8f71b944e257e659c",
+                "responses": {
+                    "200": {
+                        "description": "List of all notice",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "branch_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "notice_type_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Public Holiday"
+                                                    },
+                                                    "details": {
+                                                        "type": "string",
+                                                        "example": "there will be no classes on 14th April since it's the Bangla new year. Enjoy!"
+                                                    },
+                                                    "created_at": {
+                                                        "type": "string",
+                                                        "example": "2021-05-05 12:00:00"
+                                                    },
+                                                    "notice_type": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "General"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "branch": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "main-branch"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
                                         }
                                     },
                                     "type": "object"
@@ -4755,9 +5066,6 @@
     },
     "components": {
         "responses": {
-            "304": {
-                "description": "database error"
-            },
             "404": {
                 "description": "Branch not found"
             },

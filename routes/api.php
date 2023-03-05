@@ -42,8 +42,6 @@ Route::group(['middleware' => 'auth:api'], function($routes) {
     Route::post('refresh', [AuthController::class, 'refresh'])->name('refresh');
     Route::get('me', [AuthController::class, 'me'])->name('me');
 
-    Route::get('classroom', [ClassroomController::class, 'index'])->name('classroom.index');
-
 });
 
 Route::post('school_info/{id}', [SchoolInfoController::class, 'update'])->name('school_info.update');
@@ -83,10 +81,14 @@ Route::delete('notice_type/{id}', [NoticeTypeController::class, 'delete'])->name
 
 Route::get('notice', [NoticeController::class, 'index'])->name('notice.index');
 Route::get('notice/{id}', [NoticeController::class, 'read'])->name('notice.read');
+Route::get('notice/by_notice_type/{notice_type_id}', [NoticeController::class, 'readByType'])->name('notice.readByType');
+Route::get('notice/by_branch/{branch_id}', [NoticeController::class, 'readByBranch'])->name('notice.readByBranch');
+Route::get('notice/by_branch/by_type/{branch_id}/{type_id}', [NoticeController::class, 'readByBranchAndType'])->name('notice.readByBranchAndType');
 Route::post('notice', [NoticeController::class, 'create'])->name('notice.create');
 Route::put('notice/{id}', [NoticeController::class, 'update'])->name('notice.update');
 Route::delete('notice/{id}', [NoticeController::class, 'delete'])->name('notice.delete');
 
+Route::get('classroom', [ClassroomController::class, 'index'])->name('classroom.index');
 Route::get('classroom/{id}', [ClassroomController::class, 'read'])->name('classroom.read');
 Route::get('classroom/by_branch/{branch_id}', [ClassroomController::class, 'readByBranch'])->name('classroom.readByBranch');
 Route::get('classroom/by_status/{status_id}', [ClassroomController::class, 'readByStatus'])->name('classroom.readByStatus');

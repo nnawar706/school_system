@@ -11,11 +11,8 @@ class NoticeController extends Controller
 {
 
 
-    public function index(Request $request)
+    public function index()
     {
-        $start = $request->query('start_time');
-        $end = $request->query('end_time');
-
         if(Notice::count() == 0)
         {
             return response()->json([], 204);
@@ -31,7 +28,9 @@ class NoticeController extends Controller
                 {
                     return $query->select('id', 'name');
                 }])
-            ->latest()->get();
+            ->latest()
+            ->take(10)
+            ->get();
 
         return response()->json([
             'status' => true,
@@ -115,7 +114,7 @@ class NoticeController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'branch_id' => 'required|integer',
+//            'branch_id' => 'required|integer',
             'notice_type_id' => 'required|integer',
             'title' => 'required|max:255|min:5|string',
             'details' => 'required|string|min:10'
@@ -130,7 +129,7 @@ class NoticeController extends Controller
         try
         {
             $notice = Notice::create([
-                'branch_id' => $request->branch_id,
+                'branch_id' => 1,
                 'notice_type_id' => $request->notice_type_id,
                 'title' => $request->title,
                 'details' => $request->details,
@@ -211,16 +210,15 @@ class NoticeController extends Controller
 
     public function read($id)
     {
-        if($notice = Notice::with(
-            ['notice_type' => function($query)
+        if($notice = Notice::with(['notice_type' => function($query)
             {
                 return $query->select('id', 'name');
             }])
-            ->with(
-                ['branch' => function($query)
+            ->with(['branch' => function($query)
                 {
                     return $query->select('id', 'name');
-                }])->find($id))
+                }])
+            ->find($id))
         {
             return response()->json([
                 'status' => true,
@@ -228,6 +226,238 @@ class NoticeController extends Controller
             ]);
         }
         return response()->json([], 204);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/notice/by_notice_type/{notice_type_id}",
+     *     summary="Get all notice by type",
+     *     tags={"notice"},
+     *     description="Get all notice under one type",
+     *
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of all notice",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="branch_id", type="integer", example=1),
+     *                     @OA\Property(property="notice_type_id", type="integer", example=1),
+     *                     @OA\Property(property="title", type="string", example="Public Holiday"),
+     *                     @OA\Property(property="details", type="string", example="there will be no classes on 14th April since it's the Bangla new year. Enjoy!"),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="notice_type", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="General"),
+     *                     ),
+     *                     @OA\Property(property="branch", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="main-branch"),
+     *                     ),
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *
+     *     @OA\Response(
+     *          response="204",
+     *          description="No data",
+     *      ),
+     *
+     *     @OA\Response(
+     *          response="401",
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      ),
+     * )
+     */
+
+
+    public function readByType($notice_type_id)
+    {
+        if(Notice::where('notice_type_id', $notice_type_id)->doesntExist())
+        {
+            return response()->json([], 204);
+        }
+
+        $notice = Notice::with(['notice_type' => function($query)
+        {
+            return $query->select('id', 'name');
+        }])
+        ->with(['branch' => function($query)
+        {
+            return $query->select('id', 'name');
+        }])
+        ->where('notice_type_id', $notice_type_id)
+        ->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $notice
+        ]);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/notice/by_branch/{branch_id}",
+     *     summary="Get all notice by branch",
+     *     tags={"notice"},
+     *     description="Get all notice under one branch",
+     *
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of all notice",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="branch_id", type="integer", example=1),
+     *                     @OA\Property(property="notice_type_id", type="integer", example=1),
+     *                     @OA\Property(property="title", type="string", example="Public Holiday"),
+     *                     @OA\Property(property="details", type="string", example="there will be no classes on 14th April since it's the Bangla new year. Enjoy!"),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="notice_type", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="General"),
+     *                     ),
+     *                     @OA\Property(property="branch", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="main-branch"),
+     *                     ),
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *
+     *     @OA\Response(
+     *          response="204",
+     *          description="No data",
+     *      ),
+     *
+     *     @OA\Response(
+     *          response="401",
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      ),
+     * )
+     */
+
+
+    public function readByBranch($branch_id)
+    {
+        if(Notice::where('branch_id', $branch_id)->doesntExist())
+        {
+            return response()->json([], 204);
+        }
+
+        $notice = Notice::with(['notice_type' => function($query)
+        {
+            return $query->select('id', 'name');
+        }])
+            ->with(['branch' => function($query)
+            {
+                return $query->select('id', 'name');
+            }])
+            ->where('branch_id', $branch_id)
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $notice
+        ]);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/notice/by_branch/by_type/{branch_id}/{type_id}",
+     *     summary="Get all notice under one branch by type",
+     *     tags={"notice"},
+     *     description="Get all notice under one type and one branch",
+     *
+     *     @OA\Response(
+     *         response="200",
+     *         description="List of all notice",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="branch_id", type="integer", example=1),
+     *                     @OA\Property(property="notice_type_id", type="integer", example=1),
+     *                     @OA\Property(property="title", type="string", example="Public Holiday"),
+     *                     @OA\Property(property="details", type="string", example="there will be no classes on 14th April since it's the Bangla new year. Enjoy!"),
+     *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
+     *                     @OA\Property(property="notice_type", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="General"),
+     *                     ),
+     *                     @OA\Property(property="branch", type="object",
+     *                                          @OA\Property(property="id", type="integer", example=1),
+     *                                          @OA\Property(property="name", type="string", example="main-branch"),
+     *                     ),
+     *                 ),
+     *             ),
+     *         ),
+     *     ),
+     *
+     *     @OA\Response(
+     *          response="204",
+     *          description="No data",
+     *      ),
+     *
+     *     @OA\Response(
+     *          response="401",
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      ),
+     * )
+     */
+
+
+    public function readByBranchAndType($branch_id, $type_id)
+    {
+        if(Notice::where('branch_id', $branch_id)->where('notice_type_id', $type_id)->doesntExist())
+        {
+            return response()->json([], 204);
+        }
+
+        $notice = Notice::with(['notice_type' => function($query)
+        {
+            return $query->select('id', 'name');
+        }])
+            ->with(['branch' => function($query)
+            {
+                return $query->select('id', 'name');
+            }])
+            ->where('branch_id', $branch_id)
+            ->where('notice_type_id', $type_id)
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'data' => $notice
+        ]);
     }
 
 
@@ -278,7 +508,6 @@ class NoticeController extends Controller
      *                     @OA\Property(property="title", type="string", example="Public Holiday"),
      *                     @OA\Property(property="details", type="string", example="There will be no class on 21st February."),
      *                     @OA\Property(property="created_at", type="string", example="2021-05-05 12:00:00"),
-     *                     @OA\Property(property="updated_at", type="string", example="2021-05-05 12:00:00"),
      *             )
      *              )
      *          )
@@ -291,7 +520,7 @@ class NoticeController extends Controller
         $notice = Notice::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'branch_id' => 'required|integer',
+//            'branch_id' => 'required|integer',
             'notice_type_id' => 'required|integer',
             'title' => 'required|max:255|min:5|string',
             'details' => 'required|string|min:10'
@@ -305,7 +534,7 @@ class NoticeController extends Controller
         }
         try {
             $notice->update([
-                'branch_id' => $request->branch_id,
+                'branch_id' => 1,
                 'notice_type_id' => $request->notice_type_id,
                 'title' => $request->title,
                 'details' => $request->details,
