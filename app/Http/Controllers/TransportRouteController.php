@@ -88,6 +88,7 @@ class TransportRouteController extends Controller
      *                 type="object",
      *                     @OA\Property(property="id", type="integer", example=1,),
      *                     @OA\Property(property="name", type="string", example="rampura > hatirjheel > bangla motor"),
+     *                     @OA\Property(property="pickup_address", type="string", example="rampura"),
      *               ),
      *          ),
      *      ),
@@ -127,6 +128,7 @@ class TransportRouteController extends Controller
     {
         $validate = Validator::make($request->all(), [
             'name' => ['required', 'unique:transport_route', 'max:50', 'min:5', 'regex:/^[a-zA-Z\s]+(?:>[a-zA-Z\s\d]+)*$/'],
+            'pickup_address' => ['required', 'min:5', 'max:255']
         ]);
 
         if($validate->fails())
@@ -139,6 +141,7 @@ class TransportRouteController extends Controller
         {
             $route = TransportRoute::create([
                 'name' => $request->name,
+                'pickup_address' => $request->pickup_address,
             ]);
 
             return response()->json([

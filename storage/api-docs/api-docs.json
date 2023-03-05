@@ -1031,10 +1031,9 @@
                                     "password"
                                 ],
                                 "properties": {
-                                    "email": {
+                                    "registration_id": {
                                         "type": "string",
-                                        "format": "email",
-                                        "example": "user1@gmail.com"
+                                        "example": "54763212"
                                     },
                                     "password": {
                                         "type": "string",
@@ -2831,6 +2830,130 @@
                         }
                     }
                 }
+            }
+        },
+        "/api/library_shelf": {
+            "post": {
+                "tags": [
+                    "library shelf"
+                ],
+                "summary": "Create new library shelf",
+                "description": "Create new library shelf",
+                "operationId": "createlibraryshelf",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "location"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "astronomy"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "astronomy"
+                                                },
+                                                "branch_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
             }
         },
         "/api/month": {

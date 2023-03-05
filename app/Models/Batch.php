@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TransportRoute extends Model
+class Batch extends Model
 {
     use HasFactory;
 
-    protected $table = 'transport_route';
+    protected $table = 'class';
 
     protected $fillable = [
-        'name',
-        'pickup_address'
+        'branch_id',
+        'name'
     ];
 
     protected $hidden = [
@@ -21,8 +21,7 @@ class TransportRoute extends Model
         'updated_at'
     ];
 
-    public function transportation()
-    {
-        return $this->hasMany(Transportation::class, 'transport_route_id', 'id');
+    public function branch() {
+        return $this->belongsTo(Branch::class, 'branch_id');
     }
 }

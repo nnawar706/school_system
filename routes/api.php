@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcademicSessionController;
 Use App\Http\Controllers\TransportationController;
 Use App\Http\Controllers\TransportRouteController;
+Use App\Http\Controllers\LibraryShelfController;
 Use App\Http\Controllers\AcademicYearController;
 Use App\Http\Controllers\DesignationController;
 Use App\Http\Controllers\SchoolInfoController;
@@ -16,6 +17,7 @@ Use App\Http\Controllers\BranchController;
 Use App\Http\Controllers\NoticeController;
 Use App\Http\Controllers\DriverController;
 Use App\Http\Controllers\MonthController;
+Use App\Http\Controllers\BatchController;
 Use App\Http\Controllers\RoleController;
 Use App\Http\Controllers\AuthController;
 Use App\Http\Controllers\UserController;
@@ -92,6 +94,12 @@ Route::post('notice', [NoticeController::class, 'create'])->name('notice.create'
 Route::put('notice/{id}', [NoticeController::class, 'update'])->name('notice.update');
 Route::delete('notice/{id}', [NoticeController::class, 'delete'])->name('notice.delete');
 
+Route::get('class', [BatchController::class, 'index'])->name('batch.index');
+Route::get('class/by_branch/{branch_id}', [BatchController::class, 'readByBranch'])->name('batch.readByBranch');
+Route::post('class', [BatchController::class, 'create'])->name('batch.create');
+Route::put('class/{id}', [BatchController::class, 'update'])->name('batch.update');
+Route::delete('class/{id}', [BatchController::class, 'delete'])->name('batch.delete');
+
 Route::get('classroom', [ClassroomController::class, 'index'])->name('classroom.index');
 Route::get('classroom/by_branch/{branch_id}', [ClassroomController::class, 'readByBranch'])->name('classroom.readByBranch');
 Route::get('classroom/by_status/{status_id}', [ClassroomController::class, 'readByStatus'])->name('classroom.readByStatus');
@@ -119,3 +127,7 @@ Route::get('transport', [TransportationController::class, 'index'])->name('trans
 Route::post('transport', [TransportationController::class, 'create'])->name('transport.create');
 Route::put('transport/{id}', [TransportationController::class, 'update'])->name('transport.update');
 Route::delete('transport/{id}', [TransportationController::class, 'delete'])->name('transport.delete');
+
+Route::get('library_shelf', [LibraryShelfController::class, 'index'])->name('library_shelf.index');
+Route::post('library_shelf', [LibraryShelfController::class, 'create'])->name('library_shelf.create');
+Route::delete('library_shelf/{id}', [LibraryShelfController::class, 'delete'])->name('library_shelf.delete');

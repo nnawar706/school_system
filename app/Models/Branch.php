@@ -45,4 +45,9 @@ class Branch extends Model
     {
         return $this->hasMany(LibraryShelf::class, 'branch_id', 'id');
     }
+
+    public function class()
+    {
+        return $this->hasMany(Batch::class, 'branch_id', 'id');
+    }
 }

@@ -308,7 +308,7 @@ class DriverController extends Controller
             'license_no' => 'required',
             'phone_no' => 'required',
             'nid_no' => 'required',
-            'photo_url' => 'image|mimes:jpeg,png,jpg|max:2048',
+//            'photo_url' => 'image|mimes:jpeg,png,jpg|max:2048|nullable',
         ]);
 
         if($validate->fails())
@@ -319,18 +319,28 @@ class DriverController extends Controller
         }
         try
         {
-            $photo = $request->file('photo_url');
-            $photo_file = "driver_" . time() . rand(10, 100);
-            $photo_path = $photo->storeAs('public/images/driver', $photo_file);
-            $photoURL = Storage::url($photo_path);
+            $driver->name = $request->input('name');
+            $driver->license_no = $request->input('license_no');
+            $driver->phone_no = $request->input('phone_no');
+            $driver->nid_no = $request->input('nid_no');
 
-            $driver->update([
-                'name' => $request->name,
-                'license_no' => $request->license_no,
-                'phone_no' => $request->phone_no,
-                'nid_no' => $request->nid_no,
-                'photo_url' => "http://192.168.68.128:8002" . $photoURL,
-            ]);
+            if ($request->hasFile('photo_url'))
+            {
+                if($driver->photo_url)
+                {
+                    $prev_photo_url = $driver->photo_url;
+                    $prev_photo = str_replace('http://192.168.68.128:8002', '', $prev_photo_url);
+                    Storage::delete($prev_photo);
+                }
+                $photo = $request->file('photo_url');
+                $photo_file = "driver_" . time() . rand(10, 100);
+                $photo_path = $photo->storeAs('public/images/driver', $photo_file);
+                $photoURL = Storage::url($photo_path);
+
+                $driver->photo_url = "http://192.168.68.128:8002" . $photoURL;
+            }
+
+            $driver->save();
 
             return response()->json([
                 'status' => true,
