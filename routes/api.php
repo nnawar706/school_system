@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AcademicSessionController;
+Use App\Http\Controllers\TransportRouteController;
 Use App\Http\Controllers\AcademicYearController;
 Use App\Http\Controllers\DesignationController;
 Use App\Http\Controllers\SchoolInfoController;
@@ -101,3 +102,8 @@ Route::get('designation', [DesignationController::class, 'index'])->name('design
 Route::post('designation', [DesignationController::class, 'create'])->name('designation.create');
 Route::put('designation/{id}', [DesignationController::class, 'update'])->name('designation.update');
 Route::delete('designation/{id}', [DesignationController::class, 'delete'])->name('designation.delete');
+
+Route::get('transport_route', [TransportRouteController::class, 'index'])->name('transport_route.index');
+Route::post('transport_route', [TransportRouteController::class, 'create'])->name('transport_route.create');
+Route::put('transport_route/{id}', [TransportRouteController::class, 'update'])->name('transport_route.update');
+Route::delete('transport_route/{id}', [TransportRouteController::class, 'delete'])->name('transport_route.delete');
