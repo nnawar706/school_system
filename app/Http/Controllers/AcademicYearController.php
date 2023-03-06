@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Database\QueryException;
+use Illuminate\Validation\Rule;
 
 class AcademicYearController extends Controller
 {
@@ -147,10 +148,12 @@ class AcademicYearController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-//            'branch_id' => 'required|integer',
-            'name' => 'required|integer|unique:academic_year|date_format:Y|min:' . date('Y') . '|before:' . (date('Y') + 2),
+            'name' => ["required","integer","date_format:Y",'min:' . date('Y') , 'before:' . (date('Y') + 2),
+                Rule::unique('academic_year')->where(function ($query) use ($request) {
+                    return $query->where('branch_id', 1);
+                })],
             'academic_session' => 'required|array',
-            'academic_session.*' => 'required|string|min:3|max:30',
+            'academic_session.*' => 'required|string|min:3|max:30|distinct',
         ]);
 
         if($validate->fails())
@@ -405,11 +408,13 @@ class AcademicYearController extends Controller
         $year = AcademicYear::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|integer|date_format:Y|
-            min:' . date('Y') . '|before:' . (date('Y') + 2),
-//            'branch_id' => 'required|integer'
+            'name' => ["required","integer","date_format:Y",'min:' . date('Y') , 'before:' . (date('Y') + 2),
+                Rule::unique('academic_year')->where(function ($query) use ($request) {
+                    return $query->where('branch_id', 1);
+                })->ignore($id)
+            ],
             'academic_session' => 'required|array',
-            'academic_session.*' => 'required|string|min:3|max:30',
+            'academic_session.*' => 'required|string|min:3|max:30|distinct',
         ]);
 
         if($validate->fails())
@@ -441,7 +446,7 @@ class AcademicYearController extends Controller
 
             return response()->json([
                 'status' => true,
-            ], 201);
+            ], 200);
         }
         catch(QueryException $ex)
         {

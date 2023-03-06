@@ -204,7 +204,7 @@ class DesignationController extends Controller
         $designation = Designation::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|string',
+            'name' => 'required|max:50|min:5|string|unique:designation,name,'.$id,
         ]);
 
         if($validate->fails())

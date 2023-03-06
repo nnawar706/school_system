@@ -169,8 +169,7 @@ class BatchController extends Controller
      *          @OA\JsonContent(
      *              required={"name", "subject_list"},
      *              @OA\Property(property="name", type="string", example="prep one"),
-     *              @OA\Property(property="subject_list", type="array", @OA\Items(
-     *                     )
+     *              @OA\Property(property="subject_list", type="array", @OA\Items(type="integer")
      *              ),
      *          ),
      *      ),
@@ -338,10 +337,18 @@ class BatchController extends Controller
 
     public function update(Request $request, $id)
     {
-        $class = Batch::findOrFail($id);
+        $class = Batch::with('subject_list')->findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:30|min:5|string',
+            'name' => ['required','max:30','min:5','string',
+                Rule::unique('class')->where(function ($query) use ($request) {
+                    return $query->where('branch_id', 1);
+                })->ignore($id)
+            ],
+            'subject_list' => 'required|array',
+            'subject_list.*' => 'required|integer|distinct',
+        ], [
+            'subject_list.*.distinct' => 'Duplicate subjects are not allowed.',
         ]);
 
         if($validate->fails())
@@ -350,19 +357,46 @@ class BatchController extends Controller
                 'status' => false,
                 'error' => $this->showErrors($validate->errors())], 422);
         }
+
+        $data = json_decode($request->getContent(), true);
+
+        DB::beginTransaction();
+
         try {
+            $class->subject_list()->delete();
+
             $class->update([
                 'branch_id' => 1,
                 'name' => $request->name,
             ]);
 
+            foreach ($data['subject_list'] as $subject)
+            {
+                if(ClassHasSubject::where('class_id', $class->id)->where('subject_id', $subject)->exists())
+                {
+                    DB::rollback();
+
+                    return response()->json([
+                        'error' => ["Given subject already exists in this class"]
+                    ], 422);
+                }
+
+                ClassHasSubject::create([
+                    'class_id' => $class->id,
+                    'subject_id' => $subject
+                ]);
+            }
+
+            DB::commit();
+
             return response()->json([
                 'status' => true,
-                'data' => $class
             ], 200);
         }
         catch(QueryException $ex)
         {
+            DB::rollback();
+
             return response()->json([
                 'status' => false], 304);
         }
@@ -400,19 +434,25 @@ class BatchController extends Controller
 
     public function delete($id)
     {
-        $class = Batch::findOrFail($id);
-        try
+        DB::transaction(function () use ($id)
         {
-            $class->delete();
+            $class = Batch::with('subject_list')->findOrFail($id);
 
-            return response()->json([
-                'status' => true], 200);
-        }
-        catch(QueryException $ex)
-        {
-            return response()->json([
-                'status' => false
-            ], 304);
-        }
+            try
+            {
+                $class->subject_list()->delete();
+                $class->delete();
+
+                return response()->json([
+                    'status' => true
+                ], 200);
+            }
+            catch (QueryException $ex)
+            {
+                return response()->json([
+                    'status' => false
+                ], 304);
+            }
+        });
     }
 }

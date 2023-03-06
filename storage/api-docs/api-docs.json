@@ -1360,7 +1360,7 @@
                     "class"
                 ],
                 "summary": "Create new class",
-                "description": "Create new class",
+                "description": "Create new class with its subjects",
                 "operationId": "createclass",
                 "requestBody": {
                     "required": true,
@@ -1368,12 +1368,19 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "name"
+                                    "name",
+                                    "subject_list"
                                 ],
                                 "properties": {
                                     "name": {
                                         "type": "string",
                                         "example": "prep one"
+                                    },
+                                    "subject_list": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer"
+                                        }
                                     }
                                 },
                                 "type": "object"

@@ -304,7 +304,7 @@ class DriverController extends Controller
         $driver = Driver::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:255|min:5|string',
+            'name' => 'required|max:255|min:5|string|unique:driver,name,'.$id,
             'license_no' => 'required',
             'phone_no' => 'required',
             'nid_no' => 'required',

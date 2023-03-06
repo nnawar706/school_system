@@ -261,4 +261,11 @@ class AuthController extends Controller
     {
         return Auth::guard();
     }
+
+    public function getBranch()
+    {
+//        $result = $this->me();
+//        return $result->original['data']['branch_id'];
+        return 1;
+    }
 }

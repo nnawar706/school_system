@@ -222,7 +222,11 @@ class LibraryShelfController extends Controller
         $shelf = LibraryShelf::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|string',
+            'name' => ['required','max:30','min:5','string',
+                Rule::unique('library_shelf')->where(function ($query) use ($request) {
+                    return $query->where('branch_id', 1);
+                })->ignore($id)
+            ],
         ]);
 
         if($validate->fails())

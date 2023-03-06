@@ -297,12 +297,13 @@ class BranchController extends Controller
      * )
      */
 
+
     public function update(Request $request, $id)
     {
         $branch = Branch::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|string',
+            'name' => 'required|max:50|min:5|string|unique:branch,name,'.$id,
             'location' => 'required|max:255'
         ]);
 

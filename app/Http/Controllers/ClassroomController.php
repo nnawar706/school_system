@@ -6,6 +6,7 @@ use App\Models\Classroom;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class ClassroomController extends Controller
 {
@@ -57,11 +58,9 @@ class ClassroomController extends Controller
 
     public function index()
     {
-        $result = (new AuthController)->me();
+        $branch_id = (new AuthController)->getBranch();
 
-//        $branch_id = $result->original['data']['branch_id'];
-
-        if(Classroom::where('branch_id', 1)->doesntExist())
+        if(Classroom::where('branch_id', $branch_id)->doesntExist())
         {
             return response()->json([], 204);
         }
@@ -243,7 +242,8 @@ class ClassroomController extends Controller
 
         $validate = Validator::make($request->all(), [
             'name' => ['required', 'max:6', 'string',
-                'regex:/^(10|0[1-9])\d{2}(0[1-9]|[1-9][0-9])$/'],
+                'regex:/^(10|0[1-9])\d{2}(0[1-9]|[1-9][0-9])$/',
+                Rule::unique('classroom')->ignore($id),],
             'max_student' => 'required|integer|max:50|min:20',
             'active_status' => 'required|in:0,1',
         ]);

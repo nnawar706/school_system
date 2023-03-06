@@ -25,7 +25,7 @@ class Batch extends Model
         return $this->belongsTo(Branch::class, 'branch_id');
     }
 
-    public function class_has_subject()
+    public function subject_list()
     {
         return $this->hasMany(ClassHasSubject::class, 'class_id', 'id');
     }
