@@ -19,4 +19,9 @@ class Subject extends Model
         'updated_at',
         'created_at'
     ];
+
+    public function class_has_subject()
+    {
+        return $this->hasMany(ClassHasSubject::class, 'subject_id', 'id');
+    }
 }

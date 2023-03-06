@@ -13,6 +13,7 @@ Use App\Http\Controllers\NoticeTypeController;
 Use App\Http\Controllers\ClassroomController;
 Use App\Http\Controllers\ReligionController;
 Use App\Http\Controllers\WeekdayController;
+Use App\Http\Controllers\SubjectController;
 Use App\Http\Controllers\BranchController;
 Use App\Http\Controllers\NoticeController;
 Use App\Http\Controllers\DriverController;
@@ -99,6 +100,11 @@ Route::get('class/by_branch/{branch_id}', [BatchController::class, 'readByBranch
 Route::post('class', [BatchController::class, 'create'])->name('batch.create');
 Route::put('class/{id}', [BatchController::class, 'update'])->name('batch.update');
 Route::delete('class/{id}', [BatchController::class, 'delete'])->name('batch.delete');
+
+Route::get('subject', [SubjectController::class, 'index'])->name('subject.index');
+Route::post('subject', [SubjectController::class, 'create'])->name('subject.create');
+Route::put('subject/{id}', [SubjectController::class, 'update'])->name('subject.update');
+Route::delete('subject/{id}', [SubjectController::class, 'delete'])->name('subject.delete');
 
 Route::get('classroom', [ClassroomController::class, 'index'])->name('classroom.index');
 Route::get('classroom/by_branch/{branch_id}', [ClassroomController::class, 'readByBranch'])->name('classroom.readByBranch');

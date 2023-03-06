@@ -6,6 +6,7 @@ use App\Models\LibraryShelf;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class LibraryShelfController extends Controller
 {
@@ -134,7 +135,11 @@ class LibraryShelfController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:50|min:5|string',
+            'name' => ['required','max:30','min:5','string',
+                Rule::unique('library_shelf')->where(function ($query) use ($request) {
+                    return $query->where('branch_id', 1);
+                })
+            ],
         ]);
 
         if($validate->fails())

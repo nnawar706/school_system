@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
+use App\Models\ClassHasSubject;
 use App\Models\LibraryShelf;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class BatchController extends Controller
 {
@@ -221,7 +224,15 @@ class BatchController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:30|min:5|string',
+            'name' => ['required','max:30','min:5','string',
+                Rule::unique('class')->where(function ($query) use ($request) {
+                    return $query->where('branch_id', 1);
+                })
+            ],
+            'subject_list' => 'required|array',
+            'subject_list.*' => 'required|integer|distinct',
+        ], [
+            'subject_list.*.distinct' => 'Duplicate subjects are not allowed.',
         ]);
 
         if($validate->fails())
@@ -230,20 +241,44 @@ class BatchController extends Controller
                 'status' => false,
                 'error' => $this->showErrors($validate->errors())], 422);
         }
+
+        $data = json_decode($request->getContent(), true);
+
+        DB::beginTransaction();
+
         try
         {
             $class = Batch::create([
                 'branch_id' => 1,
-                'name' => $request->name
+                'name' => $data['name']
             ]);
+
+            foreach ($data['subject_list'] as $subject)
+            {
+                if(ClassHasSubject::where('class_id', $class->id)->where('subject_id', $subject)->exists())
+                {
+                    DB::rollback();
+
+                    return response()->json([
+                        'error' => ["Given subject already exists in this class"]
+                    ], 422);
+                }
+
+                ClassHasSubject::create([
+                    'class_id' => $class->id,
+                    'subject_id' => $subject
+                ]);
+            }
+
+            DB::commit();
 
             return response()->json([
                 'status' => true,
-                'data' => $class
             ], 201);
         }
         catch (QueryException $ex)
         {
+            DB::rollback();
             return response()->json([
                 'status' => false], 500);
         }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Batch;
 use App\Models\Subject;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
