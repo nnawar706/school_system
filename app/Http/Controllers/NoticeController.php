@@ -9,13 +9,39 @@ use Illuminate\Support\Facades\Validator;
 
 class NoticeController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/api/notice",
+     *     summary="Get all notice",
+     *     description="All notice fetched",
+     *     tags={"notice"},
+     *
+     *     @OA\Response(
+     *         response="200",
+     *         description="Successful operation",
+     *         @OA\JsonContent(type="object",
+     *             @OA\Property(
+     *                 property="status",
+     *                 type="boolean",
+     *                 example=true
+     *             ),
+     *             @OA\Property(
+     *                 property="data",
+     *                 type="array", @OA\Items(
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property( property="name", type="string", example="April"),
+     *             ))
+     *         )
+     *     ),
+     * )
+     */
 
 
     public function index()
     {
         $branch_id = (new AuthController)->getBranch();
 
-        if(Notice::where('branch-id', $branch_id)->doesntExist())
+        if(Notice::where('branch_id', $branch_id)->doesntExist())
         {
             return response()->json([], 204);
         }
