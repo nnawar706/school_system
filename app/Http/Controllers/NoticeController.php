@@ -12,7 +12,7 @@ class NoticeController extends Controller
     /**
      * @OA\Get(
      *     path="/api/notice",
-     *     summary="Get all notice",
+     *     summary="Get 20 most recent notice",
      *     description="All notice fetched",
      *     tags={"notice"},
      *
@@ -29,7 +29,18 @@ class NoticeController extends Controller
      *                 property="data",
      *                 type="array", @OA\Items(
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property( property="name", type="string", example="April"),
+     *                     @OA\Property(property="branch_id", type="integer", example=1),
+     *                     @OA\Property(property="notice_type_id", type="integer", example=1),
+     *                     @OA\Property( property="title", type="string", example="Holiday"),
+     *                     @OA\Property( property="details", type="string", example="something...."),
+     *                     @OA\Property( property="notice_type", type="object",
+     *                          @OA\Property(property="id", type="integer", example=1),
+     *                          @OA\Property( property="name", type="string", example="General"),
+     *                     ),
+     *                     @OA\Property( property="branch", type="object",
+     *                          @OA\Property(property="id", type="integer", example=1),
+     *                          @OA\Property( property="name", type="string", example="Main branch"),
+     *                     ),
      *             ))
      *         )
      *     ),

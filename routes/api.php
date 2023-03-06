@@ -17,6 +17,7 @@ Use App\Http\Controllers\SubjectController;
 Use App\Http\Controllers\BranchController;
 Use App\Http\Controllers\NoticeController;
 Use App\Http\Controllers\DriverController;
+Use App\Http\Controllers\GenderController;
 Use App\Http\Controllers\MonthController;
 Use App\Http\Controllers\BatchController;
 Use App\Http\Controllers\RoleController;
@@ -78,6 +79,7 @@ Route::delete('academic_session/{id}', [AcademicSessionController::class, 'delet
 
 Route::get('religion', [ReligionController::class, 'index'])->name('religion.index');
 Route::get('weekday', [WeekdayController::class, 'index'])->name('weekday.index');
+Route::get('gender', [GenderController::class, 'index'])->name('gender.index');
 Route::get('month', [MonthController::class, 'index'])->name('month.index');
 
 Route::get('notice_type', [NoticeTypeController::class, 'index'])->name('notice_type.index');
