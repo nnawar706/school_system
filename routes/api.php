@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\LibraryBookCategoryController;
 use App\Http\Controllers\AcademicSessionController;
 Use App\Http\Controllers\TransportationController;
 Use App\Http\Controllers\TransportRouteController;
@@ -147,4 +148,10 @@ Route::delete('transport/{id}', [TransportationController::class, 'delete'])->na
 
 Route::get('library_shelf', [LibraryShelfController::class, 'index'])->name('library_shelf.index');
 Route::post('library_shelf', [LibraryShelfController::class, 'create'])->name('library_shelf.create');
+Route::put('library_shelf/{id}', [LibraryShelfController::class, 'update'])->name('library_shelf.update');
 Route::delete('library_shelf/{id}', [LibraryShelfController::class, 'delete'])->name('library_shelf.delete');
+
+Route::get('library_book_category', [LibraryBookCategoryController::class, 'index'])->name('library_book_category.index');
+Route::post('library_book_category', [LibraryBookCategoryController::class, 'create'])->name('library_book_category.create');
+Route::put('library_book_category/{id}', [LibraryBookCategoryController::class, 'update'])->name('library_book_category.update');
+Route::delete('library_book_category/{id}', [LibraryBookCategoryController::class, 'delete'])->name('library_book_category.delete');
