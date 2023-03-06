@@ -69,7 +69,7 @@ class ClassroomController extends Controller
             {
                 return $query->select('id','name');
             }
-        ])->where('branch_id', 1)->get();
+        ])->where('branch_id', $branch_id)->get();
 
         return response()->json([
                 'status' => true,
@@ -149,8 +149,9 @@ class ClassroomController extends Controller
 
     public function create(Request $request)
     {
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
-//            'branch_id' => 'required|integer',
             'name' => ['required', 'unique:classroom', 'max:6', 'string',
                 'regex:/^(10|0[1-9])\d{2}(0[1-9]|[1-9][0-9])$/'],
             'max_student' => 'required|integer|max:50|min:20'
@@ -165,7 +166,7 @@ class ClassroomController extends Controller
         try
         {
             $classroom = Classroom::create([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'name' => $request->name,
                 'max_student' => $request->max_student
             ]);
@@ -240,6 +241,8 @@ class ClassroomController extends Controller
     {
         $room = Classroom::findOrFail($id);
 
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
             'name' => ['required', 'max:6', 'string',
                 'regex:/^(10|0[1-9])\d{2}(0[1-9]|[1-9][0-9])$/',
@@ -256,7 +259,7 @@ class ClassroomController extends Controller
         }
         try {
             $room->update([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'name' => $request->name,
                 'max_student' => $request->max_student,
                 'active_status' => $request->active_status,

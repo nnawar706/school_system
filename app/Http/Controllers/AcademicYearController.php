@@ -54,7 +54,9 @@ class AcademicYearController extends Controller
 
     public function index()
     {
-        if(AcademicYear::count() == 0)
+        $branch_id = (new AuthController)->getBranch();
+
+        if(!AcademicYear::where('branch_id', $branch_id)->exists())
         {
             return response()->json([], 204);
         }
@@ -63,7 +65,7 @@ class AcademicYearController extends Controller
             $query->select('id', 'academic_year_id', 'name');
         }])->with(['branch' => function($query) {
             $query->select('id', 'name');
-        }])->latest()->get();
+        }])->where('branch_id', $branch_id)->latest()->get();
 
         return response()->json([
             'status' => true,
@@ -147,10 +149,12 @@ class AcademicYearController extends Controller
 
     public function create(Request $request)
     {
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
             'name' => ["required","integer","date_format:Y",'min:' . date('Y') , 'before:' . (date('Y') + 2),
-                Rule::unique('academic_year')->where(function ($query) use ($request) {
-                    return $query->where('branch_id', 1);
+                Rule::unique('academic_year')->where(function ($query) use ($branch_id, $request) {
+                    return $query->where('branch_id', $branch_id);
                 })],
             'academic_session' => 'required|array',
             'academic_session.*' => 'required|string|min:3|max:30|distinct',
@@ -171,7 +175,7 @@ class AcademicYearController extends Controller
         try
         {
             $year = AcademicYear::create([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'name' => $data['name']
             ]);
 
@@ -407,10 +411,12 @@ class AcademicYearController extends Controller
     {
         $year = AcademicYear::findOrFail($id);
 
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
             'name' => ["required","integer","date_format:Y",'min:' . date('Y') , 'before:' . (date('Y') + 2),
-                Rule::unique('academic_year')->where(function ($query) use ($request) {
-                    return $query->where('branch_id', 1);
+                Rule::unique('academic_year')->where(function ($query) use ($branch_id, $request) {
+                    return $query->where('branch_id', $branch_id);
                 })->ignore($id)
             ],
             'academic_session' => 'required|array',
@@ -432,7 +438,7 @@ class AcademicYearController extends Controller
 
             $year->update([
                 'name' => $request->name,
-                'branch_id' => 1
+                'branch_id' => $branch_id
             ]);
 
             foreach ($data['academic_session'] as $session)

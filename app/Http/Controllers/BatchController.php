@@ -61,7 +61,9 @@ class BatchController extends Controller
 
     public function index()
     {
-        if(Batch::count() == 0)
+        $branch_id = (new AuthController)->getBranch();
+
+        if(!Batch::where('branch_id', $branch_id)->exists())
         {
             return response()->json([], 204);
         }
@@ -70,7 +72,7 @@ class BatchController extends Controller
         {
             return $query->select('id','name');
         }
-        ])->where('branch_id', 1)->get();
+        ])->where('branch_id', $branch_id)->get();
 
         return response()->json([
             'status' => true,
@@ -225,10 +227,12 @@ class BatchController extends Controller
 
     public function create(Request $request)
     {
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
             'name' => ['required','max:30','min:5','string',
-                Rule::unique('class')->where(function ($query) use ($request) {
-                    return $query->where('branch_id', 1);
+                Rule::unique('class')->where(function ($query) use ($branch_id, $request) {
+                    return $query->where('branch_id', $branch_id);
                 })
             ],
             'subject_list' => 'required|array',
@@ -251,7 +255,7 @@ class BatchController extends Controller
         try
         {
             $class = Batch::create([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'name' => $data['name']
             ]);
 
@@ -339,10 +343,12 @@ class BatchController extends Controller
     {
         $class = Batch::with('subject_list')->findOrFail($id);
 
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
             'name' => ['required','max:30','min:5','string',
-                Rule::unique('class')->where(function ($query) use ($request) {
-                    return $query->where('branch_id', 1);
+                Rule::unique('class')->where(function ($query) use ($branch_id, $request) {
+                    return $query->where('branch_id', $branch_id);
                 })->ignore($id)
             ],
             'subject_list' => 'required|array',
@@ -366,7 +372,7 @@ class BatchController extends Controller
             $class->subject_list()->delete();
 
             $class->update([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'name' => $request->name,
             ]);
 

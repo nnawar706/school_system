@@ -49,7 +49,9 @@ class LibraryShelfController extends Controller
 
     public function index()
     {
-        if(LibraryShelf::count() == 0)
+        $branch_id = (new AuthController)->getBranch();
+
+        if(LibraryShelf::where('branch_id', $branch_id)->doesntExist())
         {
             return response()->json([], 204);
         }
@@ -58,7 +60,7 @@ class LibraryShelfController extends Controller
         {
             return $query->select('id','name');
         }
-        ])->latest()->get();
+        ])->where('branch_id', $branch_id)->latest()->get();
 
         return response()->json([
             'status' => true,
@@ -134,10 +136,12 @@ class LibraryShelfController extends Controller
 
     public function create(Request $request)
     {
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
             'name' => ['required','max:30','min:5','string',
-                Rule::unique('library_shelf')->where(function ($query) use ($request) {
-                    return $query->where('branch_id', 1);
+                Rule::unique('library_shelf')->where(function ($query) use ($branch_id, $request) {
+                    return $query->where('branch_id', $branch_id);
                 })
             ],
         ]);
@@ -151,7 +155,7 @@ class LibraryShelfController extends Controller
         try
         {
             $shelf = LibraryShelf::create([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'name' => $request->name
             ]);
 
@@ -221,10 +225,12 @@ class LibraryShelfController extends Controller
     {
         $shelf = LibraryShelf::findOrFail($id);
 
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
             'name' => ['required','max:30','min:5','string',
-                Rule::unique('library_shelf')->where(function ($query) use ($request) {
-                    return $query->where('branch_id', 1);
+                Rule::unique('library_shelf')->where(function ($query) use ($branch_id, $request) {
+                    return $query->where('branch_id', $branch_id);
                 })->ignore($id)
             ],
         ]);
@@ -237,7 +243,7 @@ class LibraryShelfController extends Controller
         }
         try {
             $shelf->update([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'name' => $request->name,
             ]);
 

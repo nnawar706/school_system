@@ -13,7 +13,9 @@ class NoticeController extends Controller
 
     public function index()
     {
-        if(Notice::count() == 0)
+        $branch_id = (new AuthController)->getBranch();
+
+        if(Notice::where('branch-id', $branch_id)->doesntExist())
         {
             return response()->json([], 204);
         }
@@ -28,8 +30,9 @@ class NoticeController extends Controller
                 {
                     return $query->select('id', 'name');
                 }])
+            ->where('branch_id', $branch_id)
             ->latest()
-            ->take(10)
+            ->take(20)
             ->get();
 
         return response()->json([
@@ -113,8 +116,9 @@ class NoticeController extends Controller
 
     public function create(Request $request)
     {
+        $branch_id = (new AuthController)->getBranch();
+
         $validate = Validator::make($request->all(), [
-//            'branch_id' => 'required|integer',
             'notice_type_id' => 'required|integer',
             'title' => 'required|max:255|min:5|string',
             'details' => 'required|string|min:10'
@@ -129,7 +133,7 @@ class NoticeController extends Controller
         try
         {
             $notice = Notice::create([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'notice_type_id' => $request->notice_type_id,
                 'title' => $request->title,
                 'details' => $request->details,
@@ -520,7 +524,6 @@ class NoticeController extends Controller
         $notice = Notice::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-//            'branch_id' => 'required|integer',
             'notice_type_id' => 'required|integer',
             'title' => 'required|max:255|min:5|string',
             'details' => 'required|string|min:10'
@@ -533,8 +536,10 @@ class NoticeController extends Controller
                 'error' => $this->showErrors($validate->errors())], 422);
         }
         try {
+            $branch_id = (new AuthController)->getBranch();
+
             $notice->update([
-                'branch_id' => 1,
+                'branch_id' => $branch_id,
                 'notice_type_id' => $request->notice_type_id,
                 'title' => $request->title,
                 'details' => $request->details,
