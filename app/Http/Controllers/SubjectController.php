@@ -3,22 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Models\Batch;
-use App\Models\LibraryShelf;
+use App\Models\Subject;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class BatchController extends Controller
+class SubjectController extends Controller
 {
     /**
      * @OA\Get(
-     *     path="/api/class",
-     *     summary="Get all class",
-     *     tags={"class"},
+     *     path="/api/subject",
+     *     summary="Get all subject",
+     *     tags={"subject"},
      *
      *     @OA\Response(
      *         response="200",
-     *         description="List of all class",
+     *         description="List of all subject",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="status", type="boolean", example=true),
@@ -26,12 +26,7 @@ class BatchController extends Controller
      *                 @OA\Items(
      *                     type="object",
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="branch_id", type="integer", example=1),
      *                     @OA\Property(property="name", type="string", example="Astrophysics"),
-     *                     @OA\Property(property="branch", type="object",
-     *                              @OA\Property(property="id", type="integer", example=1),
-     *                              @OA\Property(property="name", type="string", example="main branch"),
-     *                     ),
      *                 ),
      *             ),
      *         ),
@@ -58,114 +53,33 @@ class BatchController extends Controller
 
     public function index()
     {
-        if(Batch::count() == 0)
+        if(Subject::count() == 0)
         {
             return response()->json([], 204);
         }
 
-        $class = Batch::with(['branch' => function($query)
-        {
-            return $query->select('id','name');
-        }
-        ])->where('branch_id', 1)->get();
+        $subject = Subject::latest()->get();
 
         return response()->json([
             'status' => true,
-            'data' => $class
-        ], 200);
-    }
-
-
-    /**
-     * @OA\Get(
-     *     path="/api/class/by_branch/{branch_id}",
-     *     summary="Get all class",
-     *     tags={"class"},
-     *     @OA\Parameter(
-     *          name="id",
-     *          description="branch ID",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(
-     *              type="integer",
-     *              format="int64"
-     *          )
-     *      ),
-     *
-     *     @OA\Response(
-     *         response="200",
-     *         description="List of all class under one branch",
-     *         @OA\JsonContent(
-     *             type="object",
-     *             @OA\Property(property="status", type="boolean", example=true),
-     *             @OA\Property(property="data", type="array",
-     *                 @OA\Items(
-     *                     type="object",
-     *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="branch_id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Astrophysics"),
-     *                     @OA\Property(property="branch", type="object",
-     *                              @OA\Property(property="id", type="integer", example=1),
-     *                              @OA\Property(property="name", type="string", example="main branch"),
-     *                     ),
-     *                 ),
-     *             ),
-     *         ),
-     *     ),
-     *
-     *     @OA\Response(
-     *          response="401",
-     *          description="Unauthorized",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="status", type="boolean", example=false)
-     *          )
-     *      ),
-     *
-     *     @OA\Response(
-     *          response="204",
-     *          description="No data",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="status", type="boolean", example=false)
-     *          )
-     *      ),
-     * )
-     */
-
-
-    public function readByBranch($branch_id)
-    {
-        if(Batch::where('branch_id', $branch_id)->doesntExist())
-        {
-            return response()->json([], 204);
-        }
-        $class = Batch::with(['branch' => function($query)
-        {
-            return $query->select('id','name');
-        }
-        ])->where('branch_id', $branch_id)->get();
-
-        return response()->json([
-            'status' => true,
-            'data' => $class
+            'data' => $subject
         ], 200);
     }
 
 
     /**
      * @OA\Post(
-     *      path="/api/class",
-     *      operationId="createclass",
-     *      tags={"class"},
-     *      summary="Create new class",
-     *      description="Create new class",
+     *      path="/api/subject",
+     *      operationId="createsubject",
+     *      tags={"subject"},
+     *      summary="Create new subject",
+     *      description="Create new subject",
      *      security={{"bearerAuth": {}}},
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
      *              required={"name"},
-     *              @OA\Property(property="name", type="string", example="prep one"),
+     *              @OA\Property(property="name", type="string", example="Physics"),
      *          ),
      *      ),
      *      @OA\Response(
@@ -182,8 +96,7 @@ class BatchController extends Controller
      *                 property="data",
      *                 type="object",
      *                     @OA\Property(property="id", type="integer", example=1),
-     *                     @OA\Property(property="branch_id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="prep one"),
+     *                     @OA\Property(property="name", type="string", example="Physics"),
      *               ),
      *          ),
      *      ),
@@ -221,7 +134,7 @@ class BatchController extends Controller
     public function create(Request $request)
     {
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:30|min:5|string',
+            'name' => 'required|unique:subject|max:30|min:4|string',
         ]);
 
         if($validate->fails())
@@ -232,14 +145,13 @@ class BatchController extends Controller
         }
         try
         {
-            $class = Batch::create([
-                'branch_id' => 1,
+            $subject = Subject::create([
                 'name' => $request->name
             ]);
 
             return response()->json([
                 'status' => true,
-                'data' => $class
+                'data' => $subject
             ], 201);
         }
         catch (QueryException $ex)
@@ -252,14 +164,14 @@ class BatchController extends Controller
 
     /**
      * @OA\Put(
-     *      path="/api/class/{id}",
-     *      summary="Update a class",
-     *      description="Update a class by id",
-     *      operationId="updateclass",
-     *      tags={"class"},
+     *      path="/api/subject/{id}",
+     *      summary="Update a subject",
+     *      description="Update a subject by id",
+     *      operationId="updatesubject",
+     *      tags={"subject"},
      *      @OA\Parameter(
      *          name="id",
-     *          description="class ID",
+     *          description="subject ID",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -268,16 +180,16 @@ class BatchController extends Controller
      *          )
      *      ),
      *      @OA\RequestBody(
-     *          description="class object that needs to be updated",
+     *          description="subject object that needs to be updated",
      *          required=true,
      *          @OA\JsonContent(
      *              required={"name"},
-     *              @OA\Property(property="name", type="string", example="prep-two"),
+     *              @OA\Property(property="name", type="string", example="Science"),
      *          ),
      *      ),
      *      @OA\Response(
      *          response=200,
-     *          description="class updated successfully",
+     *          description="subject updated successfully",
      *          @OA\JsonContent(
      *              type="object",
      *              @OA\Property(
@@ -289,8 +201,7 @@ class BatchController extends Controller
      *                 property="data",
      *                 type="object",
      *                     @OA\Property(property="id", type="integer", example="1"),
-     *                     @OA\Property(property="branch_id", type="integer", example="1", description="Branch ID"),
-     *                     @OA\Property(property="name", type="string", example="main-branch", description="prep two"),
+     *                     @OA\Property(property="name", type="string", example="Science"),
      *             )
      *              )
      *          )
@@ -300,10 +211,10 @@ class BatchController extends Controller
 
     public function update(Request $request, $id)
     {
-        $class = Batch::findOrFail($id);
+        $subject = Subject::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:30|min:5|string',
+            'name' => 'required|max:30|min:4|string',
         ]);
 
         if($validate->fails())
@@ -313,14 +224,13 @@ class BatchController extends Controller
                 'error' => $this->showErrors($validate->errors())], 422);
         }
         try {
-            $class->update([
-                'branch_id' => 1,
+            $subject->update([
                 'name' => $request->name,
             ]);
 
             return response()->json([
                 'status' => true,
-                'data' => $class
+                'data' => $subject
             ], 200);
         }
         catch(QueryException $ex)
@@ -333,14 +243,14 @@ class BatchController extends Controller
 
     /**
      * @OA\Delete(
-     *      path="/api/class/{id}",
-     *      operationId="deleteClass",
-     *      tags={"class"},
-     *      summary="Delete a class",
-     *      description="Delete a class by its ID.",
+     *      path="/api/subject/{id}",
+     *      operationId="deletesubject",
+     *      tags={"subject"},
+     *      summary="Delete a subject",
+     *      description="Delete a subject by its ID.",
      *      @OA\Parameter(
      *          name="id",
-     *          description="ID of the class",
+     *          description="ID of the subject",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -362,10 +272,10 @@ class BatchController extends Controller
 
     public function delete($id)
     {
-        $class = Batch::findOrFail($id);
+        $subject = Subject::findOrFail($id);
         try
         {
-            $class->delete();
+            $subject->delete();
 
             return response()->json([
                 'status' => true], 200);
@@ -377,4 +287,5 @@ class BatchController extends Controller
             ], 304);
         }
     }
+
 }
