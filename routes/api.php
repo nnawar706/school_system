@@ -83,7 +83,13 @@ Route::get('weekday', [WeekdayController::class, 'index'])->name('weekday.index'
 Route::get('gender', [GenderController::class, 'index'])->name('gender.index');
 Route::get('month', [MonthController::class, 'index'])->name('month.index');
 
+Route::get('teacher', [TeacherController::class, 'index'])->name('teacher.index');
+Route::get('teacher/{id}', [TeacherController::class, 'read'])->name('teacher.read');
+Route::get('teacher/by_expertise/{subject_id}', [TeacherController::class, 'readByExpertise'])->name('teacher.readByExpertise');
+Route::get('teacher/by_branch/{branch_id}', [TeacherController::class, 'readByBranch'])->name('teacher.readByBranch');
+Route::get('teacher/by_designation/{designation_id}', [TeacherController::class, 'readByDesignation'])->name('teacher.readByDesignation');
 Route::post('teacher', [TeacherController::class, 'create'])->name('teacher.create');
+Route::post('teacher/{id}', [TeacherController::class, 'update'])->name('teacher.update');
 
 Route::get('notice_type', [NoticeTypeController::class, 'index'])->name('notice_type.index');
 Route::get('notice_type/{id}', [NoticeTypeController::class, 'read'])->name('notice_type.read');

@@ -5694,6 +5694,1265 @@
                 }
             }
         },
+        "/api/teacher": {
+            "get": {
+                "tags": [
+                    "teacher"
+                ],
+                "summary": "Get all teacher",
+                "operationId": "teacherAll",
+                "responses": {
+                    "200": {
+                        "description": "All teacher fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "designation_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mr. teacher"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "teacher@gmail.com"
+                                                    },
+                                                    "phone_no": {
+                                                        "type": "string",
+                                                        "example": "01756439189"
+                                                    },
+                                                    "nid_no": {
+                                                        "type": "string",
+                                                        "example": "56439189"
+                                                    },
+                                                    "religion_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "expertise_subject_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "dob": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2022-02-02"
+                                                    },
+                                                    "gender_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "salary": {
+                                                        "type": "integer",
+                                                        "example": 250000
+                                                    },
+                                                    "profile_photo_url": {
+                                                        "type": "string",
+                                                        "example": "img1.png"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "registration_id": {
+                                                                "type": "string",
+                                                                "example": "0000000"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "religion": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Christian"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "designation": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "professor"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "expertise_subject": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "English"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "gender": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Male"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No teacher"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "teacher"
+                ],
+                "summary": "Create new teacher",
+                "description": "Create new teacher",
+                "operationId": "createteacher",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "designation_id",
+                                    "name",
+                                    "email",
+                                    "phone_no",
+                                    "nid_no",
+                                    "religion_id",
+                                    "expertise_subject_id",
+                                    "dob",
+                                    "gender_id",
+                                    "profile_photo_url"
+                                ],
+                                "properties": {
+                                    "designation_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Mr. teacher"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "teacher@gmail.com"
+                                    },
+                                    "phone_no": {
+                                        "type": "string",
+                                        "example": "01756439189"
+                                    },
+                                    "nid_no": {
+                                        "type": "string",
+                                        "example": "56439189"
+                                    },
+                                    "salary": {
+                                        "type": "integer",
+                                        "example": 250000
+                                    },
+                                    "religion_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "expertise_subject_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "dob": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2022-02-02"
+                                    },
+                                    "gender_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "profile_photo_url": {
+                                        "type": "string",
+                                        "example": "img1.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "registration_id": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "example": "0000000"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/teacher/{id}": {
+            "get": {
+                "tags": [
+                    "teacher"
+                ],
+                "summary": "Get teacher",
+                "operationId": "teacherOne",
+                "parameters": [
+                    {
+                        "name": "teacher_id",
+                        "in": "path",
+                        "description": "ID of the teacher to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "teacher fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "designation_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Mr. teacher"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "teacher@gmail.com"
+                                                },
+                                                "phone_no": {
+                                                    "type": "string",
+                                                    "example": "01756439189"
+                                                },
+                                                "nid_no": {
+                                                    "type": "string",
+                                                    "example": "56439189"
+                                                },
+                                                "salary": {
+                                                    "type": "integer",
+                                                    "example": 250000
+                                                },
+                                                "religion_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "expertise_subject_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "dob": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2022-02-02"
+                                                },
+                                                "gender_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "profile_photo_url": {
+                                                    "type": "string",
+                                                    "example": "img1.png"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "registration_id": {
+                                                            "type": "string",
+                                                            "example": "0000000"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "religion": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Christian"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "designation": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "professor"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "expertise_subject": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "English"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "gender": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Male"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No teacher"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "teacher"
+                ],
+                "summary": "Update teacher",
+                "description": "Update teacher",
+                "operationId": "updateteacher",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "teacher ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "designation_id",
+                                    "name",
+                                    "email",
+                                    "phone_no",
+                                    "nid_no",
+                                    "religion_id",
+                                    "expertise_subject_id",
+                                    "dob",
+                                    "gender_id",
+                                    "profile_photo_url",
+                                    "status"
+                                ],
+                                "properties": {
+                                    "designation_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Mr. teacher"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "teacher@gmail.com"
+                                    },
+                                    "phone_no": {
+                                        "type": "string",
+                                        "example": "01756439189"
+                                    },
+                                    "nid_no": {
+                                        "type": "string",
+                                        "example": "56439189"
+                                    },
+                                    "salary": {
+                                        "type": "integer",
+                                        "example": 250000
+                                    },
+                                    "religion_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "expertise_subject_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "dob": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2022-02-02"
+                                    },
+                                    "gender_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "profile_photo_url": {
+                                        "type": "string",
+                                        "example": "img1.png"
+                                    },
+                                    "status": {
+                                        "type": "integer",
+                                        "example": 0
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "registration_id": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "example": "0000000"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "teacher"
+                ],
+                "summary": "Delete a teacher",
+                "description": "Delete a teacher by its ID.",
+                "operationId": "deleteteacher",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the teacher",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/teacher/by_branch/{branch_id}": {
+            "get": {
+                "tags": [
+                    "teacher"
+                ],
+                "summary": "Get all teacher",
+                "operationId": "teacherbranchAll",
+                "parameters": [
+                    {
+                        "name": "branch_id",
+                        "in": "path",
+                        "description": "ID of the branch to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All teacher fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "designation_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mr. teacher"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "teacher@gmail.com"
+                                                    },
+                                                    "phone_no": {
+                                                        "type": "string",
+                                                        "example": "01756439189"
+                                                    },
+                                                    "nid_no": {
+                                                        "type": "string",
+                                                        "example": "56439189"
+                                                    },
+                                                    "religion_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "expertise_subject_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "dob": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2022-02-02"
+                                                    },
+                                                    "gender_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "salary": {
+                                                        "type": "integer",
+                                                        "example": 250000
+                                                    },
+                                                    "profile_photo_url": {
+                                                        "type": "string",
+                                                        "example": "img1.png"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "registration_id": {
+                                                                "type": "string",
+                                                                "example": "0000000"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "religion": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Christian"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "designation": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "professor"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "expertise_subject": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "English"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "gender": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Male"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No teacher"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/teacher/by_expertise/{subject_id}": {
+            "get": {
+                "tags": [
+                    "teacher"
+                ],
+                "summary": "Get all teacher with similar expertise",
+                "operationId": "teacherAllExpertise",
+                "parameters": [
+                    {
+                        "name": "subject_id",
+                        "in": "path",
+                        "description": "ID of the subject to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All teacher fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "designation_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mr. teacher"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "teacher@gmail.com"
+                                                    },
+                                                    "phone_no": {
+                                                        "type": "string",
+                                                        "example": "01756439189"
+                                                    },
+                                                    "nid_no": {
+                                                        "type": "string",
+                                                        "example": "56439189"
+                                                    },
+                                                    "religion_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "expertise_subject_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "dob": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2022-02-02"
+                                                    },
+                                                    "gender_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "salary": {
+                                                        "type": "integer",
+                                                        "example": 250000
+                                                    },
+                                                    "profile_photo_url": {
+                                                        "type": "string",
+                                                        "example": "img1.png"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "registration_id": {
+                                                                "type": "string",
+                                                                "example": "0000000"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "religion": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Christian"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "designation": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "professor"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "expertise_subject": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "English"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "gender": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Male"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No teacher"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/teacher/by_designation/{designation_id}": {
+            "get": {
+                "tags": [
+                    "teacher"
+                ],
+                "summary": "Get all teacher with similar designation",
+                "operationId": "teacherAlldesignation",
+                "parameters": [
+                    {
+                        "name": "designation_id",
+                        "in": "path",
+                        "description": "ID of the designation to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All teacher fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "designation_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mr. teacher"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "teacher@gmail.com"
+                                                    },
+                                                    "phone_no": {
+                                                        "type": "string",
+                                                        "example": "01756439189"
+                                                    },
+                                                    "nid_no": {
+                                                        "type": "string",
+                                                        "example": "56439189"
+                                                    },
+                                                    "religion_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "expertise_subject_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "dob": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2022-02-02"
+                                                    },
+                                                    "gender_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "salary": {
+                                                        "type": "integer",
+                                                        "example": 250000
+                                                    },
+                                                    "profile_photo_url": {
+                                                        "type": "string",
+                                                        "example": "img1.png"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "registration_id": {
+                                                                "type": "string",
+                                                                "example": "0000000"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "religion": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Christian"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "designation": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "professor"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "expertise_subject": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "English"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "gender": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Male"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No teacher"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/transport_route": {
             "get": {
                 "tags": [

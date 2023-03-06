@@ -243,12 +243,8 @@ class TransportationController extends Controller
         $validate = Validator::make($request->all(), [
             'transport_route_id' => 'required|integer',
             'driver_id' => 'required|integer',
-            'vehicle_reg_no' => ['required', 'string', 'regex:/^[a-zA-Z\d]+(?:-[a-zA-Z\d]+){3}$/'],
-            'pickup_time' => 'required|time',
-            'driver_id_pickup_time_unique' => Rule::unique('transportation')->where(function ($query) {
-                return $query->where('driver_id', request()->input('driver_id'))
-                    ->where('pickup_time', request()->input('pickup_time'));
-            }),
+            'vehicle_reg_no' => ['required', 'string', 'regex:/^[a-zA-Z\d\s]+(?:-[a-zA-Z\d]+){3}$/'],
+            'pickup_time' => 'required|date_format:H:i',
         ]);
 
         if($validate->fails())
