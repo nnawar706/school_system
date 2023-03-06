@@ -206,10 +206,11 @@ class TransportRouteController extends Controller
 
     public function update(Request $request, $id)
     {
-        $designation = Designation::findOrFail($id);
+        $route = TransportRoute::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => ['required','max:50','min:5','string', 'regex:/^[a-zA-Z]+(?:\s>[a-zA-Z]+)*$/'],
+            'name' => ['required', 'max:50', 'min:5', 'regex:/^[a-zA-Z\s]+(?:>[a-zA-Z\s\d]+)*$/'],
+            'pickup_address' => ['required', 'min:5', 'max:255']
         ]);
 
         if($validate->fails())
@@ -219,13 +220,14 @@ class TransportRouteController extends Controller
                 'error' => $this->showErrors($validate->errors())], 422);
         }
         try {
-            $designation->update([
+            $route->update([
                 'name' => $request->name,
+                'pickup_address' => $request->pickup_address
             ]);
 
             return response()->json([
                 'status' => true,
-                'data' => $designation
+                'data' => $route
             ], 200);
         }
         catch(QueryException $ex)
@@ -269,9 +271,10 @@ class TransportRouteController extends Controller
     public function delete($id)
     {
         $route = TransportRoute::findOrFail($id);
+
         try
         {
-            TransportRoute::where('id', $id)->withTrashed()->forceDelete();
+            $route->delete();
 
             return response()->json([
                 'status' => true], 200);

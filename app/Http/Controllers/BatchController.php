@@ -162,13 +162,16 @@ class BatchController extends Controller
      *      operationId="createclass",
      *      tags={"class"},
      *      summary="Create new class",
-     *      description="Create new class",
+     *      description="Create new class with its subjects",
      *      security={{"bearerAuth": {}}},
      *      @OA\RequestBody(
      *          required=true,
      *          @OA\JsonContent(
-     *              required={"name"},
+     *              required={"name", "subject_list"},
      *              @OA\Property(property="name", type="string", example="prep one"),
+     *              @OA\Property(property="subject_list", type="array", @OA\Items(
+     *                     )
+     *              ),
      *          ),
      *      ),
      *      @OA\Response(
