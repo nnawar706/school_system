@@ -201,6 +201,7 @@ class AcademicYearController extends Controller
         catch(QueryException $ex)
         {
             DB::rollback();
+
             return response()->json([
                 'status' => false,
             ], 500);

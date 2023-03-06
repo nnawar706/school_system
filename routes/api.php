@@ -14,6 +14,7 @@ Use App\Http\Controllers\ClassroomController;
 Use App\Http\Controllers\ReligionController;
 Use App\Http\Controllers\WeekdayController;
 Use App\Http\Controllers\SubjectController;
+Use App\Http\Controllers\TeacherController;
 Use App\Http\Controllers\BranchController;
 Use App\Http\Controllers\NoticeController;
 Use App\Http\Controllers\DriverController;
@@ -60,10 +61,10 @@ Route::put('branch/{id}', [BranchController::class, 'update'])->name('branch.upd
 Route::delete('branch/{id}', [BranchController::class, 'delete'])->name('branch.delete');
 
 Route::get('role', [RoleController::class, 'index'])->name('role.index');
-Route::get('role/{id}', [RoleController::class, 'read'])->name('role.read');
-Route::post('role', [RoleController::class, 'create'])->name('role.create');
-Route::put('role/{id}', [RoleController::class, 'update'])->name('role.update');
-Route::delete('role/{id}', [RoleController::class, 'delete'])->name('role.delete');
+//Route::get('role/{id}', [RoleController::class, 'read'])->name('role.read');
+//Route::post('role', [RoleController::class, 'create'])->name('role.create');
+//Route::put('role/{id}', [RoleController::class, 'update'])->name('role.update');
+//Route::delete('role/{id}', [RoleController::class, 'delete'])->name('role.delete');
 
 Route::get('academic_year', [AcademicYearController::class, 'index'])->name('academic_year.index');
 Route::get('academic_year/{id}', [AcademicYearController::class, 'read'])->name('academic_year.read');
@@ -81,6 +82,8 @@ Route::get('religion', [ReligionController::class, 'index'])->name('religion.ind
 Route::get('weekday', [WeekdayController::class, 'index'])->name('weekday.index');
 Route::get('gender', [GenderController::class, 'index'])->name('gender.index');
 Route::get('month', [MonthController::class, 'index'])->name('month.index');
+
+Route::post('teacher', [TeacherController::class, 'create'])->name('teacher.create');
 
 Route::get('notice_type', [NoticeTypeController::class, 'index'])->name('notice_type.index');
 Route::get('notice_type/{id}', [NoticeTypeController::class, 'read'])->name('notice_type.read');

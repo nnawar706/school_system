@@ -29,7 +29,6 @@ class User extends Authenticatable implements JWTSubject
 
     protected $hidden = [
         'password',
-        'salt_password',
         'last_password',
         'password_changed_at',
         'email_verified_at',
@@ -53,6 +52,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function branch() {
         return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
+    public function teacher() {
+        return $this->hasMany(Teacher::class, 'user_id', 'id');
     }
 
     public function getJWTIdentifier()

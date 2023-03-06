@@ -19,4 +19,8 @@ class Designation extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function teacher() {
+        return $this->hasMany(Teacher::class, 'designation_id', 'id');
+    }
 }
