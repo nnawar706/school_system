@@ -23,13 +23,12 @@ class Controller extends BaseController
     {
         $data = json_decode($error, true);
         $data = array_values($data);
-        $error_data = array_map(function($item) {
+        return array_map(function($item) {
             return $item[0];
         }, $data);
-        return $error_data;
     }
 
-    public function generateUniqueID($branch, $role)
+    public function generateUniqueID($branch, $role): string
     {
         $year = date('Y');
         $year_two_digit = substr($year, -2);

@@ -42,10 +42,6 @@ class SubjectController extends Controller
      *     @OA\Response(
      *          response="204",
      *          description="No data",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="status", type="boolean", example=false)
-     *          )
      *      ),
      * )
      */

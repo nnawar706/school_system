@@ -1553,7 +1553,7 @@
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Astrophysics"
+                                                        "example": "one"
                                                     },
                                                     "branch": {
                                                         "properties": {
@@ -1680,7 +1680,7 @@
                                                 },
                                                 "name": {
                                                     "type": "string",
-                                                    "example": "Astrophysics"
+                                                    "example": "prep one"
                                                 },
                                                 "branch": {
                                                     "properties": {
@@ -3779,6 +3779,244 @@
                 }
             }
         },
+        "/api/library_book_list": {
+            "get": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Get all library book",
+                "operationId": "be24767a30ac55cb162d03b132321241",
+                "responses": {
+                    "200": {
+                        "description": "List of all library books",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_shelf_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_book_category_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "reader_type_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "ISBN_no": {
+                                                        "type": "string",
+                                                        "example": "123456789"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Intro to Data Structure"
+                                                    },
+                                                    "author": {
+                                                        "type": "string",
+                                                        "example": "Mr. Data"
+                                                    },
+                                                    "publisher": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "cost_price": {
+                                                        "type": "integer",
+                                                        "example": 1000
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Create new library book list",
+                "description": "Create new library book list",
+                "operationId": "createlibrary_book_list",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "library_shelf_id",
+                                    "library_book_category_id",
+                                    "reader_type_id",
+                                    "ISBN_no",
+                                    "title",
+                                    "author",
+                                    "publisher",
+                                    "cost_price",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "library_shelf_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "library_book_category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "reader_type_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "ISBN_no": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Intro to Data Structure"
+                                    },
+                                    "author": {
+                                        "type": "string",
+                                        "example": "Mr. Data"
+                                    },
+                                    "publisher": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "cost_price": {
+                                        "type": "integer",
+                                        "example": 1000
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/library_shelf": {
             "get": {
                 "tags": [
@@ -5214,6 +5452,296 @@
                 ]
             }
         },
+        "/api/reader_type": {
+            "get": {
+                "tags": [
+                    "reader type"
+                ],
+                "summary": "Get all reader type",
+                "operationId": "aa7597e8b3e13e8f14bf27900726466b",
+                "responses": {
+                    "200": {
+                        "description": "List of all reader type",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Toddler"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "reader type"
+                ],
+                "summary": "Create new reader type",
+                "description": "Create new reader type",
+                "operationId": "createreader_type",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "toddler"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "toddler"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/reader_type/{id}": {
+            "put": {
+                "tags": [
+                    "reader type"
+                ],
+                "summary": "Update a reader type",
+                "description": "Update a reader type by id",
+                "operationId": "updatebookreader",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "reader type ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "reader type object that needs to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Early Reader"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "book reader updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Early Reader"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "reader type"
+                ],
+                "summary": "Delete a reader type",
+                "description": "Delete a reader type by its ID.",
+                "operationId": "deletereadertype",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the reader type",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/religion": {
             "get": {
                 "tags": [
@@ -5910,20 +6438,7 @@
                         }
                     },
                     "204": {
-                        "description": "No data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "boolean",
-                                            "example": false
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "No data"
                     }
                 }
             },

@@ -4,11 +4,13 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\LibraryBookCategoryController;
 use App\Http\Controllers\AcademicSessionController;
+Use App\Http\Controllers\LibraryBookListController;
 Use App\Http\Controllers\TransportationController;
 Use App\Http\Controllers\TransportRouteController;
 Use App\Http\Controllers\LibraryShelfController;
 Use App\Http\Controllers\AcademicYearController;
 Use App\Http\Controllers\DesignationController;
+Use App\Http\Controllers\ReaderTypeController;
 Use App\Http\Controllers\SchoolInfoController;
 Use App\Http\Controllers\NoticeTypeController;
 Use App\Http\Controllers\ClassroomController;
@@ -156,3 +158,13 @@ Route::get('library_book_category', [LibraryBookCategoryController::class, 'inde
 Route::post('library_book_category', [LibraryBookCategoryController::class, 'create'])->name('library_book_category.create');
 Route::put('library_book_category/{id}', [LibraryBookCategoryController::class, 'update'])->name('library_book_category.update');
 Route::delete('library_book_category/{id}', [LibraryBookCategoryController::class, 'delete'])->name('library_book_category.delete');
+
+Route::get('reader_type', [ReaderTypeController::class, 'index'])->name('reader_type.index');
+Route::post('reader_type', [ReaderTypeController::class, 'create'])->name('reader_type.create');
+Route::put('reader_type/{id}', [ReaderTypeController::class, 'update'])->name('reader_type.update');
+Route::delete('reader_type/{id}', [ReaderTypeController::class, 'delete'])->name('reader_type.delete');
+
+Route::get('library_book_list', [LibraryBookListController::class, 'index'])->name('library_book_list.index');
+Route::post('library_book_list', [LibraryBookListController::class, 'create'])->name('library_book_list.create');
+Route::put('library_book_list/{id}', [LibraryBookListController::class, 'update'])->name('library_book_list.update');
+Route::delete('library_book_list/{id}', [LibraryBookListController::class, 'delete'])->name('library_book_list.delete');

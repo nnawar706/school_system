@@ -19,4 +19,9 @@ class ReaderType extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function library_book_list()
+    {
+        return $this->hasMany(LibraryBookList::class, 'reader_type_id', 'id');
+    }
 }

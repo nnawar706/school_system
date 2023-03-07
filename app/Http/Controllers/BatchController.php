@@ -329,13 +329,13 @@ class BatchController extends Controller
         $branch_id = (new AuthController)->getBranch();
 
         $validate = Validator::make($request->all(), [
-            'name' => ['required','max:30','min:5','string',
+            'name' => ['required','max:30','min:3','string',
                 Rule::unique('class')->where(function ($query) use ($branch_id, $request) {
                     return $query->where('branch_id', $branch_id);
                 })
             ],
             'subject_list' => 'required|array',
-            'subject_list.*' => 'required|integer|distinct',
+            'subject_list.*.id' => 'required|integer|distinct',
         ], [
             'subject_list.*.distinct' => 'Duplicate subjects are not allowed.',
         ]);
@@ -360,7 +360,7 @@ class BatchController extends Controller
 
             foreach ($data['subject_list'] as $subject)
             {
-                if(ClassHasSubject::where('class_id', $class->id)->where('subject_id', $subject)->exists())
+                if(ClassHasSubject::where('class_id', $class->id)->where('subject_id', $subject['id'])->exists())
                 {
                     DB::rollback();
 
@@ -371,7 +371,7 @@ class BatchController extends Controller
 
                 ClassHasSubject::create([
                     'class_id' => $class->id,
-                    'subject_id' => $subject
+                    'subject_id' => $subject['id']
                 ]);
             }
 
@@ -445,7 +445,7 @@ class BatchController extends Controller
         $branch_id = (new AuthController)->getBranch();
 
         $validate = Validator::make($request->all(), [
-            'name' => ['required','max:30','min:5','string',
+            'name' => ['required','max:30','min:3','string',
                 Rule::unique('class')->where(function ($query) use ($branch_id, $request) {
                     return $query->where('branch_id', $branch_id);
                 })->ignore($id)

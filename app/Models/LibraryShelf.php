@@ -21,7 +21,13 @@ class LibraryShelf extends Model
         'updated_at'
     ];
 
-    public function branch() {
+    public function branch()
+    {
         return $this->belongsTo(Branch::class, 'branch_id');
+    }
+
+    public function library_book_list()
+    {
+        return $this->hasMany(LibraryBookList::class, 'library_shelf_id', 'id');
     }
 }

@@ -19,4 +19,9 @@ class LibraryBookCategory extends Model
         'created_at',
         'updated_at'
     ];
+
+    public function library_book_list()
+    {
+        return $this->hasMany(LibraryBookList::class, 'library_book_category_id', 'id');
+    }
 }
