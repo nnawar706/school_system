@@ -15,6 +15,10 @@ class Gender extends Model
         'name'
     ];
 
+    public function admin() {
+        return $this->hasMany(Admin::class, 'gender_id', 'id');
+    }
+
     public function teacher() {
         return $this->hasMany(Teacher::class, 'gender_id', 'id');
     }

@@ -3840,6 +3840,49 @@
                                                     "quantity": {
                                                         "type": "integer",
                                                         "example": 10
+                                                    },
+                                                    "taken_by": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "library_shelf": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "children's corner"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "library_book_category": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "story book"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "reader_type": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "early reader"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
                                                 "type": "object"
@@ -4015,6 +4058,843 @@
                         "bearerAuth": []
                     }
                 ]
+            }
+        },
+        "/api/library_book_list/by_branch/{branch_id}": {
+            "get": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Get all library book under a branch",
+                "operationId": "ce4ce1d346d33115004d391edfffe0d8",
+                "responses": {
+                    "200": {
+                        "description": "List of all library books under one branch",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_shelf_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_book_category_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "reader_type_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "ISBN_no": {
+                                                        "type": "string",
+                                                        "example": "123456789"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Intro to Data Structure"
+                                                    },
+                                                    "author": {
+                                                        "type": "string",
+                                                        "example": "Mr. Data"
+                                                    },
+                                                    "publisher": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "cost_price": {
+                                                        "type": "integer",
+                                                        "example": 1000
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "taken_by": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "library_shelf": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "children's corner"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "library_book_category": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "story book"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "reader_type": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "early reader"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    }
+                }
+            }
+        },
+        "/api/library_book_list/by_category/{category_id}": {
+            "get": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Get all library book under a category",
+                "operationId": "0a908104ff4c0153cb80e547f62e6fe9",
+                "responses": {
+                    "200": {
+                        "description": "List of all library books under one category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_shelf_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_book_category_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "reader_type_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "ISBN_no": {
+                                                        "type": "string",
+                                                        "example": "123456789"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Intro to Data Structure"
+                                                    },
+                                                    "author": {
+                                                        "type": "string",
+                                                        "example": "Mr. Data"
+                                                    },
+                                                    "publisher": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "cost_price": {
+                                                        "type": "integer",
+                                                        "example": 1000
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "taken_by": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "library_shelf": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "children's corner"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "library_book_category": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "story book"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "reader_type": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "early reader"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    }
+                }
+            }
+        },
+        "/api/library_book_list/by_reader_type/{type_id}": {
+            "get": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Get all library book under a reader type",
+                "operationId": "1876c720628da8be10fc4cb380e4d05f",
+                "responses": {
+                    "200": {
+                        "description": "List of all library books under one reader type",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_shelf_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_book_category_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "reader_type_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "ISBN_no": {
+                                                        "type": "string",
+                                                        "example": "123456789"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Intro to Data Structure"
+                                                    },
+                                                    "author": {
+                                                        "type": "string",
+                                                        "example": "Mr. Data"
+                                                    },
+                                                    "publisher": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "cost_price": {
+                                                        "type": "integer",
+                                                        "example": 1000
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "taken_by": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "library_shelf": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "children's corner"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "library_book_category": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "story book"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "reader_type": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "early reader"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    }
+                }
+            }
+        },
+        "/api/library_book_list/isbn_no={isbn}": {
+            "get": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Get a book using ISBN no",
+                "operationId": "1e6048ec7c6dc12e633444bdc58848a1",
+                "responses": {
+                    "200": {
+                        "description": "library book using ISBN_no fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "library_shelf_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "library_book_category_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "reader_type_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "ISBN_no": {
+                                                    "type": "string",
+                                                    "example": "123456789"
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Intro to Data Structure"
+                                                },
+                                                "author": {
+                                                    "type": "string",
+                                                    "example": "Mr. Data"
+                                                },
+                                                "publisher": {
+                                                    "type": "string",
+                                                    "example": ""
+                                                },
+                                                "cost_price": {
+                                                    "type": "integer",
+                                                    "example": 1000
+                                                },
+                                                "quantity": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "taken_by": {
+                                                    "type": "integer",
+                                                    "example": 0
+                                                },
+                                                "library_shelf": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "branch_id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "children's corner"
+                                                        },
+                                                        "branch": {
+                                                            "properties": {
+                                                                "id": {
+                                                                    "type": "integer",
+                                                                    "example": 1
+                                                                },
+                                                                "name": {
+                                                                    "type": "string",
+                                                                    "example": "Main branch"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "library_book_category": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "story book"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "reader_type": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "early reader"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    }
+                }
+            }
+        },
+        "/api/library_book_list/available_books": {
+            "get": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Get all available library books",
+                "operationId": "d545478780d1f64ad7079e6515a4a7e7",
+                "responses": {
+                    "200": {
+                        "description": "List of all library books that are available",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_shelf_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "library_book_category_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "reader_type_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "ISBN_no": {
+                                                        "type": "string",
+                                                        "example": "123456789"
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Intro to Data Structure"
+                                                    },
+                                                    "author": {
+                                                        "type": "string",
+                                                        "example": "Mr. Data"
+                                                    },
+                                                    "publisher": {
+                                                        "type": "string",
+                                                        "example": ""
+                                                    },
+                                                    "cost_price": {
+                                                        "type": "integer",
+                                                        "example": 1000
+                                                    },
+                                                    "quantity": {
+                                                        "type": "integer",
+                                                        "example": 10
+                                                    },
+                                                    "taken_by": {
+                                                        "type": "integer",
+                                                        "example": 0
+                                                    },
+                                                    "library_shelf": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "children's corner"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "library_book_category": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "story book"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "reader_type": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "early reader"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    }
+                }
+            }
+        },
+        "/api/library_book_list/{id}": {
+            "put": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Update a library book list",
+                "description": "Update a library book list by id",
+                "operationId": "updatelibrary_book_list",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "library_book_list ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "library book list object that needs to be updated",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "library_shelf_id",
+                                    "library_book_category_id",
+                                    "reader_type_id",
+                                    "ISBN_no",
+                                    "title",
+                                    "author",
+                                    "publisher",
+                                    "cost_price",
+                                    "quantity"
+                                ],
+                                "properties": {
+                                    "library_shelf_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "library_book_category_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "reader_type_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "ISBN_no": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    },
+                                    "title": {
+                                        "type": "string",
+                                        "example": "Intro to Data Structure"
+                                    },
+                                    "author": {
+                                        "type": "string",
+                                        "example": "Mr. Data"
+                                    },
+                                    "publisher": {
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "cost_price": {
+                                        "type": "integer",
+                                        "example": 1000
+                                    },
+                                    "quantity": {
+                                        "type": "integer",
+                                        "example": 10
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "library book list updated successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "library book list"
+                ],
+                "summary": "Delete a library book",
+                "description": "Delete a library book by its ID.",
+                "operationId": "deletelibrary_book_list",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the library book",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
             }
         },
         "/api/library_shelf": {

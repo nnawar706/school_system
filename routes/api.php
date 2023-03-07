@@ -165,6 +165,11 @@ Route::put('reader_type/{id}', [ReaderTypeController::class, 'update'])->name('r
 Route::delete('reader_type/{id}', [ReaderTypeController::class, 'delete'])->name('reader_type.delete');
 
 Route::get('library_book_list', [LibraryBookListController::class, 'index'])->name('library_book_list.index');
+Route::get('library_book_list/by_branch/{branch_id}', [LibraryBookListController::class, 'readByBranch'])->name('library_book_list.readByBranch');
+Route::get('library_book_list/by_category/{category_id}', [LibraryBookListController::class, 'readByCategory'])->name('library_book_list.readByCategory');
+Route::get('library_book_list/by_reader_type/{type_id}', [LibraryBookListController::class, 'readByReaderType'])->name('library_book_list.readByReaderType');
+Route::get('library_book_list/isbn_no={isbn}', [LibraryBookListController::class, 'readByISBN'])->name('library_book_list.readByISBN');
+Route::get('library_book_list/available_books', [LibraryBookListController::class, 'readByAvailability'])->name('library_book_list.readByAvailability');
 Route::post('library_book_list', [LibraryBookListController::class, 'create'])->name('library_book_list.create');
 Route::put('library_book_list/{id}', [LibraryBookListController::class, 'update'])->name('library_book_list.update');
 Route::delete('library_book_list/{id}', [LibraryBookListController::class, 'delete'])->name('library_book_list.delete');
