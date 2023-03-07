@@ -21,7 +21,7 @@ class BatchController extends Controller
      *
      *     @OA\Response(
      *         response="200",
-     *         description="List of all class",
+     *         description="List of all class with their available subjects",
      *         @OA\JsonContent(
      *             type="object",
      *             @OA\Property(property="status", type="boolean", example=true),
@@ -30,11 +30,23 @@ class BatchController extends Controller
      *                     type="object",
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="branch_id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Astrophysics"),
+     *                     @OA\Property(property="name", type="string", example="Three"),
      *                     @OA\Property(property="branch", type="object",
      *                              @OA\Property(property="id", type="integer", example=1),
      *                              @OA\Property(property="name", type="string", example="main branch"),
      *                     ),
+     *                     @OA\Property(property="subject_list", type="array",
+     *                              @OA\Items(
+     *                                          @OA\Property(
+     *                                                  @OA\Property(property="id", type="integer", example=1),
+     *                                                  @OA\Property(property="class_id", type="integer", example=1),
+     *                                                  @OA\Property(property="subject_id", type="integer", example=1),
+     *                                                  @OA\Property(property="subject", type="object",
+     *                                                          @OA\Property(property="id", type="integer", example=1),
+     *                                                          @OA\Property(property="name", type="string", example="math"),
+     *                                                  ),
+     *                     ),
+     *                              ))
      *                 ),
      *             ),
      *         ),
@@ -51,10 +63,6 @@ class BatchController extends Controller
      *     @OA\Response(
      *          response="204",
      *          description="No data",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="status", type="boolean", example=false)
-     *          )
      *      ),
      * )
      */
@@ -72,7 +80,7 @@ class BatchController extends Controller
         {
             return $query->select('id','name');
         }
-        ])->where('branch_id', $branch_id)->get();
+        ])->with('subject_list', 'subject_list.subject')->where('branch_id', $branch_id)->get();
 
         return response()->json([
             'status' => true,
@@ -108,11 +116,23 @@ class BatchController extends Controller
      *                     type="object",
      *                     @OA\Property(property="id", type="integer", example=1),
      *                     @OA\Property(property="branch_id", type="integer", example=1),
-     *                     @OA\Property(property="name", type="string", example="Astrophysics"),
+     *                     @OA\Property(property="name", type="string", example="one"),
      *                     @OA\Property(property="branch", type="object",
      *                              @OA\Property(property="id", type="integer", example=1),
      *                              @OA\Property(property="name", type="string", example="main branch"),
      *                     ),
+     *                     @OA\Property(property="subject_list", type="array",
+     *                              @OA\Items(
+     *                                          @OA\Property(
+     *                                                  @OA\Property(property="id", type="integer", example=1),
+     *                                                  @OA\Property(property="class_id", type="integer", example=1),
+     *                                                  @OA\Property(property="subject_id", type="integer", example=1),
+     *                                                  @OA\Property(property="subject", type="object",
+     *                                                          @OA\Property(property="id", type="integer", example=1),
+     *                                                          @OA\Property(property="name", type="string", example="math"),
+     *                                                  ),
+     *                     ),
+     *                              ))
      *                 ),
      *             ),
      *         ),
@@ -130,10 +150,6 @@ class BatchController extends Controller
      *     @OA\Response(
      *          response="204",
      *          description="No data",
-     *          @OA\JsonContent(
-     *              type="object",
-     *              @OA\Property(property="status", type="boolean", example=false)
-     *          )
      *      ),
      * )
      */
@@ -149,12 +165,95 @@ class BatchController extends Controller
         {
             return $query->select('id','name');
         }
-        ])->where('branch_id', $branch_id)->get();
+        ])->with('subject_list', 'subject_list.subject')->where('branch_id', $branch_id)->get();
 
         return response()->json([
             'status' => true,
             'data' => $class
         ], 200);
+    }
+
+
+    /**
+     * @OA\Get(
+     *     path="/api/class/{id}",
+     *     summary="Get a class",
+     *     tags={"class"},
+     *     @OA\Parameter(
+     *          name="id",
+     *          description="class ID",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *      ),
+     *
+     *     @OA\Response(
+     *         response="200",
+     *         description="one class fetched",
+     *         @OA\JsonContent(
+     *             type="object",
+     *             @OA\Property(property="status", type="boolean", example=true),
+     *             @OA\Property(property="data", type="object",
+     *                     @OA\Property(property="id", type="integer", example=1),
+     *                     @OA\Property(property="branch_id", type="integer", example=1),
+     *                     @OA\Property(property="name", type="string", example="prep one"),
+     *                     @OA\Property(property="branch", type="object",
+     *                              @OA\Property(property="id", type="integer", example=1),
+     *                              @OA\Property(property="name", type="string", example="main branch"),
+     *                     ),
+     *                     @OA\Property(property="subject_list", type="array",
+     *                              @OA\Items(
+     *                                          @OA\Property(
+     *                                                  @OA\Property(property="id", type="integer", example=1),
+     *                                                  @OA\Property(property="class_id", type="integer", example=1),
+     *                                                  @OA\Property(property="subject_id", type="integer", example=1),
+     *                                                  @OA\Property(property="subject", type="object",
+     *                                                          @OA\Property(property="id", type="integer", example=1),
+     *                                                          @OA\Property(property="name", type="string", example="math"),
+     *                                                  ),
+     *                     ),
+     *                              ))
+     *
+     *             ),
+     *         ),
+     *     ),
+     *
+     *     @OA\Response(
+     *          response="401",
+     *          description="Unauthorized",
+     *          @OA\JsonContent(
+     *              type="object",
+     *              @OA\Property(property="status", type="boolean", example=false)
+     *          )
+     *      ),
+     *
+     *     @OA\Response(
+     *          response="204",
+     *          description="No data",
+     *      ),
+     * )
+     */
+
+
+    public function read($id)
+    {
+        if($batch = Batch::with(['branch' => function($query)
+            {
+                return $query->select('id','name');
+            }])
+            ->with('subject_list', 'subject_list.subject')
+            ->find($id))
+        {
+            return response()->json([
+                'status' => true,
+                'data' => $batch
+            ], 200);
+        }
+
+        return response()->json([], 204);
     }
 
 

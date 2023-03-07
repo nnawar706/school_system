@@ -213,7 +213,7 @@ class SubjectController extends Controller
         $subject = Subject::findOrFail($id);
 
         $validate = Validator::make($request->all(), [
-            'name' => 'required|max:30|min:4|string',
+            'name' => 'required|max:30|min:4|string|unique:subject,name,'.$id,
         ]);
 
         if($validate->fails())

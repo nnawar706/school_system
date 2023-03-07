@@ -1273,7 +1273,7 @@
                 "operationId": "badcd488ee16d88760229ba09893e460",
                 "responses": {
                     "200": {
-                        "description": "List of all class",
+                        "description": "List of all class with their available subjects",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1296,7 +1296,7 @@
                                                     },
                                                     "name": {
                                                         "type": "string",
-                                                        "example": "Astrophysics"
+                                                        "example": "Three"
                                                     },
                                                     "branch": {
                                                         "properties": {
@@ -1310,6 +1310,44 @@
                                                             }
                                                         },
                                                         "type": "object"
+                                                    },
+                                                    "subject_list": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "class_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "subject_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "subject": {
+                                                                            "properties": {
+                                                                                "id": {
+                                                                                    "type": "integer",
+                                                                                    "example": 1
+                                                                                },
+                                                                                "name": {
+                                                                                    "type": "string",
+                                                                                    "example": "math"
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
                                                     }
                                                 },
                                                 "type": "object"
@@ -1338,20 +1376,7 @@
                         }
                     },
                     "204": {
-                        "description": "No data",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "boolean",
-                                            "example": false
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "No data"
                     }
                 }
             },
@@ -1542,6 +1567,44 @@
                                                             }
                                                         },
                                                         "type": "object"
+                                                    },
+                                                    "subject_list": {
+                                                        "type": "array",
+                                                        "items": {
+                                                            "properties": {
+                                                                "": {
+                                                                    "properties": {
+                                                                        "id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "class_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "subject_id": {
+                                                                            "type": "integer",
+                                                                            "example": 1
+                                                                        },
+                                                                        "subject": {
+                                                                            "properties": {
+                                                                                "id": {
+                                                                                    "type": "integer",
+                                                                                    "example": 1
+                                                                                },
+                                                                                "name": {
+                                                                                    "type": "string",
+                                                                                    "example": "math"
+                                                                                }
+                                                                            },
+                                                                            "type": "object"
+                                                                        }
+                                                                    },
+                                                                    "type": "object"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        }
                                                     }
                                                 },
                                                 "type": "object"
@@ -1570,7 +1633,117 @@
                         }
                     },
                     "204": {
-                        "description": "No data",
+                        "description": "No data"
+                    }
+                }
+            }
+        },
+        "/api/class/{id}": {
+            "get": {
+                "tags": [
+                    "class"
+                ],
+                "summary": "Get a class",
+                "operationId": "073013b355c1046add2ea26584b4dfc9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "class ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "one class fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "branch_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Astrophysics"
+                                                },
+                                                "branch": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "main branch"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "subject_list": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "": {
+                                                                "properties": {
+                                                                    "id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "class_id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "subject_id": {
+                                                                        "type": "integer",
+                                                                        "example": 1
+                                                                    },
+                                                                    "subject": {
+                                                                        "properties": {
+                                                                            "id": {
+                                                                                "type": "integer",
+                                                                                "example": 1
+                                                                            },
+                                                                            "name": {
+                                                                                "type": "string",
+                                                                                "example": "math"
+                                                                            }
+                                                                        },
+                                                                        "type": "object"
+                                                                    }
+                                                                },
+                                                                "type": "object"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1584,11 +1757,12 @@
                                 }
                             }
                         }
+                    },
+                    "204": {
+                        "description": "No data"
                     }
                 }
-            }
-        },
-        "/api/class/{id}": {
+            },
             "put": {
                 "tags": [
                     "class"

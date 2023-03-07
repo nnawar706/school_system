@@ -108,6 +108,7 @@ Route::put('notice/{id}', [NoticeController::class, 'update'])->name('notice.upd
 Route::delete('notice/{id}', [NoticeController::class, 'delete'])->name('notice.delete');
 
 Route::get('class', [BatchController::class, 'index'])->name('batch.index');
+Route::get('class/{id}', [BatchController::class, 'read'])->name('batch.read');
 Route::get('class/by_branch/{branch_id}', [BatchController::class, 'readByBranch'])->name('batch.readByBranch');
 Route::post('class', [BatchController::class, 'create'])->name('batch.create');
 Route::put('class/{id}', [BatchController::class, 'update'])->name('batch.update');
