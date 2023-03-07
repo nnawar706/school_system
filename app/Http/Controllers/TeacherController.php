@@ -576,7 +576,7 @@ class TeacherController extends Controller
             'expertise_subject_id' => 'required|integer',
             'dob' => 'required|date',
             'gender_id' => 'required|integer',
-            'profile_photo_url' => 'required|image|unique:teacher|mimes:jpeg,png,jpg|max:2048'
+            'profile_photo_url' => 'required|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         if($validate->fails())
@@ -768,13 +768,14 @@ class TeacherController extends Controller
             $teacher->expertise_subject_id = $request->input('expertise_subject_id');
             $teacher->dob = $request->input('dob');
             $teacher->gender_id = $request->input('gender_id');
+            $teacher->status = $request->input('status');
 
             if($request->hasFile('profile_photo_url'))
             {
                 if($teacher->profile_photo_url)
                 {
                     $prev_photo_url = $teacher->profile_photo_url;
-                    $prev_photo = str_replace('http://192.168.68.128:8002', '', $prev_photo_url);
+                    $prev_photo = str_replace('http://192.168.68.128:8002/storage', 'public', $prev_photo_url);
                     Storage::delete($prev_photo);
                 }
 
@@ -783,7 +784,7 @@ class TeacherController extends Controller
                 $photo_path = $photo->storeAs('public/images/teacher', $photo_file);
                 $photoURL = Storage::url($photo_path);
 
-                $teacher->photo_url = "http://192.168.68.128:8002" . $photoURL;
+                $teacher->profile_photo_url = "http://192.168.68.128:8002" . $photoURL;
             }
 
             $teacher->save();

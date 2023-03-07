@@ -329,7 +329,7 @@ class DriverController extends Controller
                 if($driver->photo_url)
                 {
                     $prev_photo_url = $driver->photo_url;
-                    $prev_photo = str_replace('http://192.168.68.128:8002', '', $prev_photo_url);
+                    $prev_photo = str_replace('http://192.168.68.128:8002/storage', 'public', $prev_photo_url);
                     Storage::delete($prev_photo);
                 }
                 $photo = $request->file('photo_url');

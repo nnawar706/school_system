@@ -130,7 +130,13 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('registration_id', 'password');
-        if ($token = $this->guard()->attempt($credentials)) {
+        if ($token = $this->guard()->attempt($credentials))
+        {
+            User::where('registration_id', $request->registration_id)->update([
+                'last_login_at' => date('Y-m-d H:i:s'),
+                'last_login_ip' => $request->ip()
+            ]);
+
             return $this->respondWithToken($token);
         }
         return response()->json(['status' => false], 401);

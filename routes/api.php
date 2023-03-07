@@ -22,6 +22,7 @@ Use App\Http\Controllers\BranchController;
 Use App\Http\Controllers\NoticeController;
 Use App\Http\Controllers\DriverController;
 Use App\Http\Controllers\GenderController;
+Use App\Http\Controllers\AdminController;
 Use App\Http\Controllers\MonthController;
 Use App\Http\Controllers\BatchController;
 Use App\Http\Controllers\RoleController;
@@ -63,6 +64,13 @@ Route::post('branch', [BranchController::class, 'create'])->name('branch.create'
 Route::put('branch/{id}', [BranchController::class, 'update'])->name('branch.update');
 Route::delete('branch/{id}', [BranchController::class, 'delete'])->name('branch.delete');
 
+Route::get('admin', [AdminController::class, 'index'])->name('admin.index');
+Route::get('admin/{id}', [AdminController::class, 'read'])->name('admin.read');
+Route::get('admin/by_branch/{branch_id}', [AdminController::class, 'readByBranch'])->name('admin.readByBranch');
+Route::post('admin', [AdminController::class, 'create'])->name('admin.create');
+Route::post('admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+Route::delete('admin/{id}', [AdminController::class, 'delete'])->name('admin.delete');
+
 Route::get('role', [RoleController::class, 'index'])->name('role.index');
 //Route::get('role/{id}', [RoleController::class, 'read'])->name('role.read');
 //Route::post('role', [RoleController::class, 'create'])->name('role.create');
@@ -93,6 +101,7 @@ Route::get('teacher/by_branch/{branch_id}', [TeacherController::class, 'readByBr
 Route::get('teacher/by_designation/{designation_id}', [TeacherController::class, 'readByDesignation'])->name('teacher.readByDesignation');
 Route::post('teacher', [TeacherController::class, 'create'])->name('teacher.create');
 Route::post('teacher/{id}', [TeacherController::class, 'update'])->name('teacher.update');
+Route::delete('teacher/{id}', [TeacherController::class, 'delete'])->name('teacher.delete');
 
 Route::get('notice_type', [NoticeTypeController::class, 'index'])->name('notice_type.index');
 Route::get('notice_type/{id}', [NoticeTypeController::class, 'read'])->name('notice_type.read');

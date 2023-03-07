@@ -451,7 +451,7 @@ class BatchController extends Controller
                 })->ignore($id)
             ],
             'subject_list' => 'required|array',
-            'subject_list.*' => 'required|integer|distinct',
+            'subject_list.*.id' => 'required|integer|distinct',
         ], [
             'subject_list.*.distinct' => 'Duplicate subjects are not allowed.',
         ]);
@@ -488,7 +488,7 @@ class BatchController extends Controller
 
                 ClassHasSubject::create([
                     'class_id' => $class->id,
-                    'subject_id' => $subject
+                    'subject_id' => $subject['id']
                 ]);
             }
 

@@ -911,6 +911,617 @@
                 ]
             }
         },
+        "/api/admin": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get all admin",
+                "operationId": "4ecb59429152d5a3a7a05e3337b78a95",
+                "responses": {
+                    "200": {
+                        "description": "All admin fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mr. admin"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "teacher@gmail.com"
+                                                    },
+                                                    "phone_no": {
+                                                        "type": "string",
+                                                        "example": "01756439189"
+                                                    },
+                                                    "nid_no": {
+                                                        "type": "string",
+                                                        "example": "56439189"
+                                                    },
+                                                    "religion_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "dob": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2022-02-02"
+                                                    },
+                                                    "gender_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "profile_photo_url": {
+                                                        "type": "string",
+                                                        "example": "img1.png"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "registration_id": {
+                                                                "type": "string",
+                                                                "example": "0000000"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "religion": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Christian"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "designation": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "professor"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "gender": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Male"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Create new admin",
+                "description": "Create new admin",
+                "operationId": "054e1d3c1e3459ba78d3a0debd2c5279",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "branch_id",
+                                    "name",
+                                    "email",
+                                    "phone_no",
+                                    "nid_no",
+                                    "religion_id",
+                                    "dob",
+                                    "gender_id",
+                                    "profile_photo_url"
+                                ],
+                                "properties": {
+                                    "branch_id": {
+                                        "type": "integer",
+                                        "example": 1
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Mr. teacher"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "teacher@gmail.com"
+                                    },
+                                    "phone_no": {
+                                        "type": "string",
+                                        "example": "01756439189"
+                                    },
+                                    "nid_no": {
+                                        "type": "string",
+                                        "example": "56439189"
+                                    },
+                                    "religion_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "dob": {
+                                        "type": "string",
+                                        "format": "date",
+                                        "example": "2022-02-02"
+                                    },
+                                    "gender_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "profile_photo_url": {
+                                        "type": "string",
+                                        "example": "img1.png"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "registration_id": {
+                                                    "type": "string",
+                                                    "example": 0
+                                                },
+                                                "password": {
+                                                    "type": "string",
+                                                    "example": "0000000"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "array",
+                                            "items": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": false
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/admin/{id}": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get admin",
+                "operationId": "6cf748e0eb9554ecf1548259a2b3fe14",
+                "parameters": [
+                    {
+                        "name": "admin_id",
+                        "in": "path",
+                        "description": "ID of the admin to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "admin fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Mr. admin"
+                                                },
+                                                "email": {
+                                                    "type": "string",
+                                                    "example": "teacher@gmail.com"
+                                                },
+                                                "phone_no": {
+                                                    "type": "string",
+                                                    "example": "01756439189"
+                                                },
+                                                "nid_no": {
+                                                    "type": "string",
+                                                    "example": "56439189"
+                                                },
+                                                "religion_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "dob": {
+                                                    "type": "string",
+                                                    "format": "date",
+                                                    "example": "2022-02-02"
+                                                },
+                                                "gender_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "profile_photo_url": {
+                                                    "type": "string",
+                                                    "example": "img1.png"
+                                                },
+                                                "status": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "user": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "registration_id": {
+                                                            "type": "string",
+                                                            "example": "0000000"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "religion": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Christian"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "gender": {
+                                                    "properties": {
+                                                        "id": {
+                                                            "type": "integer",
+                                                            "example": 1
+                                                        },
+                                                        "name": {
+                                                            "type": "string",
+                                                            "example": "Male"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No admin"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Delete an admin",
+                "description": "Delete an admin by its ID.",
+                "operationId": "78923f45d7b9ce7d55d46d2836f2c44e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID of the admin",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/admin/by_branch/{branch_id}": {
+            "get": {
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get all admin",
+                "operationId": "3f2a6eb639bad293060e5a2201392357",
+                "parameters": [
+                    {
+                        "name": "branch_id",
+                        "in": "path",
+                        "description": "ID of the branch to retrieve",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "All admin fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Mr. admin"
+                                                    },
+                                                    "email": {
+                                                        "type": "string",
+                                                        "example": "teacher@gmail.com"
+                                                    },
+                                                    "phone_no": {
+                                                        "type": "string",
+                                                        "example": "01756439189"
+                                                    },
+                                                    "nid_no": {
+                                                        "type": "string",
+                                                        "example": "56439189"
+                                                    },
+                                                    "religion_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "dob": {
+                                                        "type": "string",
+                                                        "format": "date",
+                                                        "example": "2022-02-02"
+                                                    },
+                                                    "gender_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "profile_photo_url": {
+                                                        "type": "string",
+                                                        "example": "img1.png"
+                                                    },
+                                                    "status": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "user": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "registration_id": {
+                                                                "type": "string",
+                                                                "example": "0000000"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "religion": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Christian"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    },
+                                                    "gender": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "integer",
+                                                                "example": 1
+                                                            },
+                                                            "name": {
+                                                                "type": "string",
+                                                                "example": "Male"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No data"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/register": {
             "post": {
                 "tags": [
